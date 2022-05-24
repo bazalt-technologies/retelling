@@ -1,0 +1,18 @@
+CREATE TABLE users(
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL DEFAULT '',
+    login TEXT NOT NULL DEFAULT '',
+    password TEXT NOT NULL DEFAULT '',
+    age INTEGER NOT NULL DEFAULT 0
+);
+ CREATE TABLE reviews(
+     id SERIAL PRIMARY KEY,
+     user_id INTEGER NOT NULL REFERENCES users(id),
+     type TEXT NOT NULL DEFAULT '',
+     genre TEXT NOT NULL DEFAULT '',
+     title TEXT NOT NULL DEFAULT '',
+     rating INTEGER NOT NULL DEFAULT 0,
+     date INTEGER NOT NULL DEFAULT 0,
+     review TEXT NOT NULL DEFAULT '',
+     likes INTEGER NOT NULL DEFAULT 0
+ );
