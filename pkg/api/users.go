@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"retelling/pkg/models"
+	"strconv"
 )
 
 func (api *API) newUser(w http.ResponseWriter, r *http.Request) {
@@ -12,13 +13,22 @@ func (api *API) newUser(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
-	_, err = api.db.NewUser(data)
+	id, err := api.db.NewUser(data)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
+	w.Write([]byte(strconv.Itoa(id)))
 }
 
 func (api *API) authUser(w http.ResponseWriter, r *http.Request) {
-	var usr models.User
-	err := json.NewDecoder(r.Body).Decode(&data)
+	var req models.Request
+	err := json.NewDecoder(r.Body).Decode(&req)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+	id, err := api.db.AuthUser(req)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusUnauthorized)
+	}
+	w.Write([]byte(strconv.Itoa(id)))
 }
