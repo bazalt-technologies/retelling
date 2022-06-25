@@ -2,10 +2,17 @@ package models
 
 type User struct {
 	ID       int
-	Name     string
 	Login    string
 	Password string
-	Age      int
+	Data     *UserData
+}
+
+type UserData struct {
+	Name        string
+	Age         int
+	ReviewCount int
+	Rating      int
+	Profession  string
 }
 
 type Review struct {
@@ -23,6 +30,8 @@ type Review struct {
 type Request struct {
 	UserID    int
 	UserIDs   []int
+	Login     string
+	Password  string
 	ReviewID  int
 	ReviewIDs []int
 }

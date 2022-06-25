@@ -3,7 +3,10 @@ CREATE TABLE users(
     name TEXT NOT NULL DEFAULT '',
     login TEXT NOT NULL DEFAULT '',
     password TEXT NOT NULL DEFAULT '',
-    age INTEGER NOT NULL DEFAULT 0
+    age INTEGER NOT NULL DEFAULT 0,
+    review_count INTEGER NOT NULL DEFAULT 0,
+    rating INTEGER NOT NULL DEFAULT 0,
+    profession TEXT NOT NULL DEFAULT ''
 );
  CREATE TABLE reviews(
      id SERIAL PRIMARY KEY,
