@@ -7,4 +7,5 @@ type DB interface {
 	GetReviews(req models.Request) ([]models.Review, error)
 	NewUser(data models.User) (int, error)
 	NewReview(data models.Review) (int, error)
+	AuthUser(req models.Request) (int, error)
 }
