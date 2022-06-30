@@ -85,7 +85,7 @@ func (s *Storage) NewUser(item models.User) (int, error) {
 	`,
 		user.Data.Name,
 		user.Login,
-		user.Password,
+		string(user.Password),
 		user.Data.Age,
 		user.Data.Profession,
 	).Scan(&id)

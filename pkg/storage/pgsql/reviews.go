@@ -5,6 +5,8 @@ import (
 	"retelling/pkg/models"
 )
 
+// TODO - поменять методы БД  структуры и методы апи, согласно вынесению жанров и типов в отдельные таблицы.
+
 func (s *Storage) NewReview(data models.Review) (int, error) {
 	var id int
 	err := s.pool.QueryRow(context.Background(), `
