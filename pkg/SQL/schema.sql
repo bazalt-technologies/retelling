@@ -24,7 +24,7 @@ CREATE TABLE reviews(
 CREATE TABLE types(
     id SERIAL PRIMARY KEY,
     type TEXT NOT NULL DEFAULT ''
-)
+);
 CREATE TABLE genres(
     id SERIAL PRIMARY KEY,
     genre TEXT NOT NULL DEFAULT ''
