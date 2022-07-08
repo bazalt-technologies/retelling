@@ -19,7 +19,9 @@ type Review struct {
 	ID     int
 	UserID int
 	Type   string
-	Genre  string
+	Genre1 string
+	Genre2 string
+	Genre3 string
 	Title  string
 	Rating int
 	Date   int
