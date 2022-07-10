@@ -69,3 +69,42 @@ func (s *Storage) GetReviews(req models.Request) ([]models.Review, error) {
 	}
 	return data, nil
 }
+
+func (s *Storage) UpdateReview(data models.Review) (int, error) {
+	var id int
+	err := s.pool.QueryRow(context.Background(), `
+	UPDATE reviews
+		SET
+		type = $2,
+		genre = $3,
+		title = $4,
+		rating = $5,
+		review = $6
+	WHERE user_id = $1
+	RETURNING Id
+	`,
+		data.UserID,
+		data.Type,
+		data.Genre,
+		data.Title,
+		data.Rating,
+		data.Review).Scan(&id)
+	// Возможно стоит учитывать то, что будут обновляться только некоторые поля
+	// Для этого можно сделать по методу на каждое поле, либо как-то вводить data с пустыми полями,
+	// Чтобы можно было определить, что их трогать не надо
+	if err != nil {
+		return -1, err
+	}
+	return id, nil
+}
+
+func (s *Storage) DeleteReview(id int) (int, error) {
+	err := s.pool.QueryRow(context.Background(), `
+	DELETE FROM reviews WHERE user_id = $1
+	`,
+		id)
+	if err != nil {
+		return -1, err
+	}
+	return id, nil
+}
