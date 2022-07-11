@@ -24,7 +24,7 @@ func (s *Storage) NewReview(data models.Review) (int, error) {
 		likes
 	)
 	VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) 
-	RETURNING Id
+	RETURNING id
 	`,
 		data.UserID,
 		data.TypeID,
@@ -94,19 +94,21 @@ func (s *Storage) UpdateReview(data models.Review) (int, error) {
 	err := s.pool.QueryRow(context.Background(), `
 	UPDATE reviews
 		SET
-		type_id = $2,
-		genre1_id = $3,
-		genre2_id = $4,
-		genre3_id = $5,
-		title = $6,
-		rating = $7,
-		date = $8,
-		review = $9,
-		image_link = $10,
-		likes = $11
-	WHERE user_id = $1
-	RETURNING Id
+		user_id = $2,
+		type_id = $3,
+		genre1_id = $4,
+		genre2_id = $5,
+		genre3_id = $6,
+		title = $7,
+		rating = $8,
+		date = $9,
+		review = $10,
+		image_link = $11,
+		likes = $12
+	WHERE id = $1
+	RETURNING id
 	`,
+		data.ID,
 		data.UserID,
 		data.TypeID,
 		data.Genre1ID,
@@ -118,9 +120,6 @@ func (s *Storage) UpdateReview(data models.Review) (int, error) {
 		data.Review,
 		data.ImageLink,
 		data.Likes).Scan(&id)
-	// Возможно стоит учитывать то, что будут обновляться только некоторые поля
-	// Для этого можно сделать по методу на каждое поле, либо как-то вводить data с пустыми полями,
-	// Чтобы можно было определить, что их трогать не надо
 	if err != nil {
 		return -1, err
 	}
@@ -129,7 +128,7 @@ func (s *Storage) UpdateReview(data models.Review) (int, error) {
 
 func (s *Storage) DeleteReview(id int) (int, error) {
 	err := s.pool.QueryRow(context.Background(), `
-	DELETE FROM reviews WHERE user_id = $1
+	DELETE FROM reviews WHERE id = $1
 	`,
 		id)
 	if err != nil {
