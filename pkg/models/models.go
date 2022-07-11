@@ -26,6 +26,7 @@ type Review struct {
 	Rating int
 	Date   int
 	Review string
+	ImageLink string
 	Likes  int
 }
 
