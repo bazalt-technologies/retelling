@@ -12,21 +12,31 @@ func (s *Storage) NewReview(data models.Review) (int, error) {
 	err := s.pool.QueryRow(context.Background(), `
 	INSERT INTO reviews (
 		user_id,
-		type,
-		genre,
+		type_id,
+		genre1_id,
+		genre2_id,
+		genre3_id,
 		title,
 		rating,
-		review
+		date,
+		review,
+		image_link,
+		likes
 	)
-	VALUES ($1,$2,$3,$4,$5,$6) 
+	VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) 
 	RETURNING Id
 	`,
 		data.UserID,
 		data.TypeID,
-		data.GenreID,
+		data.Genre1ID,
+		data.Genre2ID,
+		data.Genre3ID,
 		data.Title,
 		data.Rating,
-		data.Review).Scan(&id)
+		data.Date,
+		data.Review,
+		data.ImageLink,
+		data.Likes).Scan(&id)
 	if err != nil {
 		return -1, err
 	}
@@ -38,11 +48,15 @@ func (s *Storage) GetReviews(req models.Request) ([]models.Review, error) {
 	rows, err := s.pool.Query(context.Background(), `
 	SELECT 
 		id, 
-		type,
-		genre,
+		type_id,
+		genre1_id,
+		genre2_id,
+		genre3_id,
 		title,
 		rating,
+		date,
 		review,
+		image_link,
 		likes
 	FROM reviews
 		WHERE (user_id=$1 OR $1 = 0)
@@ -57,10 +71,15 @@ func (s *Storage) GetReviews(req models.Request) ([]models.Review, error) {
 		err = rows.Scan(
 			&item.ID,
 			&item.TypeID,
-			&item.GenreID,
+			&item.Genre1ID,
+			&item.Genre2ID,
+			&item.Genre3ID,
+			&item.Title,
 			&item.Rating,
+			&item.Date
 			&item.Review,
-			&item.Likes,
+			&item.ImageLink,
+			&item.Likes
 		)
 		if err != nil {
 			return nil, err
@@ -75,20 +94,30 @@ func (s *Storage) UpdateReview(data models.Review) (int, error) {
 	err := s.pool.QueryRow(context.Background(), `
 	UPDATE reviews
 		SET
-		type = $2,
-		genre = $3,
-		title = $4,
-		rating = $5,
-		review = $6
+		type_id = $2,
+		genre1_id = $3,
+		genre2_id = $4,
+		genre3_id = $5,
+		title = $6,
+		rating = $7,
+		date = $8,
+		review = $9,
+		image_link = $10,
+		likes = $11
 	WHERE user_id = $1
 	RETURNING Id
 	`,
 		data.UserID,
 		data.TypeID,
-		data.GenreID,
+		data.Genre1ID,
+		data.Genre2ID,
+		data.Genre3ID,
 		data.Title,
 		data.Rating,
-		data.Review).Scan(&id)
+		date.Date,
+		data.Review,
+		data.ImageLink,
+		data.Likes).Scan(&id)
 	// Возможно стоит учитывать то, что будут обновляться только некоторые поля
 	// Для этого можно сделать по методу на каждое поле, либо как-то вводить data с пустыми полями,
 	// Чтобы можно было определить, что их трогать не надо
