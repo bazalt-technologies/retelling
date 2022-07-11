@@ -18,8 +18,10 @@ type UserData struct {
 type Review struct {
 	ID     int
 	UserID int
-	TypeID   int
-	GenreID  int
+	TypeID	int
+	Genre1ID  int
+	Genre2ID  int
+	Genre3ID  int
 	Title  string
 	Rating int
 	Date   int
