@@ -22,8 +22,8 @@ func (s *Storage) NewReview(data models.Review) (int, error) {
 	RETURNING Id
 	`,
 		data.UserID,
-		data.Type,
-		data.Genre,
+		data.TypeID,
+		data.GenreID,
 		data.Title,
 		data.Rating,
 		data.Review).Scan(&id)
@@ -56,8 +56,8 @@ func (s *Storage) GetReviews(req models.Request) ([]models.Review, error) {
 		var item models.Review
 		err = rows.Scan(
 			&item.ID,
-			&item.Type,
-			&item.Genre,
+			&item.TypeID,
+			&item.GenreID,
 			&item.Rating,
 			&item.Review,
 			&item.Likes,
@@ -84,8 +84,8 @@ func (s *Storage) UpdateReview(data models.Review) (int, error) {
 	RETURNING Id
 	`,
 		data.UserID,
-		data.Type,
-		data.Genre,
+		data.TypeID,
+		data.GenreID,
 		data.Title,
 		data.Rating,
 		data.Review).Scan(&id)
