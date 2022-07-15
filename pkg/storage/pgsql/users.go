@@ -120,3 +120,46 @@ func (s *Storage) AuthUser(req models.Request) (int, error) {
 	}
 	return id, nil
 }
+
+func (s *Storage) UpdateUser(item models.User) (int, error) {
+	var id int
+	err := s.pool.QueryRow(context.Background(), `
+	UPDATE users
+		SET
+    		name = $2,
+    		login = $3,
+    		password = $4,
+    		age = $5,
+    		review_count = $6,
+    		rating = $7,
+    		profession = $8
+	WHERE id = $1
+	RETURNING id
+	`,
+		item.ID,
+		item.Data.Name
+		item.Login,
+		item.Password,
+		item.Data.Age,
+		item.Data.ReviewCount,
+		item.Data.Rating,
+		item.Data.Profession,
+		item.Date).Scan(&id)
+	if err != nil {
+		return -1, err
+	}
+	return id, nil	
+}
+
+func (s *Storage) DeleteUser(id int) (int, error) {
+	err := s.pool.QueryRow(context.Background(), `
+	DELETE FROM users WHERE id = $1
+	`,
+		id)
+	// TODO - добавить GetReviews, а потом пройтись по ним с DeleteReview (Нужно ли это делать здесь?
+	// Если да, то как передать структуру Request в GetReviews?
+	if err != nil {
+		return -1, err
+	}
+	return id, nil
+}
