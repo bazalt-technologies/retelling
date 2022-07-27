@@ -154,10 +154,9 @@ func (s *Storage) UpdateUser(item models.User) (int, error) {
 func (s *Storage) DeleteUser(id int) (int, error) {
 	err := s.pool.QueryRow(context.Background(), `
 	DELETE FROM users WHERE id = $1
+	DELETE FROM reviews WHERE user_id = $2
 	`,
-		id)
-	// TODO - добавить GetReviews, а потом пройтись по ним с DeleteReview (Нужно ли это делать здесь?
-	// Если да, то как передать структуру Request в GetReviews?
+		id, id)
 	if err != nil {
 		return -1, err
 	}
