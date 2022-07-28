@@ -21,22 +21,21 @@ func (s *Storage) NewType(data models.Type) (int, error) {
 	return id, nil
 }
 
-func (s *Storage) GetTypes(req models.Request) ([]models.Review, error) {
+func (s *Storage) GetTypes(req models.Request) ([]models.Type, error) {
 	var data []models.Review
 	rows, err := s.pool.Query(context.Background(), `
 	SELECT 
 		id, 
 		type
 	FROM types
-		WHERE (user_id=$1 OR $1 = 0)
-	`,
-		req.UserID)
+		WHERE (id=ANY($1) OR array_length($1) is NULL)
+	`, intToInt32Array(req.UserIDs))
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 	for rows.Next() {
-		var item models.Review
+		var item models.Type
 		err = rows.Scan(
 			&item.ID,
 			&item.Type
