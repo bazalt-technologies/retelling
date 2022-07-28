@@ -31,12 +31,13 @@ func (api *API) reviews(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
-		_, err = api.db.NewReview(data)
+		id, err = api.db.NewReview(data)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 		w.WriteHeader(http.StatusOK)
+		return id
 	
 	case http.MethodPatch:
 		var data models.Review
@@ -45,21 +46,23 @@ func (api *API) reviews(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		_, err = api.db.UpdateReview(data)
+		id, err = api.db.UpdateReview(data)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
+			return id
 		}
 		w.WriteHeader(http.StatusOK)
+		return id
 		
 	case http.MethodDelete:
 		var data models.Review
 		err := json.NewDecoder(r.Body).Decode(&data)
-		_, err = api.db.DeleteReview(data.UserID)
+		id, err = api.db.DeleteReview(data.ID)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 		w.WriteHeader(http.StatusOK)
+		return id
 	}
 }
