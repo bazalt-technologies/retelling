@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"retelling/pkg/models"
+	"strconv"
 )
 
 func (api *API) reviews(w http.ResponseWriter, r *http.Request) {
@@ -37,7 +38,7 @@ func (api *API) reviews(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		w.WriteHeader(http.StatusOK)
-		return id
+		w.Write([]byte(strconv.Itoa(id)))
 	
 	case http.MethodPatch:
 		var data models.Review
@@ -49,10 +50,10 @@ func (api *API) reviews(w http.ResponseWriter, r *http.Request) {
 		id, err = api.db.UpdateReview(data)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return id
+			return
 		}
 		w.WriteHeader(http.StatusOK)
-		return id
+		w.Write([]byte(strconv.Itoa(id)))
 		
 	case http.MethodDelete:
 		var data models.Review
@@ -63,6 +64,6 @@ func (api *API) reviews(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		w.WriteHeader(http.StatusOK)
-		return id
+		w.Write([]byte(strconv.Itoa(id)))
 	}
 }
