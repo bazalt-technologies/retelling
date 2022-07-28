@@ -29,7 +29,7 @@ func (s *Storage) GetGenres(req models.Request) ([]models.Genre, error) {
 		genre
 	FROM genres
 		WHERE (id=ANY($1) OR array_length($1) is NULL)
-	`, intToInt32Array(req.UserIDs))
+	`, intToInt32Array(req.ReviewIDs)) // ReviewIDs - так как нет поля GenreIDs (возможно стоит переименовать ReviewIDs в RequestIDs/ItemIDs
 	if err != nil {
 		return nil, err
 	}
