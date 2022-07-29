@@ -29,7 +29,7 @@ func (s *Storage) GetTypes(req models.Request) ([]models.Type, error) {
 		type
 	FROM types
 		WHERE (id=ANY($1) OR array_length($1) is NULL)
-	`, intToInt32Array(req.ReviewIDs)) // ReviewIDs - так как нет поля TypeIDs (возможно стоит переименовать ReviewIDs в RequestIDs/ItemIDs
+	`, intToInt32Array(req.ObjectIDs))
 	if err != nil {
 		return nil, err
 	}
