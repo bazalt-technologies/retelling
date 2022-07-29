@@ -20,8 +20,8 @@ func New(r *mux.Router, s storage.DB) *API {
 func (api *API) Handle() {
 	api.r.HandleFunc("/api/v1/reviews", api.reviews).Methods(http.MethodGet, http.MethodPost, http.MethodPatch, http.MethodDelete)
 	api.r.HandleFunc("/api/v1/users", api.users).Methods(http.MethodGet, http.MethodPost, http.MethodPatch, http.MethodDelete)
-	api.r.HandleFunc("/api/v1/genres", api.genres).Methods(http.MethodGet, http.MethodPost, http.MethodPatch, http.MethodDelete)
-	api.r.HandleFunc("/api/v1/types", api.types).Methods(http.MethodGet, http.MethodPost, http.MethodPatch, http.MethodDelete)
+	api.r.HandleFunc("/api/v1/genres", api.genres).Methods(http.MethodGet)
+	api.r.HandleFunc("/api/v1/types", api.types).Methods(http.MethodGet)
 	api.r.HandleFunc("/api/v1/authUser", api.authUser).Methods(http.MethodPost) // Почему http.MethodPost ?
 }
 
