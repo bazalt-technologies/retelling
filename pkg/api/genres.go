@@ -12,7 +12,7 @@ func (api *API) genres(w http.ResponseWriter, r *http.Request) {
 
 	case http.MethodGet:
 		var req models.Request
-		req.UserID = paramInt(r, "UserID") //
+		req.ObjectID = paramInt(r, "ObjectID") //
 
 		data, err := api.db.GetGenres(req)
 		if err != nil {
