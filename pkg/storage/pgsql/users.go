@@ -10,8 +10,8 @@ import (
 
 func (s *Storage) GetUsers(req models.Request) ([]models.User, error) {
 	var data []models.User
-	if len(req.UserIDs) == 0 {
-		req.UserIDs = append(req.UserIDs, req.UserID)
+	if len(req.ObjectIDs) == 0 {
+		req.ObjectIDs = append(req.ObjectIDs, req.ObjectID)
 	}
 	rows, err := s.pool.Query(context.Background(), `
 	SELECT 
@@ -25,7 +25,7 @@ func (s *Storage) GetUsers(req models.Request) ([]models.User, error) {
 		profession
 	FROM users
 		WHERE (id=ANY($1) OR array_length($1) is NULL)
-	`, intToInt32Array(req.UserIDs))
+	`, intToInt32Array(req.ObjectIDs))
 	if err != nil {
 		return nil, err
 	}
@@ -117,6 +117,48 @@ func (s *Storage) AuthUser(req models.Request) (int, error) {
 	err = bcrypt.CompareHashAndPassword([]byte(pwd), []byte(req.Password))
 	if err != nil {
 		return -1, errors.New("Wrong password")
+	}
+	return id, nil
+}
+
+func (s *Storage) UpdateUser(item models.User) (int, error) {
+	var id int
+	err := s.pool.QueryRow(context.Background(), `
+	UPDATE users
+		SET
+    		name = $2,
+    		login = $3,
+    		password = $4,
+    		age = $5,
+    		review_count = $6,
+    		rating = $7,
+    		profession = $8
+	WHERE id = $1
+	RETURNING id
+	`,
+		item.ID,
+		item.Data.Name
+		item.Login,
+		item.Password,
+		item.Data.Age,
+		item.Data.ReviewCount,
+		item.Data.Rating,
+		item.Data.Profession,
+		item.Date).Scan(&id)
+	if err != nil {
+		return -1, err
+	}
+	return id, nil	
+}
+
+func (s *Storage) DeleteUser(id int) (int, error) {
+	err := s.pool.QueryRow(context.Background(), `
+	DELETE FROM users WHERE id = $1
+	DELETE FROM reviews WHERE user_id = $2
+	`,
+		id, id)
+	if err != nil {
+		return -1, err
 	}
 	return id, nil
 }

@@ -8,19 +8,25 @@ CREATE TABLE users(
     rating INTEGER NOT NULL DEFAULT 0,
     profession TEXT NOT NULL DEFAULT ''
 );
--- TODO - Таблица жанров - разделить
 CREATE TABLE reviews(
  id SERIAL PRIMARY KEY,
  user_id INTEGER NOT NULL REFERENCES users(id),
  type_id INTEGER NOT NULL REFERENCES types(id),
- genre TEXT NOT NULL DEFAULT '',
+ genre1_id INTEGER NOT NULL REFERENCES genres(id),
+ genre2_id INTEGER NOT NULL REFERENCES genres(id),
+ genre3_id INTEGER NOT NULL REFERENCES genres(id),
  title TEXT NOT NULL DEFAULT '',
  rating INTEGER NOT NULL DEFAULT 0,
  date INTEGER NOT NULL DEFAULT 0,
  review TEXT NOT NULL DEFAULT '',
+ image_link TEXT NOT NULL DEFAULT '',
  likes INTEGER NOT NULL DEFAULT 0
 );
 CREATE TABLE types(
     id SERIAL PRIMARY KEY,
     type TEXT NOT NULL DEFAULT ''
+);
+CREATE TABLE genres(
+    id SERIAL PRIMARY KEY,
+    genre TEXT NOT NULL DEFAULT ''
 )
