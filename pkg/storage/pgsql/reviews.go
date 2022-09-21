@@ -40,7 +40,7 @@ func (s *Storage) NewContent(data models.Content) (int, error) {
 		likes
 	)
 	VALUES ($1,$2,$3,$4,$5,$6) 
-	RETURNING review_id
+	RETURNING content_id
 	`,
 		data.ContentID,
 		data.TypeID,
