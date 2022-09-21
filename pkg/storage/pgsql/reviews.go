@@ -5,32 +5,52 @@ import (
 	"retelling/pkg/models"
 )
 
-// TODO - поменять методы БД  структуры и методы апи, согласно вынесению жанров и типов в отдельные таблицы.
-
 func (s *Storage) NewReview(data models.Review) (int, error) {
 	var id int
 	err := s.pool.QueryRow(context.Background(), `
 	INSERT INTO reviews (
+		review_id,
+		content_id,
 		user_id,
-		type,
-		genre1,
-		genre2,
-		genre3,
-		title,
-		rating,
-		review
+		review,
+		date
 	)
-	VALUES ($1,$2,$3,$4,$5,$6,$7,$8) 
+	VALUES ($1,$2,$3,$4,$5) 
 	RETURNING Id
 	`,
+		data.ReviewID,
+		data.ContentID,
 		data.UserID,
-		data.Type,
-		data.Genre1,
-		data.Genre2,
-		data.Genre3,
+		data.Review,
+		data.Date).Scan(&id)
+	if err != nil {
+		return -1, err
+	}
+	return id, nil
+}
+
+func (s *Storage) NewContent(data models.Content) (int, error) {
+	var id int
+	err := s.pool.QueryRow(context.Background(), `
+	INSERT INTO content (
+		content_id,
+		type_id,
+		genre1_id,
+		genre2_id,
+		genre3_id,
+		title,
+		likes
+	)
+	VALUES ($1,$2,$3,$4,$5,$6,$7) 
+	RETURNING Id
+	`,
+		data.ContentID,
+		data.TypeID,
+		data.GenreID1,
+		data.GenreID2,
+		data.GenreID3,
 		data.Title,
-		data.Rating,
-		data.Review).Scan(&id)
+		data.Likes).Scan(&id)
 	if err != nil {
 		return -1, err
 	}
@@ -41,15 +61,11 @@ func (s *Storage) GetReviews(req models.Request) ([]models.Review, error) {
 	var data []models.Review
 	rows, err := s.pool.Query(context.Background(), `
 	SELECT 
-		id, 
-		type,
-		genre1,
-		genre2,
-		genre3,
-		title,
-		rating,
+		review_id,
+		content_id,
+		user_id,
 		review,
-		likes
+		date
 	FROM reviews
 		WHERE (user_id=$1 OR $1 = 0)
 	`,
@@ -61,14 +77,11 @@ func (s *Storage) GetReviews(req models.Request) ([]models.Review, error) {
 	for rows.Next() {
 		var item models.Review
 		err = rows.Scan(
-			&item.ID,
-			&item.Type,
-			&item.Genre1,
-			&item.Genre2,
-			&item.Genre3,
-			&item.Rating,
+			&item.ReviewID,
+			&item.ContentID,
+			&item.UserID,
 			&item.Review,
-			&item.Likes,
+			&item.Date,
 		)
 		if err != nil {
 			return nil, err
@@ -81,23 +94,16 @@ func (s *Storage) GetReviews(req models.Request) ([]models.Review, error) {
 func (s *Storage) PatchReview(data models.Review) error {
 	err := s.pool.QueryRow(context.Background(), `
 		UPDATE reviews
-		SET type = $2
-			genre1 = $3
-			genre2 = $4
-			genre3 = $5
-			title = $6
-			rating = $7
-			review = $8
-			likes = $9
-		WHERE id = $1
-	`, data.UserID,
-		data.Type,
-		data.Genre1,
-		data.Genre2,
-		data.Genre3,
-		data.Title,
-		data.Rating,
-		data.Review).Scan()
+		SET content_id = $2
+			user_id = $3
+			review = $4
+			date = $5
+		WHERE review_id = $1
+	`, data.ReviewID,
+		data.ContentID,
+		data.UserID,
+		data.Review,
+		data.Date).Scan()
 	return err
 }
 
@@ -106,6 +112,6 @@ func (s *Storage) DeleteReview(data models.Review) error {
 		DELETE FROM reviews
 		WHERE id = $1
 	`,
-		data.UserID).Scan()
+		data.ReviewID).Scan()
 	return err
 }

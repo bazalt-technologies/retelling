@@ -10,16 +10,16 @@ CREATE TABLE users(
     likes INTEGER[],
 );
 
-CREATE TABLE review (
-    ReviewID SERIAL PRIMARY KEY,
-    ContentID INTEGER NOT NULL,
+CREATE TABLE reviews (
+    review_id SERIAL PRIMARY KEY,
+    content_id INTEGER NOT NULL REFERENCES content(content_id),
     user_id INTEGER NOT NULL REFERENCES users(id),
     review TEXT DEFAULT '',
     date INTEGER NOT NULL DEFAULT 0,
 );
 
 CREATE TABLE content (
-    ContentID SERIAL PRIMARY KEY,
+    content_id SERIAL PRIMARY KEY,
     type_id INTEGER NOT NULL REFERENCES types(id),
     genre1_id INTEGER NOT NULL REFERENCES genres(id),
     genre2_id INTEGER NOT NULL REFERENCES genres(id),
