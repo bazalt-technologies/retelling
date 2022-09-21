@@ -9,14 +9,13 @@ func (s *Storage) NewReview(data models.Review) (int, error) {
 	var id int
 	err := s.pool.QueryRow(context.Background(), `
 	INSERT INTO reviews (
-		review_id,
 		content_id,
 		user_id,
 		review,
 		date
 	)
-	VALUES ($1,$2,$3,$4,$5) 
-	RETURNING Id
+	VALUES ($1,$2,$3,$4) 
+	RETURNING review_id
 	`,
 		data.ReviewID,
 		data.ContentID,
@@ -33,7 +32,6 @@ func (s *Storage) NewContent(data models.Content) (int, error) {
 	var id int
 	err := s.pool.QueryRow(context.Background(), `
 	INSERT INTO content (
-		content_id,
 		type_id,
 		genre1_id,
 		genre2_id,
@@ -41,8 +39,8 @@ func (s *Storage) NewContent(data models.Content) (int, error) {
 		title,
 		likes
 	)
-	VALUES ($1,$2,$3,$4,$5,$6,$7) 
-	RETURNING Id
+	VALUES ($1,$2,$3,$4,$5,$6) 
+	RETURNING review_id
 	`,
 		data.ContentID,
 		data.TypeID,
@@ -63,7 +61,6 @@ func (s *Storage) GetReviews(req models.Request) ([]models.Review, error) {
 	SELECT 
 		review_id,
 		content_id,
-		user_id,
 		review,
 		date
 	FROM reviews
@@ -79,7 +76,6 @@ func (s *Storage) GetReviews(req models.Request) ([]models.Review, error) {
 		err = rows.Scan(
 			&item.ReviewID,
 			&item.ContentID,
-			&item.UserID,
 			&item.Review,
 			&item.Date,
 		)
