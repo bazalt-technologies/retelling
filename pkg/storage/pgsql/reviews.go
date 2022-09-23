@@ -17,7 +17,6 @@ func (s *Storage) NewReview(data models.Review) (int, error) {
 	VALUES ($1,$2,$3,$4) 
 	RETURNING review_id
 	`,
-		data.ReviewID,
 		data.ContentID,
 		data.UserID,
 		data.Review,
@@ -42,7 +41,6 @@ func (s *Storage) NewContent(data models.Content) (int, error) {
 	VALUES ($1,$2,$3,$4,$5,$6) 
 	RETURNING content_id
 	`,
-		data.ContentID,
 		data.TypeID,
 		data.GenreID1,
 		data.GenreID2,
