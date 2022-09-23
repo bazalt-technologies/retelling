@@ -64,7 +64,7 @@ func (s *Storage) GetReviews(req models.Request) ([]models.Review, error) {
 	FROM reviews
 		WHERE (user_id=$1 OR $1 = 0)
 	`,
-		req.UserID)
+		req.ObjectID)
 	if err != nil {
 		return nil, err
 	}

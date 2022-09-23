@@ -10,6 +10,7 @@ CREATE TABLE users(
     likes INTEGER[],
 );
 
+
 CREATE TABLE reviews (
     review_id SERIAL PRIMARY KEY,
     content_id INTEGER NOT NULL REFERENCES content(content_id),

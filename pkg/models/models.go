@@ -34,10 +34,18 @@ type Content struct {
 }
 
 type Request struct {
-	UserID    int
-	UserIDs   []int
 	Login     string
 	Password  string
-	ReviewID  int
-	ReviewIDs []int
+	ObjectID  int
+	ObjectIDs []int
+}
+
+type Type struct {
+	ID	int
+	Type 	string
+}
+
+type Genre struct {
+	ID	int
+	Genre	string
 }

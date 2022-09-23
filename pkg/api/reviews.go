@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"retelling/pkg/models"
+	"strconv"
 )
 
 func (api *API) reviews(w http.ResponseWriter, r *http.Request) {
@@ -11,7 +12,7 @@ func (api *API) reviews(w http.ResponseWriter, r *http.Request) {
 
 	case http.MethodGet:
 		var req models.Request
-		req.UserID = paramInt(r, "UserID")
+		req.ObjectID = paramInt(r, "ObjectID")
 
 		data, err := api.db.GetReviews(req)
 		if err != nil {
@@ -31,10 +32,38 @@ func (api *API) reviews(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
-		_, err = api.db.NewReview(data)
+		id, err = api.db.NewReview(data)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
 		}
 		w.WriteHeader(http.StatusOK)
+		w.Write([]byte(strconv.Itoa(id)))
+	
+	case http.MethodPatch:
+		var data models.Review
+		err := json.NewDecoder(r.Body).Decode(&data)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		id, err = api.db.UpdateReview(data)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte(strconv.Itoa(id)))
+		
+	case http.MethodDelete:
+		var data models.Review
+		err := json.NewDecoder(r.Body).Decode(&data)
+		id, err = api.db.DeleteReview(data.ID)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte(strconv.Itoa(id)))
 	}
 }
