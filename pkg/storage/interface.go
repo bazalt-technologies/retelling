@@ -14,6 +14,8 @@ type DB interface {
 	UpdateReview(data models.Review) (int, error)
 	DeleteReview(id int) (int, error)
 
+	NewContent(data models.Content) (int, error)
+
 	NewGenre(data models.Genre) (int, error)
 	GetGenres(req models.Request) ([]models.Genre, error)
 	UpdateGenre(data models.Genre) (int, error)
