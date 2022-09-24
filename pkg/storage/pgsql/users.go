@@ -137,18 +137,17 @@ func (s *Storage) UpdateUser(item models.User) (int, error) {
 	RETURNING id
 	`,
 		item.ID,
-		item.Data.Name
+		item.Data.Name,
 		item.Login,
 		item.Password,
 		item.Data.Age,
 		item.Data.ReviewCount,
 		item.Data.Rating,
-		item.Data.Profession,
-		item.Date).Scan(&id)
+		item.Data.Profession).Scan(&id)
 	if err != nil {
 		return -1, err
 	}
-	return id, nil	
+	return id, nil
 }
 
 func (s *Storage) DeleteUser(id int) (int, error) {
@@ -156,7 +155,7 @@ func (s *Storage) DeleteUser(id int) (int, error) {
 	DELETE FROM users WHERE id = $1
 	DELETE FROM reviews WHERE user_id = $2
 	`,
-		id, id)
+		id, id).Scan()
 	if err != nil {
 		return -1, err
 	}

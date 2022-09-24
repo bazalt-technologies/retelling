@@ -5,16 +5,15 @@ import (
 	"retelling/pkg/models"
 )
 
-
 func (s *Storage) GetGenres(req models.Request) ([]models.Genre, error) {
-	var data []models.Review
+	var data []models.Genre
 	rows, err := s.pool.Query(context.Background(), `
 	SELECT 
 		id, 
 		genre
 	FROM genres
 		WHERE (id=ANY($1) OR array_length($1) is NULL)
-	`, intToInt32Array(req.ObjectIDs)) 
+	`, intToInt32Array(req.ObjectIDs))
 	if err != nil {
 		return nil, err
 	}
@@ -23,7 +22,7 @@ func (s *Storage) GetGenres(req models.Request) ([]models.Genre, error) {
 		var item models.Genre
 		err = rows.Scan(
 			&item.ID,
-			&item.Genre
+			&item.Genre,
 		)
 		if err != nil {
 			return nil, err
@@ -32,4 +31,3 @@ func (s *Storage) GetGenres(req models.Request) ([]models.Genre, error) {
 	}
 	return data, nil
 }
-

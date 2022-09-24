@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"net/http"
 	"retelling/pkg/models"
-	"strconv"
 )
 
 func (api *API) types(w http.ResponseWriter, r *http.Request) {
