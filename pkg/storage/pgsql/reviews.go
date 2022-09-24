@@ -5,36 +5,47 @@ import (
 	"retelling/pkg/models"
 )
 
-
 func (s *Storage) NewReview(data models.Review) (int, error) {
 	var id int
 	err := s.pool.QueryRow(context.Background(), `
 	INSERT INTO reviews (
+		content_id,
 		user_id,
+		review,
+		date
+	)
+	VALUES ($1,$2,$3,$4) 
+	RETURNING review_id
+	`,
+		data.ContentID,
+		data.UserID,
+		data.Review,
+		data.Date).Scan(&id)
+	if err != nil {
+		return -1, err
+	}
+	return id, nil
+}
+
+func (s *Storage) NewContent(data models.Content) (int, error) {
+	var id int
+	err := s.pool.QueryRow(context.Background(), `
+	INSERT INTO content (
 		type_id,
 		genre1_id,
 		genre2_id,
 		genre3_id,
 		title,
-		rating,
-		date,
-		review,
-		image_link,
 		likes
 	)
-	VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) 
-	RETURNING id
+	VALUES ($1,$2,$3,$4,$5,$6) 
+	RETURNING content_id
 	`,
-		data.UserID,
 		data.TypeID,
-		data.Genre1ID,
-		data.Genre2ID,
-		data.Genre3ID,
+		data.GenreID1,
+		data.GenreID2,
+		data.GenreID3,
 		data.Title,
-		data.Rating,
-		data.Date,
-		data.Review,
-		data.ImageLink,
 		data.Likes).Scan(&id)
 	if err != nil {
 		return -1, err
@@ -46,17 +57,10 @@ func (s *Storage) GetReviews(req models.Request) ([]models.Review, error) {
 	var data []models.Review
 	rows, err := s.pool.Query(context.Background(), `
 	SELECT 
-		id, 
-		type_id,
-		genre1_id,
-		genre2_id,
-		genre3_id,
-		title,
-		rating,
-		date,
+		review_id,
+		content_id,
 		review,
-		image_link,
-		likes
+		date
 	FROM reviews
 		WHERE (user_id=$1 OR $1 = 0)
 	`,
@@ -68,17 +72,10 @@ func (s *Storage) GetReviews(req models.Request) ([]models.Review, error) {
 	for rows.Next() {
 		var item models.Review
 		err = rows.Scan(
-			&item.ID,
-			&item.TypeID,
-			&item.Genre1ID,
-			&item.Genre2ID,
-			&item.Genre3ID,
-			&item.Title,
-			&item.Rating,
-			&item.Date
+			&item.ReviewID,
+			&item.ContentID,
 			&item.Review,
-			&item.ImageLink,
-			&item.Likes
+			&item.Date,
 		)
 		if err != nil {
 			return nil, err
@@ -88,50 +85,27 @@ func (s *Storage) GetReviews(req models.Request) ([]models.Review, error) {
 	return data, nil
 }
 
-func (s *Storage) UpdateReview(data models.Review) (int, error) {
-	var id int
+func (s *Storage) PatchReview(data models.Review) error {
 	err := s.pool.QueryRow(context.Background(), `
-	UPDATE reviews
-		SET
-		user_id = $2,
-		type_id = $3,
-		genre1_id = $4,
-		genre2_id = $5,
-		genre3_id = $6,
-		title = $7,
-		rating = $8,
-		date = $9,
-		review = $10,
-		image_link = $11,
-		likes = $12
-	WHERE id = $1
-	RETURNING id
-	`,
-		data.ID,
+		UPDATE reviews
+		SET content_id = $2
+			user_id = $3
+			review = $4
+			date = $5
+		WHERE review_id = $1
+	`, data.ReviewID,
+		data.ContentID,
 		data.UserID,
-		data.TypeID,
-		data.Genre1ID,
-		data.Genre2ID,
-		data.Genre3ID,
-		data.Title,
-		data.Rating,
-		date.Date,
 		data.Review,
-		data.ImageLink,
-		data.Likes).Scan(&id)
-	if err != nil {
-		return -1, err
-	}
-	return id, nil
+		data.Date).Scan()
+	return err
 }
 
-func (s *Storage) DeleteReview(id int) (int, error) {
+func (s *Storage) DeleteReview(data models.Review) error {
 	err := s.pool.QueryRow(context.Background(), `
-	DELETE FROM reviews WHERE id = $1
+		DELETE FROM reviews
+		WHERE id = $1
 	`,
-		id)
-	if err != nil {
-		return -1, err
-	}
-	return id, nil
+		data.ReviewID).Scan()
+	return err
 }
