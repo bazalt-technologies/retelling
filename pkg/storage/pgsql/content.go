@@ -59,3 +59,36 @@ func (s *Storage) PatchContent(data models.Content) error {
 		data.Likes).Scan()
 	return err
 }
+
+func (s *Storage) GetContent(req models.Request) (models.Content, error) {
+	rows, err := s.pool.Query(context.Background(), `
+	SELECT 
+		type_id,
+		genre1_id,
+		genre2_id,
+		genre3_id,
+		title,
+		likes
+	FROM content
+		WHERE content_id = $1
+	`,
+		req.ObjectID)
+	if err != nil {
+		return models.Content{}, err
+	}
+	defer rows.Close()
+	var item models.Content
+	err = rows.Scan(
+		&item.ContentID,
+		&item.TypeID,
+		&item.GenreID1,
+		&item.GenreID2,
+		&item.GenreID3,
+		&item.Title,
+		&item.Likes,
+	)
+	if err != nil {
+		return models.Content{}, err
+	}
+	return item, nil
+}
