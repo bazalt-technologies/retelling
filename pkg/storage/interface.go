@@ -16,6 +16,7 @@ type DB interface {
 
 	NewContent(data models.Content) (int, error)
 	DeleteContent(id int) (int, error)
+	PatchContent(data models.Content) (int, error)
 
 	NewGenre(data models.Genre) (int, error)
 	GetGenres(req models.Request) ([]models.Genre, error)
