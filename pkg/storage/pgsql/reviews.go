@@ -78,7 +78,7 @@ func (s *Storage) PatchReview(data models.Review) error {
 func (s *Storage) DeleteReview(data models.Review) error {
 	err := s.pool.QueryRow(context.Background(), `
 		DELETE FROM reviews
-		WHERE id = $1
+		WHERE review_id = $1
 	`,
 		data.ReviewID).Scan()
 	return err

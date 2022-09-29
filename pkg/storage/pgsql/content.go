@@ -30,3 +30,12 @@ func (s *Storage) NewContent(data models.Content) (int, error) {
 	}
 	return id, nil
 }
+
+func (s *Storage) DeleteContent(data models.Content) error {
+	err := s.pool.QueryRow(context.Background(), `
+		DELETE FROM content
+		WHERE content_id = $1
+	`,
+		data.ContentID).Scan()
+	return err
+}
