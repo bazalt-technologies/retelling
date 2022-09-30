@@ -58,7 +58,7 @@ func (api *API) reviews(w http.ResponseWriter, r *http.Request) {
 	case http.MethodDelete:
 		var data models.Review
 		err := json.NewDecoder(r.Body).Decode(&data)
-		id, err := api.db.DeleteReview(data.ReviewID)
+		id, err := api.db.DeleteReview(data.ID)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return

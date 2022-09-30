@@ -16,7 +16,7 @@ type UserData struct {
 }
 
 type Review struct {
-	ReviewID  int
+	ID        int
 	ContentID int
 	UserID    int
 	Review    string
@@ -24,13 +24,13 @@ type Review struct {
 }
 
 type Content struct {
-	ContentID int
-	TypeID    int
-	GenreID1  int
-	GenreID2  int
-	GenreID3  int
-	Title     string
-	Likes     int
+	ID       int
+	TypeID   int
+	GenreID1 int
+	GenreID2 int
+	GenreID3 int
+	Title    string
+	Likes    int
 }
 
 type Request struct {
@@ -41,11 +41,11 @@ type Request struct {
 }
 
 type Type struct {
-	ID	int
-	Type 	string
+	ID   int
+	Type string
 }
 
 type Genre struct {
-	ID	int
-	Genre	string
+	ID    int
+	Genre string
 }

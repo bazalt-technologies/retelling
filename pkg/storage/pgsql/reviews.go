@@ -15,7 +15,7 @@ func (s *Storage) NewReview(data models.Review) (int, error) {
 		date
 	)
 	VALUES ($1,$2,$3,$4) 
-	RETURNING review_id
+	RETURNING id
 	`,
 		data.ContentID,
 		data.UserID,
@@ -31,7 +31,7 @@ func (s *Storage) GetReviews(req models.Request) ([]models.Review, error) {
 	var data []models.Review
 	rows, err := s.pool.Query(context.Background(), `
 	SELECT 
-		review_id,
+		id,
 		content_id,
 		review,
 		date
@@ -46,7 +46,7 @@ func (s *Storage) GetReviews(req models.Request) ([]models.Review, error) {
 	for rows.Next() {
 		var item models.Review
 		err = rows.Scan(
-			&item.ReviewID,
+			&item.ID,
 			&item.ContentID,
 			&item.Review,
 			&item.Date,
@@ -66,8 +66,8 @@ func (s *Storage) PatchReview(data models.Review) error {
 			user_id = $3
 			review = $4
 			date = $5
-		WHERE review_id = $1
-	`, data.ReviewID,
+		WHERE id = $1
+	`, data.ID,
 		data.ContentID,
 		data.UserID,
 		data.Review,
@@ -78,8 +78,8 @@ func (s *Storage) PatchReview(data models.Review) error {
 func (s *Storage) DeleteReview(data models.Review) error {
 	err := s.pool.QueryRow(context.Background(), `
 		DELETE FROM reviews
-		WHERE review_id = $1
+		WHERE id = $1
 	`,
-		data.ReviewID).Scan()
+		data.ID).Scan()
 	return err
 }

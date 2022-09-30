@@ -17,7 +17,7 @@ func (s *Storage) NewContent(data models.Content) (int, error) {
 		likes
 	)
 	VALUES ($1,$2,$3,$4,$5,$6) 
-	RETURNING content_id
+	RETURNING id
 	`,
 		data.TypeID,
 		data.GenreID1,
@@ -33,10 +33,10 @@ func (s *Storage) NewContent(data models.Content) (int, error) {
 
 func (s *Storage) DeleteContent(data models.Content) error {
 	err := s.pool.QueryRow(context.Background(), `
-		DELETE FROM content
-		WHERE content_id = $1
+		DELETE FROM content WHERE id = $1
+		DELETE FROM review WHERE content_id = $1
 	`,
-		data.ContentID).Scan()
+		data.ID).Scan()
 	return err
 }
 
@@ -49,8 +49,8 @@ func (s *Storage) PatchContent(data models.Content) error {
 			genre3_id = $5
 			title = $6
 			likes = $7
-		WHERE content_id = $1
-	`, data.ContentID,
+		WHERE id = $1
+	`, data.ID,
 		data.TypeID,
 		data.GenreID1,
 		data.GenreID2,
@@ -70,7 +70,7 @@ func (s *Storage) GetContent(req models.Request) (models.Content, error) {
 		title,
 		likes
 	FROM content
-		WHERE content_id = $1
+		WHERE id = $1
 	`,
 		req.ObjectID)
 	if err != nil {
@@ -79,7 +79,7 @@ func (s *Storage) GetContent(req models.Request) (models.Content, error) {
 	defer rows.Close()
 	var item models.Content
 	err = rows.Scan(
-		&item.ContentID,
+		&item.ID,
 		&item.TypeID,
 		&item.GenreID1,
 		&item.GenreID2,

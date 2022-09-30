@@ -56,7 +56,7 @@ func (s *Storage) NewUser(item models.User) (int, error) {
 	err := s.pool.QueryRow(context.Background(),
 		`SELECT id FROM users WHERE login = $1`, item.Login).Scan(&login)
 	if err != pgx.ErrNoRows {
-		return -1, errors.New("Already exists")
+		return -1, errors.New("already exists")
 	}
 
 	pwd, err := bcrypt.GenerateFromPassword([]byte(item.Password), bcrypt.DefaultCost)

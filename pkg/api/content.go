@@ -54,7 +54,7 @@ func (api *API) content(w http.ResponseWriter, r *http.Request) {
 	case http.MethodDelete:
 		var data models.Content
 		err := json.NewDecoder(r.Body).Decode(&data)
-		id, err := api.db.DeleteContent(data.ContentID)
+		id, err := api.db.DeleteContent(data.ID)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
