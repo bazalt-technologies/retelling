@@ -56,7 +56,7 @@ func (s *Storage) NewUser(item models.User) (int, error) {
 	err := s.pool.QueryRow(context.Background(),
 		`SELECT id FROM users WHERE login = $1`, item.Login).Scan(&login)
 	if err != pgx.ErrNoRows {
-		return -1, errors.New("Already exists")
+		return -1, errors.New("already exists")
 	}
 
 	pwd, err := bcrypt.GenerateFromPassword([]byte(item.Password), bcrypt.DefaultCost)
@@ -137,18 +137,17 @@ func (s *Storage) UpdateUser(item models.User) (int, error) {
 	RETURNING id
 	`,
 		item.ID,
-		item.Data.Name
+		item.Data.Name,
 		item.Login,
 		item.Password,
 		item.Data.Age,
 		item.Data.ReviewCount,
 		item.Data.Rating,
-		item.Data.Profession,
-		item.Date).Scan(&id)
+		item.Data.Profession).Scan(&id)
 	if err != nil {
 		return -1, err
 	}
-	return id, nil	
+	return id, nil
 }
 
 func (s *Storage) DeleteUser(id int) (int, error) {
@@ -156,7 +155,7 @@ func (s *Storage) DeleteUser(id int) (int, error) {
 	DELETE FROM users WHERE id = $1
 	DELETE FROM reviews WHERE user_id = $2
 	`,
-		id, id)
+		id, id).Scan()
 	if err != nil {
 		return -1, err
 	}

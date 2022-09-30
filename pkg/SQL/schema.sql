@@ -12,15 +12,15 @@ CREATE TABLE users(
 
 
 CREATE TABLE reviews (
-    review_id SERIAL PRIMARY KEY,
-    content_id INTEGER NOT NULL REFERENCES content(content_id),
+    id SERIAL PRIMARY KEY,
+    content_id INTEGER NOT NULL REFERENCES content(id),
     user_id INTEGER NOT NULL REFERENCES users(id),
     review TEXT DEFAULT '',
     date INTEGER NOT NULL DEFAULT 0,
 );
 
 CREATE TABLE content (
-    content_id SERIAL PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     type_id INTEGER NOT NULL REFERENCES types(id),
     genre1_id INTEGER NOT NULL REFERENCES genres(id),
     genre2_id INTEGER NOT NULL REFERENCES genres(id),

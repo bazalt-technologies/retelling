@@ -32,14 +32,14 @@ func (api *API) users(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
-		id, err = api.db.NewUser(data)
+		id, err := api.db.NewUser(data)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte(strconv.Itoa(id)))
-	
+
 	case http.MethodPatch:
 		var data models.User
 		err := json.NewDecoder(r.Body).Decode(&data)
@@ -47,18 +47,18 @@ func (api *API) users(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		id, err = api.db.UpdateUser(data)
+		id, err := api.db.UpdateUser(data)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte(strconv.Itoa(id)))
-		
+
 	case http.MethodDelete:
 		var data models.User
 		err := json.NewDecoder(r.Body).Decode(&data)
-		id, err = api.db.DeleteUser(data.ID)
+		id, err := api.db.DeleteUser(data.ID)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return

@@ -15,7 +15,7 @@ func (s *Storage) NewReview(data models.Review) (int, error) {
 		date
 	)
 	VALUES ($1,$2,$3,$4) 
-	RETURNING review_id
+	RETURNING id
 	`,
 		data.ContentID,
 		data.UserID,
@@ -27,37 +27,11 @@ func (s *Storage) NewReview(data models.Review) (int, error) {
 	return id, nil
 }
 
-func (s *Storage) NewContent(data models.Content) (int, error) {
-	var id int
-	err := s.pool.QueryRow(context.Background(), `
-	INSERT INTO content (
-		type_id,
-		genre1_id,
-		genre2_id,
-		genre3_id,
-		title,
-		likes
-	)
-	VALUES ($1,$2,$3,$4,$5,$6) 
-	RETURNING content_id
-	`,
-		data.TypeID,
-		data.GenreID1,
-		data.GenreID2,
-		data.GenreID3,
-		data.Title,
-		data.Likes).Scan(&id)
-	if err != nil {
-		return -1, err
-	}
-	return id, nil
-}
-
 func (s *Storage) GetReviews(req models.Request) ([]models.Review, error) {
 	var data []models.Review
 	rows, err := s.pool.Query(context.Background(), `
 	SELECT 
-		review_id,
+		id,
 		content_id,
 		review,
 		date
@@ -74,7 +48,7 @@ func (s *Storage) GetReviews(req models.Request) ([]models.Review, error) {
 	for rows.Next() {
 		var item models.Review
 		err = rows.Scan(
-			&item.ReviewID,
+			&item.ID,
 			&item.ContentID,
 			&item.Review,
 			&item.Date,
@@ -94,8 +68,8 @@ func (s *Storage) PatchReview(data models.Review) error {
 			user_id = $3
 			review = $4
 			date = $5
-		WHERE review_id = $1
-	`, data.ReviewID,
+		WHERE id = $1
+	`, data.ID,
 		data.ContentID,
 		data.UserID,
 		data.Review,
@@ -108,6 +82,6 @@ func (s *Storage) DeleteReview(data models.Review) error {
 		DELETE FROM reviews
 		WHERE id = $1
 	`,
-		data.ReviewID).Scan()
+		data.ID).Scan()
 	return err
 }

@@ -5,9 +5,8 @@ import (
 	"retelling/pkg/models"
 )
 
-
 func (s *Storage) GetTypes(req models.Request) ([]models.Type, error) {
-	var data []models.Review
+	var data []models.Type
 	rows, err := s.pool.Query(context.Background(), `
 	SELECT 
 		id, 
@@ -23,7 +22,7 @@ func (s *Storage) GetTypes(req models.Request) ([]models.Type, error) {
 		var item models.Type
 		err = rows.Scan(
 			&item.ID,
-			&item.Type
+			&item.Type,
 		)
 		if err != nil {
 			return nil, err

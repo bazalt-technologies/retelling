@@ -23,6 +23,7 @@ func (api *API) Handle() {
 	api.r.HandleFunc("/api/v1/genres", api.genres).Methods(http.MethodGet)
 	api.r.HandleFunc("/api/v1/types", api.types).Methods(http.MethodGet)
 	api.r.HandleFunc("/api/v1/authUser", api.authUser).Methods(http.MethodPost) // Почему http.MethodPost ?
+	api.r.HandleFunc("/api/v1/content", api.content).Methods(http.MethodGet, http.MethodPost, http.MethodPatch, http.MethodDelete)
 }
 
 func (api *API) ListenAndServe(addr string) {
