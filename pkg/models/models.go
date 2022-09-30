@@ -38,14 +38,15 @@ type Request struct {
 	Password  string
 	ObjectID  int
 	ObjectIDs []int
+	UserID    int
 }
 
 type Type struct {
-	ID	int
-	Type 	string
+	ID   int
+	Type string
 }
 
 type Genre struct {
-	ID	int
-	Genre	string
+	ID    int
+	Genre string
 }
