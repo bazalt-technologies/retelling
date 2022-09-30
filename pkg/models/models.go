@@ -38,6 +38,7 @@ type Request struct {
 	Password  string
 	ObjectID  int
 	ObjectIDs []int
+	UserID    int
 }
 
 type Type struct {

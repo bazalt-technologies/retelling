@@ -13,7 +13,7 @@ func (api *API) reviews(w http.ResponseWriter, r *http.Request) {
 	case http.MethodGet:
 		var req models.Request
 		req.ObjectID = paramInt(r, "ObjectID")
-
+		req.UserID = paramInt(r, "UserID")
 		data, err := api.db.GetReviews(req)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
