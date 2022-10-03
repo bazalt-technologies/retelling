@@ -13,6 +13,7 @@ type UserData struct {
 	ReviewCount int
 	Rating      int
 	Profession  string
+	Likes       []int
 }
 
 type Review struct {

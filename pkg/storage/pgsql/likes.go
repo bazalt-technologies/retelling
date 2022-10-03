@@ -73,6 +73,7 @@ func (s *Storage) GetUsersLiked(req models.Request) ([]models.User, error) {
 			&item.Data.ReviewCount,
 			&item.Data.Rating,
 			&item.Data.Profession,
+			&item.Data.Likes,
 		)
 		if err != nil {
 			return nil, err

@@ -22,7 +22,8 @@ func (s *Storage) GetUsers(req models.Request) ([]models.User, error) {
 		age,
 		review_count,
 		rating,
-		profession
+		profession,
+		likes
 	FROM users
 		WHERE (id=ANY($1) OR array_length($1) is NULL)
 	`, intToInt32Array(req.ObjectIDs))
@@ -41,6 +42,7 @@ func (s *Storage) GetUsers(req models.Request) ([]models.User, error) {
 			&item.Data.ReviewCount,
 			&item.Data.Rating,
 			&item.Data.Profession,
+			&item.Data.Likes,
 		)
 		if err != nil {
 			return nil, err
@@ -132,7 +134,8 @@ func (s *Storage) UpdateUser(item models.User) (int, error) {
     		age = $5,
     		review_count = $6,
     		rating = $7,
-    		profession = $8
+    		profession = $8,
+			likes = $9,
 	WHERE id = $1
 	RETURNING id
 	`,
@@ -143,7 +146,8 @@ func (s *Storage) UpdateUser(item models.User) (int, error) {
 		item.Data.Age,
 		item.Data.ReviewCount,
 		item.Data.Rating,
-		item.Data.Profession).Scan(&id)
+		item.Data.Profession,
+		item.Data.Likes).Scan(&id)
 	if err != nil {
 		return -1, err
 	}
@@ -153,9 +157,10 @@ func (s *Storage) UpdateUser(item models.User) (int, error) {
 func (s *Storage) DeleteUser(id int) (int, error) {
 	err := s.pool.QueryRow(context.Background(), `
 	DELETE FROM users WHERE id = $1
-	DELETE FROM reviews WHERE user_id = $2
+	DELETE FROM reviews WHERE user_id = $1
+	UPDATE content SET users_liked = array_remove(users_liked, $1)
 	`,
-		id, id).Scan()
+		id).Scan()
 	if err != nil {
 		return -1, err
 	}
