@@ -52,26 +52,26 @@ func (s *Storage) GetUsers(req models.Request) ([]models.User, error) {
 	return data, nil
 }
 
-func (s *Storage) NewUser(item models.User) (int, error) {
+func (s *Storage) NewUser(data models.User) (int, error) {
 	var id int
 	var login string
 	err := s.pool.QueryRow(context.Background(),
-		`SELECT id FROM users WHERE login = $1`, item.Login).Scan(&login)
+		`SELECT id FROM users WHERE login = $1`, data.Login).Scan(&login)
 	if err != pgx.ErrNoRows {
 		return -1, errors.New("already exists")
 	}
 
-	pwd, err := bcrypt.GenerateFromPassword([]byte(item.Password), bcrypt.DefaultCost)
+	pwd, err := bcrypt.GenerateFromPassword([]byte(data.Password), bcrypt.DefaultCost)
 	if err != nil {
 		return -1, err
 	}
 	user := models.User{
-		Login:    item.Login,
+		Login:    data.Login,
 		Password: string(pwd),
 		Data: &models.UserData{
-			Age:        item.Data.Age,
-			Name:       item.Data.Name,
-			Profession: item.Data.Profession,
+			Age:        data.Data.Age,
+			Name:       data.Data.Name,
+			Profession: data.Data.Profession,
 		},
 	}
 
@@ -87,7 +87,7 @@ func (s *Storage) NewUser(item models.User) (int, error) {
 	`,
 		user.Data.Name,
 		user.Login,
-		string(user.Password),
+		user.Password,
 		user.Data.Age,
 		user.Data.Profession,
 	).Scan(&id)

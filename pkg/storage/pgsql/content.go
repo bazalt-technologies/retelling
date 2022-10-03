@@ -24,7 +24,7 @@ func (s *Storage) NewContent(data models.Content) (int, error) {
 		data.GenreID2,
 		data.GenreID3,
 		data.Title,
-		data.Likes).Scan(&id)
+		data.UsersLiked).Scan(&id)
 	if err != nil {
 		return -1, err
 	}
@@ -56,7 +56,7 @@ func (s *Storage) PatchContent(data models.Content) error {
 		data.GenreID2,
 		data.GenreID3,
 		data.Title,
-		data.Likes).Scan()
+		data.UsersLiked).Scan()
 	return err
 }
 
@@ -85,7 +85,7 @@ func (s *Storage) GetContent(req models.Request) (models.Content, error) {
 		&item.GenreID2,
 		&item.GenreID3,
 		&item.Title,
-		&item.Likes,
+		&item.UsersLiked,
 	)
 	if err != nil {
 		return models.Content{}, err
