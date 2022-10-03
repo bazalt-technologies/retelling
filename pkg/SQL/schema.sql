@@ -7,7 +7,7 @@ CREATE TABLE users(
     review_count INTEGER NOT NULL DEFAULT 0,
     rating INTEGER NOT NULL DEFAULT 0,
     profession TEXT NOT NULL DEFAULT '',
-    likes INTEGER[],
+    likes INTEGER[] DEFAULT NULL
 );
 
 
@@ -16,7 +16,7 @@ CREATE TABLE reviews (
     content_id INTEGER NOT NULL REFERENCES content(id),
     user_id INTEGER NOT NULL REFERENCES users(id),
     review TEXT DEFAULT '',
-    date INTEGER NOT NULL DEFAULT 0,
+    date INTEGER NOT NULL DEFAULT 0
 );
 
 CREATE TABLE content (
@@ -26,7 +26,7 @@ CREATE TABLE content (
     genre2_id INTEGER NOT NULL REFERENCES genres(id),
     genre3_id INTEGER NOT NULL REFERENCES genres(id),
     title TEXT NOT NULL DEFAULT '',
-    likes INTEGER NOT NULL DEFAULT 0
+    users_liked INTEGER[] DEFAULT NULL
 );
 
 CREATE TABLE types(

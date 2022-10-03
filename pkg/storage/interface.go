@@ -19,6 +19,9 @@ type DB interface {
 	PatchContent(data models.Content) (int, error)
 	GetContent(req models.Request) (models.Content, error)
 
+	GetLikes(req models.Request) ([]models.Content, error)
+	GetUsersLiked(req models.Request) ([]models.User, error)
+
 	NewGenre(data models.Genre) (int, error)
 	GetGenres(req models.Request) ([]models.Genre, error)
 	UpdateGenre(data models.Genre) (int, error)

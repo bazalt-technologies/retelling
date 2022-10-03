@@ -24,13 +24,13 @@ type Review struct {
 }
 
 type Content struct {
-	ID       int
-	TypeID   int
-	GenreID1 int
-	GenreID2 int
-	GenreID3 int
-	Title    string
-	Likes    int
+	ID         int
+	TypeID     int
+	GenreID1   int
+	GenreID2   int
+	GenreID3   int
+	Title      string
+	UsersLiked []int
 }
 
 type Request struct {
