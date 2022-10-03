@@ -47,23 +47,25 @@ func (api *API) reviews(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		id, err := api.db.UpdateReview(data)
+		err = api.db.PatchReview(data)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(strconv.Itoa(id)))
 
 	case http.MethodDelete:
 		var data models.Review
 		err := json.NewDecoder(r.Body).Decode(&data)
-		id, err := api.db.DeleteReview(data.ID)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		err = api.db.DeleteReview(data)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(strconv.Itoa(id)))
 	}
 }

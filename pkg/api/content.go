@@ -44,22 +44,20 @@ func (api *API) content(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		id, err := api.db.PatchContent(data)
+		err = api.db.PatchContent(data)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(strconv.Itoa(id)))
 	case http.MethodDelete:
 		var data models.Content
 		err := json.NewDecoder(r.Body).Decode(&data)
-		id, err := api.db.DeleteContent(data.ID)
+		err = api.db.DeleteContent(data)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(strconv.Itoa(id)))
 	}
 }

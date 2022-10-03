@@ -118,7 +118,7 @@ func (s *Storage) AuthUser(req models.Request) (int, error) {
 	}
 	err = bcrypt.CompareHashAndPassword([]byte(pwd), []byte(req.Password))
 	if err != nil {
-		return -1, errors.New("Wrong password")
+		return -1, errors.New("wrong password")
 	}
 	return id, nil
 }
