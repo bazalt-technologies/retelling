@@ -7,7 +7,7 @@ type DB interface {
 	NewUser(data models.User) (int, error)
 	AuthUser(req models.Request) (int, error)
 	UpdateUser(item models.User) (int, error)
-	DeleteUser(id int) (int, error)
+	DeleteUser(req models.Request) error
 
 	NewReview(data models.Review) (int, error)
 	GetReviews(req models.Request) ([]models.Review, error)
@@ -15,9 +15,9 @@ type DB interface {
 	DeleteReview(data models.Review) error
 
 	NewContent(data models.Content) (int, error)
-	DeleteContent(data models.Content) error
+	DeleteContent(req models.Request) error
 	PatchContent(data models.Content) error
-	GetContent(req models.Request) (models.Content, error)
+	GetContent(req models.Request) ([]models.Content, error)
 
 	GetLikes(req models.Request) ([]models.Content, error)
 	GetUsersLiked(req models.Request) ([]models.User, error)

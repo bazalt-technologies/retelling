@@ -2,6 +2,7 @@ package api
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 	"retelling/pkg/models"
 	"strconv"
@@ -11,9 +12,13 @@ func (api *API) content(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
 		var req models.Request
-		req.ObjectID = paramInt(r, "ObjectID")
-
+		err := json.NewDecoder(r.Body).Decode(&req)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
 		data, err := api.db.GetContent(req)
+		log.Println(data)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -51,9 +56,9 @@ func (api *API) content(w http.ResponseWriter, r *http.Request) {
 		}
 		w.WriteHeader(http.StatusOK)
 	case http.MethodDelete:
-		var data models.Content
-		err := json.NewDecoder(r.Body).Decode(&data)
-		err = api.db.DeleteContent(data)
+		var req models.Request
+		err := json.NewDecoder(r.Body).Decode(&req)
+		err = api.db.DeleteContent(req)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return

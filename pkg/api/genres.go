@@ -2,7 +2,6 @@ package api
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
 	"retelling/pkg/models"
 )
@@ -13,7 +12,6 @@ func (api *API) genres(w http.ResponseWriter, r *http.Request) {
 	case http.MethodGet:
 		var req models.Request
 		_ = json.NewDecoder(r.Body).Decode(&req)
-		log.Println(req.ObjectID)
 		data, err := api.db.GetGenres(req)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)

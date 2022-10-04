@@ -154,15 +154,18 @@ func (s *Storage) UpdateUser(item models.User) (int, error) {
 	return id, nil
 }
 
-func (s *Storage) DeleteUser(id int) (int, error) {
+func (s *Storage) DeleteUser(req models.Request) error {
 	err := s.pool.QueryRow(context.Background(), `
-	DELETE FROM users WHERE id = $1
-	DELETE FROM reviews WHERE user_id = $1
 	UPDATE content SET users_liked = array_remove(users_liked, $1)
 	`,
-		id).Scan()
-	if err != nil {
-		return -1, err
-	}
-	return id, nil
+		req.ObjectID).Scan()
+	err = s.pool.QueryRow(context.Background(), `
+	DELETE FROM reviews WHERE user_id = $1
+	`,
+		req.ObjectID).Scan()
+	err = s.pool.QueryRow(context.Background(), `
+	DELETE FROM users WHERE id = $1
+	`,
+		req.ObjectID).Scan()
+	return err
 }
