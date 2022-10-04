@@ -25,7 +25,7 @@ func (s *Storage) GetUsers(req models.Request) ([]models.User, error) {
 		profession,
 		likes
 	FROM users
-		WHERE (id=ANY($1) OR array_length($1) is NULL)
+		WHERE (id=ANY($1) OR array_length($1,1) is NULL)
 	`, intToInt32Array(req.ObjectIDs))
 	if err != nil {
 		return nil, err

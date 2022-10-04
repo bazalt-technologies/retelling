@@ -12,8 +12,8 @@ func (s *Storage) GetGenres(req models.Request) ([]models.Genre, error) {
 		id, 
 		genre
 	FROM genres
-		WHERE (id=ANY($1) OR array_length($1) is NULL)
-	`, intToInt32Array(req.ObjectIDs))
+		WHERE (id=$1 OR $1=0)
+	`, req.ObjectID)
 	if err != nil {
 		return nil, err
 	}
