@@ -10,8 +10,7 @@ func (api *API) likes(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
 		var req models.Request
-		req.ObjectID = paramInt(r, "ObjectID")
-		req.UserID = paramInt(r, "UserID")
+		_ = json.NewDecoder(r.Body).Decode(&req)
 		if req.UserID != 0 {
 			// Лайки пользователя
 			data, err := api.db.GetLikes(req)

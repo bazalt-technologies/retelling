@@ -17,7 +17,7 @@ func (s *Storage) GetLikes(req models.Request) ([]models.Content, error) {
 		title,
 		users_liked
 	FROM content
-		WHERE users_liked = $1
+		WHERE $1 = ANY(users_liked)
 	`, req.UserID)
 	if err != nil {
 		return nil, err
@@ -42,7 +42,6 @@ func (s *Storage) GetLikes(req models.Request) ([]models.Content, error) {
 	return data, nil
 }
 
-//TODO что-то по-понятнее с этой функцией - такой скрипт не сработает..
 func (s *Storage) GetUsersLiked(req models.Request) ([]models.User, error) {
 	var data []models.User
 	rows, err := s.pool.Query(context.Background(), `
