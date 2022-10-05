@@ -29,7 +29,7 @@ func (s *Storage) NewReview(data models.Review) (int, error) {
 
 func (s *Storage) GetReviews(req models.Request) ([]models.Review, error) {
 	var data []models.Review
-	if len(req.ObjectIDs) == 0 {
+	if len(req.ObjectIDs) == 0 && req.ObjectID != 0 {
 		req.ObjectIDs = append(req.ObjectIDs, req.ObjectID)
 	}
 	rows, err := s.pool.Query(context.Background(), `

@@ -65,9 +65,10 @@ func (s *Storage) PatchContent(data models.Content) error {
 }
 
 func (s *Storage) GetContent(req models.Request) ([]models.Content, error) {
-	if len(req.ObjectIDs) == 0 {
+	if len(req.ObjectIDs) == 0 && req.ObjectID != 0 {
 		req.ObjectIDs = append(req.ObjectIDs, req.ObjectID)
 	}
+	log.Println(req)
 	rows, err := s.pool.Query(context.Background(), `
 	SELECT 
 		type_id,
@@ -77,7 +78,7 @@ func (s *Storage) GetContent(req models.Request) ([]models.Content, error) {
 		title,
 		users_liked
 	FROM content
-		WHERE (id = ANY($1) OR array_length($1,1) is NULL)
+	WHERE (content.id = ANY($1) OR array_length($1,1) is NULL)
 	`,
 		intToInt32Array(req.ObjectIDs))
 	if err != nil {

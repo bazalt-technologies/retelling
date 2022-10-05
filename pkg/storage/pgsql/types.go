@@ -7,7 +7,7 @@ import (
 
 func (s *Storage) GetTypes(req models.Request) ([]models.Type, error) {
 	var data []models.Type
-	if len(req.ObjectIDs) == 0 {
+	if len(req.ObjectIDs) == 0 && req.ObjectID != 0 {
 		req.ObjectIDs = append(req.ObjectIDs, req.ObjectID)
 	}
 	rows, err := s.pool.Query(context.Background(), `

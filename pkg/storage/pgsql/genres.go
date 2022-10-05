@@ -7,7 +7,7 @@ import (
 
 func (s *Storage) GetGenres(req models.Request) ([]models.Genre, error) {
 	var data []models.Genre
-	if len(req.ObjectIDs) == 0 {
+	if len(req.ObjectIDs) == 0 && req.ObjectID != 0 {
 		req.ObjectIDs = append(req.ObjectIDs, req.ObjectID)
 	}
 	rows, err := s.pool.Query(context.Background(), `

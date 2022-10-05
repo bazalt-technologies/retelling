@@ -12,11 +12,7 @@ func (api *API) content(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
 		var req models.Request
-		err := json.NewDecoder(r.Body).Decode(&req)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
+		json.NewDecoder(r.Body).Decode(&req)
 		data, err := api.db.GetContent(req)
 		log.Println(data)
 		if err != nil {

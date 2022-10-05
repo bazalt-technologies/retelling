@@ -10,7 +10,7 @@ import (
 
 func (s *Storage) GetUsers(req models.Request) ([]models.User, error) {
 	var data []models.User
-	if len(req.ObjectIDs) == 0 {
+	if len(req.ObjectIDs) == 0 && req.ObjectID != 0 {
 		req.ObjectIDs = append(req.ObjectIDs, req.ObjectID)
 	}
 	rows, err := s.pool.Query(context.Background(), `
