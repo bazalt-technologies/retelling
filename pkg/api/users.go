@@ -12,8 +12,7 @@ func (api *API) users(w http.ResponseWriter, r *http.Request) {
 
 	case http.MethodGet:
 		var req models.Request
-		req.ObjectID = paramInt(r, "ObjectID")
-
+		json.NewDecoder(r.Body).Decode(&req)
 		data, err := api.db.GetUsers(req)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -56,15 +55,14 @@ func (api *API) users(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(strconv.Itoa(id)))
 
 	case http.MethodDelete:
-		var data models.User
-		err := json.NewDecoder(r.Body).Decode(&data)
-		id, err := api.db.DeleteUser(data.ID)
+		var req models.Request
+		json.NewDecoder(r.Body).Decode(&req)
+		err := api.db.DeleteUser(req)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(strconv.Itoa(id)))
 	}
 }
 

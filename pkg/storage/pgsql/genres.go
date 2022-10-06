@@ -7,12 +7,15 @@ import (
 
 func (s *Storage) GetGenres(req models.Request) ([]models.Genre, error) {
 	var data []models.Genre
+	if len(req.ObjectIDs) == 0 && req.ObjectID != 0 {
+		req.ObjectIDs = append(req.ObjectIDs, req.ObjectID)
+	}
 	rows, err := s.pool.Query(context.Background(), `
 	SELECT 
 		id, 
 		genre
 	FROM genres
-		WHERE (id=ANY($1) OR array_length($1) is NULL)
+		WHERE (id=ANY($1) OR array_length($1,1) is NULL)
 	`, intToInt32Array(req.ObjectIDs))
 	if err != nil {
 		return nil, err

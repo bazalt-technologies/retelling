@@ -10,7 +10,7 @@ import (
 
 func (s *Storage) GetUsers(req models.Request) ([]models.User, error) {
 	var data []models.User
-	if len(req.ObjectIDs) == 0 {
+	if len(req.ObjectIDs) == 0 && req.ObjectID != 0 {
 		req.ObjectIDs = append(req.ObjectIDs, req.ObjectID)
 	}
 	rows, err := s.pool.Query(context.Background(), `
@@ -25,7 +25,7 @@ func (s *Storage) GetUsers(req models.Request) ([]models.User, error) {
 		profession,
 		likes
 	FROM users
-		WHERE (id=ANY($1) OR array_length($1) is NULL)
+		WHERE (id=ANY($1) OR array_length($1,1) is NULL)
 	`, intToInt32Array(req.ObjectIDs))
 	if err != nil {
 		return nil, err
@@ -154,15 +154,18 @@ func (s *Storage) UpdateUser(item models.User) (int, error) {
 	return id, nil
 }
 
-func (s *Storage) DeleteUser(id int) (int, error) {
+func (s *Storage) DeleteUser(req models.Request) error {
 	err := s.pool.QueryRow(context.Background(), `
-	DELETE FROM users WHERE id = $1
-	DELETE FROM reviews WHERE user_id = $1
 	UPDATE content SET users_liked = array_remove(users_liked, $1)
 	`,
-		id).Scan()
-	if err != nil {
-		return -1, err
-	}
-	return id, nil
+		req.ObjectID).Scan()
+	err = s.pool.QueryRow(context.Background(), `
+	DELETE FROM reviews WHERE user_id = $1
+	`,
+		req.ObjectID).Scan()
+	err = s.pool.QueryRow(context.Background(), `
+	DELETE FROM users WHERE id = $1
+	`,
+		req.ObjectID).Scan()
+	return err
 }

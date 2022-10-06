@@ -23,8 +23,8 @@ CREATE TABLE content (
     id SERIAL PRIMARY KEY,
     type_id INTEGER NOT NULL REFERENCES types(id),
     genre1_id INTEGER NOT NULL REFERENCES genres(id),
-    genre2_id INTEGER NOT NULL REFERENCES genres(id),
-    genre3_id INTEGER NOT NULL REFERENCES genres(id),
+    genre2_id INTEGER REFERENCES genres(id),
+    genre3_id INTEGER REFERENCES genres(id),
     title TEXT NOT NULL DEFAULT '',
     users_liked INTEGER[] DEFAULT NULL
 );

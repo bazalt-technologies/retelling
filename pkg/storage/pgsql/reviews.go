@@ -29,6 +29,9 @@ func (s *Storage) NewReview(data models.Review) (int, error) {
 
 func (s *Storage) GetReviews(req models.Request) ([]models.Review, error) {
 	var data []models.Review
+	if len(req.ObjectIDs) == 0 && req.ObjectID != 0 {
+		req.ObjectIDs = append(req.ObjectIDs, req.ObjectID)
+	}
 	rows, err := s.pool.Query(context.Background(), `
 	SELECT 
 		id,
@@ -36,10 +39,10 @@ func (s *Storage) GetReviews(req models.Request) ([]models.Review, error) {
 		review,
 		date
 	FROM reviews
-		WHERE (user_id=$1 OR $1 = 0) AND (review_id=$2 OR $2=0)
+		WHERE (user_id=$1 OR $1 = 0) AND (id=ANY($2) OR array_length($2,1) is NULL)
 	`,
 		req.UserID,
-		req.ObjectID)
+		intToInt32Array(req.ObjectIDs))
 
 	if err != nil {
 		return nil, err

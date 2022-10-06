@@ -11,8 +11,7 @@ func (api *API) types(w http.ResponseWriter, r *http.Request) {
 
 	case http.MethodGet:
 		var req models.Request
-		req.ObjectID = paramInt(r, "ObjectID") //
-
+		json.NewDecoder(r.Body).Decode(&req)
 		data, err := api.db.GetTypes(req)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)

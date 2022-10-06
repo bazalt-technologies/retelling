@@ -7,12 +7,15 @@ import (
 
 func (s *Storage) GetTypes(req models.Request) ([]models.Type, error) {
 	var data []models.Type
+	if len(req.ObjectIDs) == 0 && req.ObjectID != 0 {
+		req.ObjectIDs = append(req.ObjectIDs, req.ObjectID)
+	}
 	rows, err := s.pool.Query(context.Background(), `
 	SELECT 
 		id, 
 		type
 	FROM types
-		WHERE (id=ANY($1) OR array_length($1) is NULL)
+		WHERE (id=ANY($1) OR array_length($1,1) is NULL)
 	`, intToInt32Array(req.ObjectIDs))
 	if err != nil {
 		return nil, err
