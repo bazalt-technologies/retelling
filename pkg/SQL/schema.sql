@@ -26,6 +26,7 @@ CREATE TABLE content (
     genre2_id INTEGER REFERENCES genres(id),
     genre3_id INTEGER REFERENCES genres(id),
     title TEXT NOT NULL DEFAULT '',
+    description TEXT NOT NULL DEFAULT '',
     users_liked INTEGER[] DEFAULT NULL
 );
 

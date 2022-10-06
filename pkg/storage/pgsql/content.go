@@ -15,9 +15,10 @@ func (s *Storage) NewContent(data models.Content) (int, error) {
 		genre2_id,
 		genre3_id,
 		title,
+		description,
 		users_liked
 	)
-	VALUES ($1,$2,$3,$4,$5,$6) 
+	VALUES ($1,$2,$3,$4,$5,$6,$7) 
 	RETURNING id
 	`,
 		data.TypeID,
@@ -25,6 +26,7 @@ func (s *Storage) NewContent(data models.Content) (int, error) {
 		data.GenreID2,
 		data.GenreID3,
 		data.Title,
+		data.Description,
 		data.UsersLiked).Scan(&id)
 	if err != nil {
 		return -1, err
@@ -52,7 +54,8 @@ func (s *Storage) PatchContent(data models.Content) error {
 			genre2_id = $4
 			genre3_id = $5
 			title = $6
-			users_liked = $7
+			description = $7
+			users_liked = $8
 		WHERE id = $1
 	`, data.ID,
 		data.TypeID,
@@ -60,6 +63,7 @@ func (s *Storage) PatchContent(data models.Content) error {
 		data.GenreID2,
 		data.GenreID3,
 		data.Title,
+		data.Description,
 		intToInt32Array(data.UsersLiked)).Scan()
 	return err
 }
@@ -76,6 +80,7 @@ func (s *Storage) GetContent(req models.Request) ([]models.Content, error) {
 		genre2_id,
 		genre3_id,
 		title,
+		description,
 		users_liked
 	FROM content
 	WHERE (content.id = ANY($1) OR array_length($1,1) is NULL)
@@ -94,6 +99,7 @@ func (s *Storage) GetContent(req models.Request) ([]models.Content, error) {
 			&item.GenreID2,
 			&item.GenreID3,
 			&item.Title,
+			&item.Description,
 			&item.UsersLiked,
 		)
 		if err != nil {
