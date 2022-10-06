@@ -15,6 +15,7 @@ func (s *Storage) GetLikes(req models.Request) ([]models.Content, error) {
 		genre2_id,
 		genre3_id,
 		title,
+		description,
 		users_liked
 	FROM content
 		WHERE $1 = ANY(users_liked)
@@ -32,6 +33,7 @@ func (s *Storage) GetLikes(req models.Request) ([]models.Content, error) {
 			&item.GenreID2,
 			&item.GenreID3,
 			&item.Title,
+			&item.Description,
 			&item.UsersLiked,
 		)
 		if err != nil {
