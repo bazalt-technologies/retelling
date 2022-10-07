@@ -10,13 +10,14 @@ CREATE TABLE users(
     likes INTEGER[] DEFAULT NULL
 );
 
-
-CREATE TABLE reviews (
+CREATE TABLE types(
     id SERIAL PRIMARY KEY,
-    content_id INTEGER NOT NULL REFERENCES content(id),
-    user_id INTEGER NOT NULL REFERENCES users(id),
-    review TEXT DEFAULT '',
-    date INTEGER NOT NULL DEFAULT 0
+    type TEXT NOT NULL DEFAULT ''
+);
+
+CREATE TABLE genres(
+    id SERIAL PRIMARY KEY,
+    genre TEXT NOT NULL DEFAULT ''
 );
 
 CREATE TABLE content (
@@ -30,12 +31,13 @@ CREATE TABLE content (
     users_liked INTEGER[] DEFAULT NULL
 );
 
-CREATE TABLE types(
+CREATE TABLE reviews (
     id SERIAL PRIMARY KEY,
-    type TEXT NOT NULL DEFAULT ''
+    content_id INTEGER NOT NULL REFERENCES content(id),
+    user_id INTEGER NOT NULL REFERENCES users(id),
+    review TEXT DEFAULT '',
+    date INTEGER NOT NULL DEFAULT 0
 );
 
-CREATE TABLE genres(
-    id SERIAL PRIMARY KEY,
-    genre TEXT NOT NULL DEFAULT ''
-)
+
+
