@@ -2,7 +2,6 @@ package pgsql
 
 import (
 	"context"
-	"log"
 	"retelling/pkg/models"
 )
 
@@ -72,7 +71,6 @@ func (s *Storage) GetContent(req models.Request) ([]models.Content, error) {
 	if len(req.ObjectIDs) == 0 && req.ObjectID != 0 {
 		req.ObjectIDs = append(req.ObjectIDs, req.ObjectID)
 	}
-	log.Println(req)
 	rows, err := s.pool.Query(context.Background(), `
 	SELECT 
 		id,
@@ -109,7 +107,6 @@ func (s *Storage) GetContent(req models.Request) ([]models.Content, error) {
 		}
 		data = append(data, item)
 	}
-	log.Println(data)
 	if err != nil {
 		return nil, err
 	}

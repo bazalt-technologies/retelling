@@ -2,7 +2,6 @@ package api
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
 	"retelling/pkg/models"
 	"strconv"
@@ -14,7 +13,6 @@ func (api *API) content(w http.ResponseWriter, r *http.Request) {
 		var req models.Request
 		json.NewDecoder(r.Body).Decode(&req)
 		data, err := api.db.GetContent(req)
-		log.Println(data)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
