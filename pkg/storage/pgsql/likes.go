@@ -86,41 +86,29 @@ func (s *Storage) GetUsersLiked(req models.Request) ([]models.User, error) {
 }
 
 func (s *Storage) NewLike(req models.Request) error {
-	err := s.pool.QueryRow(context.Background(), `
+	_ = s.pool.QueryRow(context.Background(), `
 		UPDATE users
 		SET likes = array_append(likes, $2)
 		WHERE id = $1
 	`, req.UserID, req.ObjectID).Scan()
-	if err != nil {
-		return err
-	}
-	err = s.pool.QueryRow(context.Background(), `
+	_ = s.pool.QueryRow(context.Background(), `
 		UPDATE content
-		SET users_liked = array_append(likes, $1)
+		SET users_liked = array_append(users_liked, $1)
 		WHERE id = $2
 	`, req.UserID, req.ObjectID).Scan()
-	if err != nil {
-		return err
-	}
 	return nil
 }
 
 func (s *Storage) Unlike(req models.Request) error {
-	err := s.pool.QueryRow(context.Background(), `
+	_ = s.pool.QueryRow(context.Background(), `
 		UPDATE users
 		SET likes = array_remove(likes, $2)
 		WHERE id = $1
 	`, req.UserID, req.ObjectID).Scan()
-	if err != nil {
-		return err
-	}
-	err = s.pool.QueryRow(context.Background(), `
+	_ = s.pool.QueryRow(context.Background(), `
 		UPDATE content
-		SET users_liked = array_remove(likes, $1)
+		SET users_liked = array_remove(users_liked, $1)
 		WHERE id = $2
 	`, req.UserID, req.ObjectID).Scan()
-	if err != nil {
-		return err
-	}
 	return nil
 }

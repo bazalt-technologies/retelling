@@ -2,6 +2,7 @@ package api
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 	"retelling/pkg/models"
 	"strconv"
@@ -14,6 +15,7 @@ func (api *API) users(w http.ResponseWriter, r *http.Request) {
 		var req models.Request
 		json.NewDecoder(r.Body).Decode(&req)
 		data, err := api.db.GetUsers(req)
+		log.Println("DATA: ", data)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -28,6 +30,7 @@ func (api *API) users(w http.ResponseWriter, r *http.Request) {
 	case http.MethodPost:
 		var data models.User
 		err := json.NewDecoder(r.Body).Decode(&data)
+		log.Println("post_user:", data)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return

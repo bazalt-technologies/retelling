@@ -4,7 +4,7 @@ type User struct {
 	ID       int
 	Login    string
 	Password string
-	Data     *UserData
+	Data     UserData
 }
 
 type UserData struct {

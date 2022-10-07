@@ -49,7 +49,7 @@ func (api *API) likes(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		w.WriteHeader(http.StatusOK)
-	case http.MethodPatch:
+	case http.MethodDelete:
 		var data models.Request
 		err := json.NewDecoder(r.Body).Decode(&data)
 		if err != nil {

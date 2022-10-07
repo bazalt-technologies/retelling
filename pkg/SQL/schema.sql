@@ -7,7 +7,7 @@ CREATE TABLE users(
     review_count INTEGER NOT NULL DEFAULT 0,
     rating INTEGER NOT NULL DEFAULT 0,
     profession TEXT NOT NULL DEFAULT '',
-    likes INTEGER[] DEFAULT NULL
+    likes INTEGER[] DEFAULT array[]::integer[]
 );
 
 CREATE TABLE types(
