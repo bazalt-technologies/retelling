@@ -21,6 +21,8 @@ type DB interface {
 
 	GetLikes(req models.Request) ([]models.Content, error)
 	GetUsersLiked(req models.Request) ([]models.User, error)
+	NewLike(req models.Request) error
+	Unlike(req models.Request) error
 
 	GetGenres(req models.Request) ([]models.Genre, error)
 	//TODO: NewGenre(data models.Genre) (int, error)

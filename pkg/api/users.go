@@ -30,6 +30,7 @@ func (api *API) users(w http.ResponseWriter, r *http.Request) {
 		err := json.NewDecoder(r.Body).Decode(&data)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
 		}
 		id, err := api.db.NewUser(data)
 		if err != nil {
@@ -71,10 +72,12 @@ func (api *API) authUser(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 	id, err := api.db.AuthUser(req)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusUnauthorized)
+		return
 	}
 	w.Write([]byte(strconv.Itoa(id)))
 }

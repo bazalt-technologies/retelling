@@ -30,6 +30,7 @@ func (api *API) content(w http.ResponseWriter, r *http.Request) {
 		err := json.NewDecoder(r.Body).Decode(&data)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
 		}
 		id, err := api.db.NewContent(data)
 		if err != nil {
