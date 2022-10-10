@@ -68,7 +68,7 @@ func (s *Storage) NewUser(data models.User) (int, error) {
 	user := models.User{
 		Login:    data.Login,
 		Password: string(pwd),
-		Data: &models.UserData{
+		Data: models.UserData{
 			Age:        data.Data.Age,
 			Name:       data.Data.Name,
 			Profession: data.Data.Profession,
@@ -80,8 +80,7 @@ func (s *Storage) NewUser(data models.User) (int, error) {
 		name, 
 		login,
 		password,
-		age,
-		profession
+		age
 	)
 	VALUES ($1,$2,$3,$4) RETURNING id
 	`,
@@ -89,7 +88,6 @@ func (s *Storage) NewUser(data models.User) (int, error) {
 		user.Login,
 		user.Password,
 		user.Data.Age,
-		user.Data.Profession,
 	).Scan(&id)
 
 	if err != nil {

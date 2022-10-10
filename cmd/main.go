@@ -7,6 +7,9 @@ import (
 	"retelling/pkg/storage/pgsql"
 )
 
+const CONN = "" // Hidden
+const ADDR = ""
+
 func main() {
 	s, err := pgsql.NewStorage(CONN)
 	if err != nil {

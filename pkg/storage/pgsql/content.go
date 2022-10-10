@@ -2,7 +2,6 @@ package pgsql
 
 import (
 	"context"
-	"log"
 	"retelling/pkg/models"
 )
 
@@ -39,7 +38,7 @@ func (s *Storage) DeleteContent(req models.Request) error {
 		DELETE FROM reviews WHERE content_id = $1;
 	`,
 		req.ObjectID).Scan()
-	err = s.pool.QueryRow(context.Background(), `
+	_ = s.pool.QueryRow(context.Background(), `
 		DELETE FROM content WHERE id = $1;
 	`,
 		req.ObjectID).Scan()
@@ -72,9 +71,9 @@ func (s *Storage) GetContent(req models.Request) ([]models.Content, error) {
 	if len(req.ObjectIDs) == 0 && req.ObjectID != 0 {
 		req.ObjectIDs = append(req.ObjectIDs, req.ObjectID)
 	}
-	log.Println(req)
 	rows, err := s.pool.Query(context.Background(), `
 	SELECT 
+		id,
 		type_id,
 		genre1_id,
 		genre2_id,
@@ -94,6 +93,7 @@ func (s *Storage) GetContent(req models.Request) ([]models.Content, error) {
 	for rows.Next() {
 		var item models.Content
 		err = rows.Scan(
+			&item.ID,
 			&item.TypeID,
 			&item.GenreID1,
 			&item.GenreID2,
@@ -107,7 +107,6 @@ func (s *Storage) GetContent(req models.Request) ([]models.Content, error) {
 		}
 		data = append(data, item)
 	}
-	log.Println(data)
 	if err != nil {
 		return nil, err
 	}

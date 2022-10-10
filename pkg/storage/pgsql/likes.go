@@ -84,3 +84,31 @@ func (s *Storage) GetUsersLiked(req models.Request) ([]models.User, error) {
 	}
 	return data, nil
 }
+
+func (s *Storage) NewLike(req models.Request) error {
+	_ = s.pool.QueryRow(context.Background(), `
+		UPDATE users
+		SET likes = array_append(likes, $2)
+		WHERE id = $1
+	`, req.UserID, req.ObjectID).Scan()
+	_ = s.pool.QueryRow(context.Background(), `
+		UPDATE content
+		SET users_liked = array_append(users_liked, $1)
+		WHERE id = $2
+	`, req.UserID, req.ObjectID).Scan()
+	return nil
+}
+
+func (s *Storage) Unlike(req models.Request) error {
+	_ = s.pool.QueryRow(context.Background(), `
+		UPDATE users
+		SET likes = array_remove(likes, $2)
+		WHERE id = $1
+	`, req.UserID, req.ObjectID).Scan()
+	_ = s.pool.QueryRow(context.Background(), `
+		UPDATE content
+		SET users_liked = array_remove(users_liked, $1)
+		WHERE id = $2
+	`, req.UserID, req.ObjectID).Scan()
+	return nil
+}
