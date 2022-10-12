@@ -1,24 +1,42 @@
 <template>
   <div id="app">
     <div v-if="!isLoggedIn && !loginClicked && !registrationClicked">
-      <button class="button" @click="()=>{loginClicked=!loginClicked}">войти</button>
-      <button class="button" @click="()=>{registrationClicked=!registrationClicked}">регистрация</button>
+      <buttonComponent
+          :selected=false
+          :label="'Войти'"
+          @btnClick="()=>{loginClicked=!loginClicked}"
+      />
+      <buttonComponent
+          :selected=false
+          :label="'Регистрация'"
+          @btnClick="()=>{registrationClicked=!registrationClicked}"
+      />
     </div>
-    <LoginComponent v-if="loginClicked" :isLoggedIn="isLoggedIn" @user_id="setUser" @login="(val)=>{isLoggedIn=val}"/>
+    <LoginComponent v-if="loginClicked" @user_id="setUser" @login="(val)=>{isLoggedIn=val}"/>
     <CompRegistration v-if="registrationClicked" @user_id="setUser" @registered="(val)=>{isRegistered=val}"/>
+    <ButtonComponent
+        :selected=true
+        :label="'Активная кнопка'"
+    ></ButtonComponent>
+    <ButtonComponent
+        :selected=false
+        :label="'Неактивная кнопка'"
+    ></ButtonComponent>
     <MainView v-if="isRegistered || isLoggedIn" :name="name"/>
   </div>
 </template>
 
 <script>
-import LoginComponent from './components/Login.vue'
+import LoginComponent from './components/LoginComponent.vue'
 import CompRegistration from "@/components/CompRegistration";
 import MainView from "@/components/MainView";
 import Vue from "vue";
+import ButtonComponent from "@/components/ButtonComponent";
 
 export default {
   name: 'App',
   components: {
+    ButtonComponent,
     MainView,
     CompRegistration,
     LoginComponent

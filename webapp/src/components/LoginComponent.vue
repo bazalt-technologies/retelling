@@ -1,8 +1,10 @@
 <template>
   <div>
+    login
     <div>
       <input type="text" title="login" v-model="login" :width="100" :height="50">
     </div>
+    password
     <div>
       <input type="text" title="password" v-model="password" :width="100" :height="50">
     </div>
@@ -13,12 +15,6 @@
 <script>
 import Vue from "vue"
 export default {
-  props: {
-    isLoggedIn:{
-      type: Boolean,
-      required: true
-    }
-  },
   name: "LoginComponent",
   data() {
     return{
