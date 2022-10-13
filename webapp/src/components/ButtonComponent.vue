@@ -6,7 +6,7 @@
 }"
     @click="$emit('btnClick')"
 >
-  <img v-bind:src="require('../assets/' + {icon} + '')" alt="">
+  <img v-bind:src="require('../assets/'+`${icon}`)" alt="">
   {{label}}
 </button>
 </template>
@@ -18,6 +18,9 @@ export default {
     label: String,
     icon: String,
     selected: Boolean
+  },
+  created() {
+    console.log(this.icon)
   }
 }
 
