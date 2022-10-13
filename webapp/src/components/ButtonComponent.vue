@@ -6,7 +6,7 @@
 }"
     @click="$emit('btnClick')"
 >
-  <img v-bind:src="require('../assets/'+`${icon}`)" alt="">
+  <img class="btnIcon"  v-if="icon !== undefined" v-bind:src="require('../assets/'+`${icon}`)" alt="">
   {{label}}
 </button>
 </template>
@@ -19,20 +19,19 @@ export default {
     icon: String,
     selected: Boolean
   },
-  created() {
-    console.log(this.icon)
-  }
-}
 
+}
 </script>
 
 <style scoped>
 .stdBtn {
   display: flex;
   flex-direction: row;
+  align-items: center;
   padding: 10px;
   text-align: center;
   text-transform: uppercase;
+  font-size: 15px;
   cursor: pointer;
   color: #94d1be;
   border: none;
@@ -41,5 +40,10 @@ export default {
 }
 .stdBtn.selected{
   background: #fefefe;
+}
+.btnIcon {
+  width: 20px;
+  height: 20px;
+  margin: 1% ;
 }
 </style>

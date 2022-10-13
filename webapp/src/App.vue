@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <HeaderComponent/>
     <div v-if="!isLoggedIn && !loginClicked && !registrationClicked">
       <buttonComponent
           :selected=false
@@ -9,20 +10,12 @@
       <buttonComponent
           :selected=false
           :label="'Регистрация'"
+          :icon="'lenta.png'"
           @btnClick="()=>{registrationClicked=!registrationClicked}"
       />
     </div>
     <LoginComponent v-if="loginClicked" @user_id="setUser" @login="(val)=>{isLoggedIn=val}"/>
     <CompRegistration v-if="registrationClicked" @user_id="setUser" @registered="(val)=>{isRegistered=val}"/>
-    <ButtonComponent
-        :selected=true
-        :label="'Лента'"
-        :icon="'lenta.png'"
-    ></ButtonComponent>
-    <ButtonComponent
-        :selected=false
-        :label="'Неактивная кнопка'"
-    ></ButtonComponent>
     <MainView v-if="isRegistered || isLoggedIn" :name="name"/>
   </div>
 </template>
@@ -33,10 +26,12 @@ import CompRegistration from "@/components/CompRegistration";
 import MainView from "@/components/MainView";
 import Vue from "vue";
 import ButtonComponent from "@/components/ButtonComponent";
+import HeaderComponent from "@/components/HeaderComponent";
 
 export default {
   name: 'App',
   components: {
+    HeaderComponent,
     ButtonComponent,
     MainView,
     CompRegistration,
@@ -72,4 +67,5 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+
 </style>
