@@ -16,7 +16,8 @@
     <CompRegistration v-if="registrationClicked" @user_id="setUser" @registered="(val)=>{isRegistered=val}"/>
     <ButtonComponent
         :selected=true
-        :label="'Активная кнопка'"
+        :label="'Лента'"
+        :icon="'lenta.png'"
     ></ButtonComponent>
     <ButtonComponent
         :selected=false

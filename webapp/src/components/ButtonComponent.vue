@@ -6,6 +6,7 @@
 }"
     @click="$emit('btnClick')"
 >
+  <img v-bind:src="require('../assets/' + {icon} + '')" alt="">
   {{label}}
 </button>
 </template>
@@ -19,10 +20,13 @@ export default {
     selected: Boolean
   }
 }
+
 </script>
 
 <style scoped>
 .stdBtn {
+  display: flex;
+  flex-direction: row;
   padding: 10px;
   text-align: center;
   text-transform: uppercase;
