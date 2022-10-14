@@ -2,6 +2,9 @@
   <div id="app">
     <HeaderComponent/>
     <div v-if="!isLoggedIn && !loginClicked && !registrationClicked">
+      <sub-header-component/>
+    </div>
+    <div v-if="!isLoggedIn && !loginClicked && !registrationClicked">
       <buttonComponent
           :selected=false
           :label="'Войти'"
@@ -27,10 +30,12 @@ import MainView from "@/components/MainView";
 import Vue from "vue";
 import ButtonComponent from "@/components/ButtonComponent";
 import HeaderComponent from "@/components/HeaderComponent";
+import SubHeaderComponent from "@/components/SubHeaderComponent";
 
 export default {
   name: 'App',
   components: {
+    SubHeaderComponent,
     HeaderComponent,
     ButtonComponent,
     MainView,

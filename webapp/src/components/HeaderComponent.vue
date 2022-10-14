@@ -40,6 +40,7 @@ export default {
   flex-direction: row;
   align-content: space-between;
   background-color: #94d1be;
+  margin: 0;
 }
 .header-btn {
   display: flex;
