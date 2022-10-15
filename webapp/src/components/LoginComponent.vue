@@ -1,25 +1,37 @@
 <template>
-  <div>
-    login
-    <div>
-      <input type="text" title="login" v-model="login" :width="100" :height="50">
+  <div class="screen">
+    <div class="regBox">
+      Вход
+      <div>
+        <input type="text" placeholder="Логин" title="login" v-model="login" class="stdInput">
+      </div>
+      <div>
+        <input type="text" placeholder="Пароль" title="password" v-model="password" class="stdInput">
+      </div>
+      <div v-if="wrongPasswd" class="errMsg">Неверный логин или пароль</div>
+      <button-component @btnClick="onLogin"
+                        :label="'Войти'"
+                        :selected="false"
+                        class="btn"
+      />
+      <div class="subText">
+        <a>Нет аккаунта? Зарегистрироваться</a>
+      </div>
     </div>
-    password
-    <div>
-      <input type="text" title="password" v-model="password" :width="100" :height="50">
-    </div>
-    <button @click="onLogin" class="button">ВОЙТИ</button>
   </div>
 </template>
 
 <script>
 import Vue from "vue"
+import ButtonComponent from "@/components/ButtonComponent";
 export default {
   name: "LoginComponent",
+  components: {ButtonComponent},
   data() {
     return{
       login: null,
-      password: null
+      password: null,
+      wrongPasswd: false,
     }
   },
   methods: {
@@ -31,9 +43,14 @@ export default {
       }
       this.$http.post(Vue.prototype.$baseUrl+"/api/v1/authUser", data)
           .then(response=>{
-            console.log(response.data)
-            this.$emit("login", true)
-            this.$emit("user_id", response.data)
+            console.log(response)
+            if (response.data !== -1) {
+              this.wrongPasswd = false;
+              this.$emit("login", true)
+              this.$emit("user_id", response.data)
+            } else {
+              this.wrongPasswd = true;
+            }
           })
     }
   }
@@ -41,16 +58,45 @@ export default {
 </script>
 
 <style>
-.button {
-  background-color: #4CAF50;
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
+.screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  height: 80vh;
+}
+.regBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: space-between;
+  justify-content: space-between;
+  padding: 20px;
+  width: 20vw;
+  height: 25vh;
+  min-width: 300px;
+  min-height: 150px;
+  background: #fefefe;
+  border-radius: 25px;
+}
+.stdInput {
+  border-color: #363537;
+  border-width: 2px;
+  border-top: none; border-left: none; border-right: none;
+  min-width: 250px;
+  width: 17vw;
+}
+.btn {
+}
+.subText {
+  margin-top: 15px;
+  font-size: 12px;
   cursor: pointer;
+}
+.errMsg {
+  margin-top: 5px;
+  font-size: 10px;
+  color: red;
 }
 </style>

@@ -30,7 +30,6 @@ export default {
   align-items: center;
   padding: 10px;
   text-align: center;
-  text-transform: uppercase;
   font-size: 15px;
   cursor: pointer;
   color: #94d1be;
