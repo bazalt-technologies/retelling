@@ -12,7 +12,7 @@
 
 <script>
 export default {
-  name: "SubHeaderButtonComponent.vue",
+  name: "SubHeaderButtonComponent",
   props: {
     label: String,
     selected: Boolean

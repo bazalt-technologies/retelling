@@ -30,7 +30,7 @@
 <script>
 import ButtonComponent from "@/components/ButtonComponent";
 export default {
-  name: "HeaderComponent.vue",
+  name: "HeaderComponent",
   components: {
     ButtonComponent,
   },
