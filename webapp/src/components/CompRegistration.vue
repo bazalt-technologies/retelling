@@ -42,7 +42,7 @@
       </div>
       <div>
       <button-component @btnClick="onRegister"
-                        :label="'Зарегестрироваться'"
+                        :label="'Зарегистрироваться'"
                         :selected="false"
                         class="btn"
       />
@@ -117,7 +117,7 @@ export default {
   flex-direction: column;
   align-items: center;
   align-content: center;
-  justify-content: center;
+  justify-content: space-between;
   width: 20vw;
   height: 40vh;
   min-width: 300px;
