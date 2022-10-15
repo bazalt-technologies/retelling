@@ -1,24 +1,29 @@
 <template>
   <div id="app">
+    <!--- Header --->
     <HeaderComponent/>
-    <div v-if="!isLoggedIn && !loginClicked && !registrationClicked">
+    <div v-if="isLoggedIn">
       <sub-header-component/>
     </div>
-    <div v-if="!isLoggedIn && !loginClicked && !registrationClicked">
-      <buttonComponent
-          :selected=false
-          :label="'Войти'"
-          @btnClick="()=>{loginClicked=!loginClicked}"
-      />
-      <buttonComponent
-          :selected=false
-          :label="'Регистрация'"
-          @btnClick="()=>{registrationClicked=!registrationClicked}"
-      />
+
+    <!--- Content --->
+    <div>
+      <div v-if="!isLoggedIn && !loginClicked && !registrationClicked">
+        <buttonComponent
+            :selected=false
+            :label="'Войти'"
+            @btnClick="()=>{loginClicked=!loginClicked}"
+        />
+        <buttonComponent
+            :selected=false
+            :label="'Регистрация'"
+            @btnClick="()=>{registrationClicked=!registrationClicked}"
+        />
+      </div>
+      <LoginComponent v-if="loginClicked" @user_id="setUser" @login="(val)=>{isLoggedIn=val}"/>
+      <CompRegistration v-if="registrationClicked" @user_id="setUser" @registered="(val)=>{isRegistered=val}"/>
+      <MainView v-if="isRegistered || isLoggedIn" :name="name"/>
     </div>
-    <LoginComponent v-if="loginClicked" @user_id="setUser" @login="(val)=>{isLoggedIn=val}"/>
-    <CompRegistration v-if="registrationClicked" @user_id="setUser" @registered="(val)=>{isRegistered=val}"/>
-    <MainView v-if="isRegistered || isLoggedIn" :name="name"/>
   </div>
 </template>
 
@@ -68,7 +73,8 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  background-color: #363537;
+  height: 100vh;
 }
 
 </style>
