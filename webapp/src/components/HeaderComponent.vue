@@ -1,24 +1,27 @@
 <template>
   <div class="header">
-    <img v-bind:src="require('../assets/logoRetelling.png')" class="header-logo" alt="logo"/>
-    <div class="header-btn">
+    <img v-bind:src="require('../assets/logoRetelling-short.png')" class="header-logo" alt="logo"/>
+    <div class="header-btns">
       <ButtonComponent
-          :selected=false
+          :selected="(modeSelected===1)"
           :label="'Лента'"
           :icon="'lenta.png'"
-          style="margin-left: 5px; margin-right: 5px"
+          @btnClick="modeSelected = 1"
+          class="header-btn"
       ></ButtonComponent>
       <ButtonComponent
-          :selected=true
+          :selected="(modeSelected===2)"
           :label="'Профиль'"
           :icon="'profile.png'"
-          style="margin-left: 5px; margin-right: 5px"
+          @btnClick="modeSelected = 2"
+          class="header-btn"
       ></ButtonComponent>
       <ButtonComponent
-          :selected=false
+          :selected="(modeSelected===3)"
           :label="'Настройки'"
           :icon="'settings.png'"
-          style="margin-left: 5px; margin-right: 5px"
+          @btnClick="modeSelected = 3"
+          class="header-btn"
       ></ButtonComponent>
     </div>
   </div>
@@ -31,6 +34,11 @@ export default {
   components: {
     ButtonComponent,
   },
+  data() {
+    return {
+      modeSelected: 1
+    }
+  }
 }
 </script>
 
@@ -41,14 +49,19 @@ export default {
   align-content: space-between;
   background-color: #94d1be;
   margin: 0;
+  padding: 5px;
 }
-.header-btn {
+.header-btns {
   display: flex;
   flex-direction: row;
   align-items: center;
   margin-left: auto;
 }
+.header-btn {
+  margin-right: 1vw;
+}
 .header-logo {
-  height: 100px
+  width: 15vw;
+  min-width: 125px;
 }
 </style>

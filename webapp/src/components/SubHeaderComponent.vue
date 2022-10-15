@@ -1,7 +1,15 @@
 <template>
   <div class="subHdrCnt">
-    <sub-header-button-component :label="'Рекомендации'" :selected="true"/>
-    <sub-header-button-component :label="'Поиск'" :selected="true"/>
+    <sub-header-button-component
+        :label="'Рекомендации'"
+        :selected="recSelected"
+        @btnClick="recSelected = true"
+    />
+    <sub-header-button-component
+        :label="'Поиск'"
+        :selected="!recSelected"
+        @btnClick="recSelected = false"
+    />
   </div>
 </template>
 
@@ -9,7 +17,12 @@
 import SubHeaderButtonComponent from "@/components/SubHeaderButtonComponent";
 export default {
   name: "SubHeaderComponent",
-  components: {SubHeaderButtonComponent}
+  components: {SubHeaderButtonComponent},
+  data() {
+    return {
+      recSelected: true
+    }
+  }
 }
 </script>
 
@@ -17,8 +30,7 @@ export default {
 .subHdrCnt {
   display: flex;
   flex-direction: row;
-  align-content: space-between;
-  align-self: auto;
-  width: 100%;
+  align-items: center;
+  margin-left: auto;
 }
 </style>
