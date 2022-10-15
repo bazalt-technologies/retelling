@@ -34,6 +34,12 @@
                class="stdInput"
         />
       </div>
+      <div v-if="noData" class="errMsg">
+        Указаны не все данные
+      </div>
+      <div v-if="weakPassword" class="errMsg">
+        Пароль должен быть длины не менее 8 символов
+      </div>
       <div>
       <button-component @btnClick="onRegister"
                         :label="'Зарегестрироваться'"
@@ -60,15 +66,23 @@ export default {
       login: null,
       password: null,
       age: null,
+      noData: false,
+      weakPassword: false,
     }
   },
   methods: {
     onRegister() {
       if (!this.login || !this.password || !this.age) {
+        this.noData = true;
         return
+      } else {
+        this.noData = false;
       }
       if (this.password.length<8) {
+        this.weakPassword = true;
         return
+      } else {
+        this.weakPassword = false;
       }
       const json = {
         login:this.login,
@@ -120,11 +134,16 @@ export default {
   margin-top: 10px;
 }
 .btn {
-  margin-top: 20px;
+  margin-top: 15px;
 }
 .subText {
   margin-top: 15px;
   font-size: 12px;
   cursor: pointer;
+}
+.errMsg {
+  margin-top: 5px;
+  font-size: 10px;
+  color: red;
 }
 </style>
