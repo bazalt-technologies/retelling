@@ -1,5 +1,5 @@
 <template>
-  <div class="screen">
+  <div class="regScreen">
     <div class="regBox">
       Регистрация
       <div>
@@ -104,13 +104,14 @@ export default {
 </script>
 
 <style scoped>
-.screen {
+.regScreen {
   display: flex;
   flex-direction: column;
   align-items: center;
   align-content: center;
   justify-content: center;
-  height: 80vh;
+  background: url("../assets/officebg.png") center/cover;
+  height: 100vh;
 }
 .regBox {
   display: flex;

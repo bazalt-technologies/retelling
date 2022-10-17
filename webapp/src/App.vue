@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <!--- Header --->
-    <HeaderComponent/>
+    <HeaderComponent ref="header"/>
     <div v-if="isLoggedIn">
-      <sub-header-component/>
+      <sub-header-component ref="subheader"/>
     </div>
 
     <!--- Content --->
@@ -20,7 +20,7 @@
             @btnClick="()=>{registrationClicked=!registrationClicked}"
         />
       </div>
-      <LoginComponent v-if="loginClicked" @user_id="setUser" @login="(val)=>{isLoggedIn=val}"/>
+      <LoginComponent v-if="loginClicked" @user_id="setUser" @login="(val)=>{isLoggedIn=val}" class="logReg"/>
       <CompRegistration v-if="registrationClicked" @user_id="setUser" @registered="(val)=>{isRegistered=val}"/>
       <MainView v-if="isRegistered || isLoggedIn" :name="name"/>
     </div>
@@ -52,7 +52,7 @@ export default {
       isRegistered: false,
       loginClicked: false,
       registrationClicked: false,
-      name: null
+      name: null,
     }
   },
   methods: {
@@ -76,5 +76,4 @@ export default {
   background-color: #363537;
   height: 100vh;
 }
-
 </style>
