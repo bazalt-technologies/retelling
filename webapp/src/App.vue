@@ -1,9 +1,11 @@
 <template>
   <div id="app">
     <!--- Header --->
-    <HeaderComponent ref="header"/>
-    <div v-if="isLoggedIn">
-      <sub-header-component ref="subheader"/>
+    <div class="">
+      <HeaderComponent ref="header"/>
+      <div v-if="isLoggedIn">
+        <sub-header-component ref="subheader"/>
+      </div>
     </div>
 
     <!--- Content --->
@@ -75,5 +77,6 @@ export default {
   text-align: center;
   background-color: #363537;
   height: 100vh;
+  max-height: 100vh;
 }
 </style>
