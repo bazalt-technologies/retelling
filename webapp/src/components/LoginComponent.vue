@@ -64,7 +64,9 @@ export default {
   align-items: center;
   align-content: center;
   justify-content: center;
-  height: 80vh;
+  background: url("../assets/officebg.png") center/cover;
+  height: calc(100vh - 4vw - 10px);
+  max-height: calc(100vh - 50px);
 }
 .regBox {
   display: flex;

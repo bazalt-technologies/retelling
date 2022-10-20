@@ -7,7 +7,7 @@ import (
 	"retelling/pkg/storage/pgsql"
 )
 
-const CONN = "user=test password=test host=127.0.0.1 port=5432 dbname=retelling"
+const CONN = "host=127.0.0.1 port=5432 dbname=postgres"
 const ADDR = "localhost:8081"
 
 func main() {

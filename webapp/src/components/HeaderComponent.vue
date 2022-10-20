@@ -61,7 +61,7 @@ export default {
   margin-right: 1vw;
 }
 .header-logo {
-  width: 15vw;
-  min-width: 125px;
+  height: 4vw;
+  min-height: 40px;
 }
 </style>
