@@ -7,7 +7,7 @@
         <sub-header-component ref="subheader"/>
       </div>
     </div>
-
+    <router-view/>
     <!--- Content --->
     <div>
       <div v-if="!isLoggedIn && !loginClicked && !registrationClicked">
