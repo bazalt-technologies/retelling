@@ -22,9 +22,9 @@
             @btnClick="()=>{registrationClicked=!registrationClicked}"
         />
       </div>
-      <LoginComponent v-if="loginClicked" @user_id="setUser" @login="(val)=>{isLoggedIn=val}" class="logReg"/>
-      <CompRegistration v-if="registrationClicked" @user_id="setUser" @registered="(val)=>{isRegistered=val}"/>
-      <MainView v-if="isRegistered || isLoggedIn" :name="name"/>
+      <LoginComponent v-if="loginClicked && !isLoggedIn" @user_id="setUser" @login="(val)=>{isLoggedIn=val}" class="logReg"/>
+      <CompRegistration v-if="registrationClicked && !isLoggedIn" @user_id="setUser" @registered="(val)=>{isLoggedIn=val}"/>
+      <MainView v-if="isLoggedIn"/>
     </div>
   </div>
 </template>
@@ -50,7 +50,7 @@ export default {
   },
   data() {
     return {
-      isLoggedIn: false,
+      isLoggedIn: true,
       isRegistered: false,
       loginClicked: false,
       registrationClicked: false,
