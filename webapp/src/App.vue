@@ -50,7 +50,7 @@ export default {
   },
   data() {
     return {
-      isLoggedIn: true,
+      isLoggedIn: false,
       isRegistered: false,
       loginClicked: false,
       registrationClicked: false,
