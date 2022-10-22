@@ -1,5 +1,8 @@
 <template>
 <div>
+  <div>
+    <sub-header-component ref="subheader"/>
+  </div>
   <content-component
     :title="'Побег из Шоушенка'"
     :type="'Фильм'"
@@ -19,9 +22,13 @@
 
 <script>
 import ContentComponent from "@/components/ContentComponent";
+import SubHeaderComponent from "@/components/SubHeaderComponent";
 export default {
   name: "MainView",
-  components: {ContentComponent},
+  components: {
+    ContentComponent,
+    SubHeaderComponent
+  },
   data() {
     return {
       liked1: Boolean,

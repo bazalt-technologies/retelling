@@ -6,14 +6,14 @@
           :selected="(modeSelected===1)"
           :label="'Лента'"
           :icon="'lenta.png'"
-          @btnClick="modeSelected = 1"
+          @btnClick="()=>{modeSelected = 1;$router.push('/content')}"
           class="header-btn"
       ></ButtonComponent>
       <ButtonComponent
           :selected="(modeSelected===2)"
           :label="'Профиль'"
           :icon="'profile.png'"
-          @btnClick="modeSelected = 2"
+          @btnClick="()=>{modeSelected = 2}"
           class="header-btn"
       ></ButtonComponent>
       <ButtonComponent

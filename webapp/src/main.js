@@ -6,24 +6,38 @@ Vue.config.productionTip = false
 Vue.prototype.$baseUrl="http://localhost:8081"
 
 import http from "./plugins/http"
-import ContentComponent from "@/components/ContentComponent";
 import MainView from "@/components/MainView";
+import LoginComponent from "@/components/LoginComponent";
+import OpenComponent from "@/components/OpenComponent";
+import CompRegistration from "@/components/CompRegistration";
 Vue.use(http, {
   baseUrl: Vue.prototype.$baseUrl
 })
 
 const routes = [
   {
-    path: "/user/:userId/content",
+    path: "/registration",
+    component: CompRegistration
+  },
+  {
+    path: "/login",
+    component: LoginComponent
+  },
+  {
+    path: "/content",
     component: MainView
+  },
+  {
+    path: "/",
+    component: OpenComponent
   }
 ]
-const router = VueRouter.createRouter({
-  history: VueRouter.createWebHashHistory(),
+const router = new VueRouter({
+  history: 'history',
   routes, // short for `routes: routes`
 })
-const app = new Vue({
+Vue.use(VueRouter)
+new Vue({
+  router: router,
   render: h => h(App),
-})
-app.$mount('#app')
-app.use(router)
+}).$mount('#app')
