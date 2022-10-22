@@ -4,12 +4,12 @@
   <div>
     <div v-if="!isLoggedIn && !loginClicked && !registrationClicked">
       <buttonComponent
-          :selected=false
+          :selected="false"
           :label="'Войти'"
           @btnClick="()=>{$router.push('/login'); loginClicked = true}"
       />
       <buttonComponent
-          :selected=false
+          :selected="false"
           :label="'Регистрация'"
           @btnClick="()=>{$router.push('/registration')}"
       />
