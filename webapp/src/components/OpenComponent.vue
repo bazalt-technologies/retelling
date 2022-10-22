@@ -2,7 +2,6 @@
   <div id="#open">
   <!--- Content --->
   <div>
-    <router-view/>
     <div v-if="!isLoggedIn && !loginClicked && !registrationClicked">
       <buttonComponent
           :selected=false
