@@ -46,6 +46,7 @@ export default {
             console.log(response)
             if (response.data !== -1) {
               this.wrongPasswd = false;
+              this.$router.push(`/content`)
               this.$emit("login", true)
               this.$emit("user_id", response.data)
             } else {

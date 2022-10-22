@@ -97,6 +97,7 @@ export default {
             console.log(typeof response.data)
             this.$emit("user_id", response.data)
             this.$emit("registered", true)
+            this.$router.push('/content')
           })
     }
   }
