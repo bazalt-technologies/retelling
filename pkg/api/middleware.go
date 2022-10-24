@@ -7,8 +7,6 @@ import (
 
 func (api *API) HeadersMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		// Для файлового сервера, отдающего веб-приложения, устанавливать заголовки Content-Type нельзя.
-		// Запросы файлов веб-приложения не содержат "/api/".
 		if strings.Contains(r.URL.Path, "/api/") {
 			w.Header().Set("Content-Type", "application/json")
 			w.Header().Set("Access-Control-Allow-Origin", "*")
