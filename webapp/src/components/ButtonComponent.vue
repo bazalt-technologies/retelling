@@ -28,7 +28,7 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 5px 10px 5px 5px;
+  padding: 5px 10px 5px 10px;
   text-align: center;
   font-size: 15px;
   cursor: pointer;
