@@ -1,8 +1,8 @@
 <template>
 
       <button class="likeBtn" :class="{liked: liked, notLiked: !liked}" @click="$emit('likeBtnClick')">
-      <img class="likeImg" v-if="!liked" src="../assets/not-liked.png"/>
-      <img class="likeImg" v-if="liked" src="../assets/liked.png"/>
+      <img class="likeImg" v-if="!liked" src="../assets/not-liked.svg"/>
+      <img class="likeImg" v-if="liked" src="../assets/liked.svg"/>
       <div class="likeCntr">{{likes}}</div>
       </button>
 
@@ -30,7 +30,7 @@ export default {
   padding: 5px;
 }
 .likeImg {
-  margin-right: 10px;
+  margin-right: 5px;
 }
 .likeBtn.liked {
   border: 2px solid rgba(148, 209, 190, 1);
