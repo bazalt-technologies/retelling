@@ -59,7 +59,7 @@ export default {
       if(!val.usersLiked.includes(this.user.ID)){
         const data = {
           UserID: this.user.ID,
-          ContentID: val.ID
+          ObjectID: val.ID
         }
         this.$http.post(Vue.prototype.$baseUrl+"/api/v1/likes", data)
             .then(()=>{
@@ -69,7 +69,7 @@ export default {
       } else {
         const data = {
           UserID: this.user.ID,
-          ContentID: val.ID
+          ObjectID: val.ID
         }
         this.$http.delete(Vue.prototype.$baseUrl+"/api/v1/likes", {data}).then(()=>{
           let id =val.usersLiked.indexOf(this.user.ID)
