@@ -29,7 +29,7 @@ const routes = [
     {
         path: "/profile",
         component: ProfileReviewsComponent
-    },
+    }
 
 ]
 

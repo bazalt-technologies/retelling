@@ -29,8 +29,17 @@ export default {
       user: null
     }
   },
+  beforeCreate() {
+    this.user = JSON.parse(localStorage.getItem('User'))
+    if (!this.user) {
+      this.$router.push('/login')
+    }
+  },
   created() {
     this.user = JSON.parse(localStorage.getItem('User'))
+    if (!this.user) {
+      this.$router.push('/login')
+    }
     this.$http.get(Vue.prototype.$baseUrl+"/api/v1/genres").then(response =>{
       let genres = response && response.data ? response.data : []
       localStorage.setItem('Genres', JSON.stringify(genres))
@@ -56,6 +65,7 @@ export default {
   },
   methods: {
     likeClicked(val) {
+      console.log(val)
       if(!val.usersLiked.includes(this.user.ID)){
         const data = {
           UserID: this.user.ID,

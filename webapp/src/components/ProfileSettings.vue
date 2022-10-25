@@ -13,21 +13,50 @@
         {{ `${user.Data.Profession ? 'Профессия : '+user.Data.Profession : ''}` }}
         Количество ревью : {{user.Data.ReviewCount}}
       </div>
+      <ButtonComponent
+          :label="'Выйти'"
+          :icon="'logout.svg'"
+          @btnClick="quit"
+          class="header-btn"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import ButtonComponent from "@/components/ButtonComponent";
 export default {
   name: "ProfileComponent",
+  components: {ButtonComponent},
   data () {
     return {
       user: null,
       data: null
     }
   },
+  beforeMount() {
+    this.user = JSON.parse(localStorage.getItem('User'))
+    console.log(this.user)
+    if (!this.user) {
+      this.$router.push('/login')
+    }
+  },
   created() {
     this.user = JSON.parse(localStorage.getItem('User'))
+    if (!this.user) {
+      this.$router.push('/login')
+    }
+  },
+  updated() {
+    if (!this.user) {
+      this.$router.push('/login')
+    }
+  },
+  methods: {
+    quit() {
+      localStorage.setItem('User', null)
+      this.$router.push('/login')
+    }
   }
 }
 </script>

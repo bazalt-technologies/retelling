@@ -4,23 +4,41 @@
       :key="r.ID"
       :review="r"
     />
+    <div v-if="!reviews.length">
+      <ButtonComponent
+          :selected="($route.path==='/content')"
+          :label="'Новое ревью'"
+          :icon="'add.svg'"
+          @btnClick="newReview"
+          class="header-btn"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 import Vue from "vue";
 import ReviewComponent from "@/components/ReviewComponent";
+import ButtonComponent from "@/components/ButtonComponent";
 export default {
   name: "ProfileReviewsComponent",
-  components: {ReviewComponent},
+  components: {ButtonComponent, ReviewComponent},
   data() {
     return {
-      reviews: []
+      reviews: [],
+      user: null
+    }
+  },
+  beforeMount() {
+    this.user = JSON.parse(localStorage.getItem('User'))
+    console.log(this.user)
+    if (!this.user) {
+      this.$router.push('/login')
     }
   },
   created() {
-    let usr = JSON.parse(localStorage.getItem('User'))
-    if (!usr.Data.ReviewCount){
+    this.user = JSON.parse(localStorage.getItem('User'))
+    if (!this.user.Data.ReviewCount){
       this.reviews = []
       return
     }
@@ -39,17 +57,23 @@ export default {
     this.$http.get(Vue.prototype.$baseUrl+"/api/v1/content").then(response => {
       content = response && response.data ? response.data : []
     })
-      this.$http.get(Vue.prototype.$baseUrl+"/api/v1/reviews", {UserID: usr.ID}).then(response => {
+      this.$http.get(Vue.prototype.$baseUrl+"/api/v1/reviews", {UserID: this.user.ID}).then(response => {
       this.reviews = response.data ? response.data.map(r=>{
         return {
           title: content.find(c=>c.ID===response.data.ContentID).Title,
-          user: usr.Data.Name,
+          user: this.user.Data.Name,
           text: r.Review,
           date: new Date(r.Date * 1000).toLocaleString("ru", dateOptions)
         }
       }) : []
 
     })
+  },
+  updated() {
+    let usr = JSON.parse(localStorage.getItem('User'))
+    if (!usr) {
+      this.$router.push('/login')
+    }
   }
 }
 </script>

@@ -10,10 +10,10 @@
           class="header-btn"
       ></ButtonComponent>
       <ButtonComponent
-          :selected="($route.path==='/user')"
+          :selected="($route.path==='/profile')"
           :label="'Профиль'"
           :icon="'profile.svg'"
-          @btnClick="()=>{$router.push('/user')}"
+          @btnClick="()=>{$router.push('/profile')}"
           class="header-btn"
       ></ButtonComponent>
       <ButtonComponent
