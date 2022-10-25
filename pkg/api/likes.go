@@ -48,7 +48,6 @@ func (api *API) likes(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		w.WriteHeader(http.StatusOK)
 	case http.MethodDelete:
 		var data models.Request
 		err := json.NewDecoder(r.Body).Decode(&data)
@@ -61,6 +60,5 @@ func (api *API) likes(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		w.WriteHeader(http.StatusOK)
 	}
 }

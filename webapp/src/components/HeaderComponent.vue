@@ -3,24 +3,24 @@
     <img v-bind:src="require('../assets/logoRetelling-short.png')" class="header-logo" alt="logo"/>
     <div class="header-btns">
       <ButtonComponent
-          :selected="(modeSelected===1)"
+          :selected="(modeSelected===1 || $route.path==='/content')"
           :label="'Лента'"
           :icon="'lenta.png'"
           @btnClick="()=>{modeSelected = 1;$router.push('/content')}"
           class="header-btn"
       ></ButtonComponent>
       <ButtonComponent
-          :selected="(modeSelected===2)"
+          :selected="(modeSelected===2 || $route.path==='/user')"
           :label="'Профиль'"
           :icon="'profile.png'"
-          @btnClick="()=>{modeSelected = 2}"
+          @btnClick="()=>{modeSelected = 2;$router.push('/user')}"
           class="header-btn"
       ></ButtonComponent>
       <ButtonComponent
-          :selected="(modeSelected===3)"
+          :selected="(modeSelected===3 || $route.path==='/settings')"
           :label="'Настройки'"
           :icon="'settings.png'"
-          @btnClick="modeSelected = 3"
+          @btnClick="modeSelected = 3;$router.push('/settings')"
           class="header-btn"
       ></ButtonComponent>
     </div>

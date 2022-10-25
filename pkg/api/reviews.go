@@ -23,7 +23,6 @@ func (api *API) reviews(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		w.WriteHeader(http.StatusOK)
 
 	case http.MethodPost:
 		var data models.Review
@@ -37,7 +36,6 @@ func (api *API) reviews(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		w.WriteHeader(http.StatusOK)
 		w.Write([]byte(strconv.Itoa(id)))
 
 	case http.MethodPatch:
@@ -52,7 +50,6 @@ func (api *API) reviews(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		w.WriteHeader(http.StatusOK)
 
 	case http.MethodDelete:
 		var data models.Review
@@ -66,6 +63,5 @@ func (api *API) reviews(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		w.WriteHeader(http.StatusOK)
 	}
 }

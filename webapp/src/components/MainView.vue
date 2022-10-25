@@ -56,6 +56,8 @@ export default {
         }
       }) : []
     })
+    localStorage.setItem('Genres', JSON.stringify(this.genres))
+    localStorage.setItem('Types', JSON.stringify(this.types))
   }
 }
 </script>
