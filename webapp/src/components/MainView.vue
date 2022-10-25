@@ -65,7 +65,6 @@ export default {
   },
   methods: {
     likeClicked(val) {
-      console.log(val)
       if(!val.usersLiked.includes(this.user.ID)){
         const data = {
           UserID: this.user.ID,

@@ -31,7 +31,6 @@ export default {
   },
   beforeMount() {
     this.user = JSON.parse(localStorage.getItem('User'))
-    console.log(this.user)
     if (!this.user) {
       this.$router.push('/login')
     }
