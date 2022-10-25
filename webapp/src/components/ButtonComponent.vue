@@ -28,7 +28,7 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 10px;
+  padding: 5px 10px 5px 10px;
   text-align: center;
   font-size: 15px;
   cursor: pointer;
@@ -41,8 +41,8 @@ export default {
   background: #fefefe;
 }
 .btnIcon {
-  width: 20px;
-  height: 20px;
+  width: 32px;
+  height: 32px;
   margin-right: 5px;
 }
 </style>

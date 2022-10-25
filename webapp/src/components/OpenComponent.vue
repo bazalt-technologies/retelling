@@ -40,11 +40,9 @@ export default {
   },
   methods: {
     setUser(val){
-      console.log(val)
       this.$http.get(Vue.prototype.$baseUrl+"/api/v1/users", { params: { ObjectID: Number(val) } })
           .then(response=>{
             this.name = response.data.find(u=>u.ID===val).Data.Name
-            console.log(this.$router)
             this.$router.push(`/content`)
           })
     }

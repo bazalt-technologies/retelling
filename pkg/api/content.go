@@ -22,7 +22,6 @@ func (api *API) content(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		w.WriteHeader(http.StatusOK)
 	case http.MethodPost:
 		var data models.Content
 		err := json.NewDecoder(r.Body).Decode(&data)
@@ -35,7 +34,6 @@ func (api *API) content(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		w.WriteHeader(http.StatusOK)
 		w.Write([]byte(strconv.Itoa(id)))
 	case http.MethodPatch:
 		var data models.Content
@@ -49,7 +47,6 @@ func (api *API) content(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		w.WriteHeader(http.StatusOK)
 	case http.MethodDelete:
 		var req models.Request
 		err := json.NewDecoder(r.Body).Decode(&req)
@@ -58,6 +55,5 @@ func (api *API) content(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		w.WriteHeader(http.StatusOK)
 	}
 }

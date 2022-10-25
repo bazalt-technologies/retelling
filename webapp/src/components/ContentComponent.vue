@@ -2,17 +2,17 @@
 <div class="contentShell">
   <div class="contentTitle">
     <div class="contentTitleText">
-      {{title}}
+      {{content.title}}
     </div>
     <div class="contentTitleExtra">
-      Тип: {{type}}<br/>
-      Жанр: {{genre}}
-      <like-btn  :liked="liked" :likes="likes" @likeBtnClick="$emit('likeBtnClick')"/>
+      Тип: {{content.type}}<br/>
+      Жанр: {{`${content.genre1}, ${content.genre2 ? content.genre2 : ''}, ${content.genre3 ? content.genre3 : ''}`}}
+      <like-btn  :liked="liked" :likes="content.usersLiked.length" @likeBtnClick="$emit('likeBtnClick')"/>
     </div>
   </div>
   <div class="contentDescription">
     <div class="contentDescriptionText">
-      {{description}}
+      {{content.description}}
     </div>
   </div>
 </div>
@@ -24,13 +24,30 @@ export default {
   name: "ContentComponent",
   components: {LikeBtn},
   props: {
-    title: String,
-    type: String,
-    genre: String,
-    likes: Number,
-    liked: Boolean,
-    description: String,
+    content: Object,
   },
+  data() {
+    return{
+      liked: false,
+      likes: [],
+      user: JSON.parse(localStorage.getItem('User'))
+    }
+  },
+  created() {
+    this.liked = this.content.usersLiked.includes(this.user.ID)
+  },
+  watch: {
+    likes:{
+      handler(val) {
+        this.liked = val.includes(this.user.ID)
+      },
+      immediate: true,
+      deep: true
+    }
+  },
+  updated() {
+    this.likes = this.content.usersLiked
+  }
 }
 </script>
 

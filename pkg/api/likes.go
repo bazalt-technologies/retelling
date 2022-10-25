@@ -4,13 +4,18 @@ import (
 	"encoding/json"
 	"net/http"
 	"retelling/pkg/models"
+	"strconv"
 )
 
 func (api *API) likes(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
 		var req models.Request
-		_ = json.NewDecoder(r.Body).Decode(&req)
+		id, err := strconv.Atoi(r.URL.Query().Get("ObjectID"))
+		if id == 0 || err != nil {
+			json.NewDecoder(r.Body).Decode(&req)
+		}
+		req.ObjectID = id
 		if req.UserID != 0 {
 			// Лайки пользователя
 			data, err := api.db.GetLikes(req)
@@ -48,7 +53,6 @@ func (api *API) likes(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		w.WriteHeader(http.StatusOK)
 	case http.MethodDelete:
 		var data models.Request
 		err := json.NewDecoder(r.Body).Decode(&data)
@@ -61,6 +65,5 @@ func (api *API) likes(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		w.WriteHeader(http.StatusOK)
 	}
 }

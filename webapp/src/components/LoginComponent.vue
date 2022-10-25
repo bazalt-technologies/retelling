@@ -36,16 +36,18 @@ export default {
   },
   methods: {
     onLogin() {
-      console.log(Vue.prototype.$baseUrl)
       const data = {
         login: this.login,
         password: this.password
       }
       this.$http.post(Vue.prototype.$baseUrl+"/api/v1/authUser", data)
           .then(response=>{
-            console.log(response)
             if (response.data !== -1) {
               this.wrongPasswd = false;
+              this.$http.get(Vue.prototype.$baseUrl+"/api/v1/users", {params: {"ObjectID": Number(response.data)}}).then(resp=>{
+                let usr = resp.data ? resp.data.find(u=>u.ID===response.data) : {}
+                localStorage.setItem('User', JSON.stringify(usr))
+              })
               this.$router.push(`/content`)
               this.$emit("login", true)
               this.$emit("user_id", response.data)

@@ -12,7 +12,11 @@ func (api *API) users(w http.ResponseWriter, r *http.Request) {
 
 	case http.MethodGet:
 		var req models.Request
-		json.NewDecoder(r.Body).Decode(&req)
+		id, err := strconv.Atoi(r.URL.Query().Get("ObjectID"))
+		if id == 0 || err != nil {
+			json.NewDecoder(r.Body).Decode(&req)
+		}
+		req.ObjectID = id
 		data, err := api.db.GetUsers(req)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -23,7 +27,6 @@ func (api *API) users(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		w.WriteHeader(http.StatusOK)
 
 	case http.MethodPost:
 		var data models.User
@@ -37,7 +40,6 @@ func (api *API) users(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		w.WriteHeader(http.StatusOK)
 		w.Write([]byte(strconv.Itoa(id)))
 
 	case http.MethodPatch:
@@ -52,7 +54,6 @@ func (api *API) users(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		w.WriteHeader(http.StatusOK)
 		w.Write([]byte(strconv.Itoa(id)))
 
 	case http.MethodDelete:
@@ -63,7 +64,6 @@ func (api *API) users(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		w.WriteHeader(http.StatusOK)
 	}
 }
 
