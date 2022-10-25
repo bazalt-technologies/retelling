@@ -33,6 +33,9 @@ export default {
       user: JSON.parse(localStorage.getItem('User'))
     }
   },
+  created() {
+    this.liked = this.content.usersLiked.includes(this.user.ID)
+  },
   watch: {
     likes:{
       handler(val) {
