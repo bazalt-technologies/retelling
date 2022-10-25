@@ -4,13 +4,18 @@ import (
 	"encoding/json"
 	"net/http"
 	"retelling/pkg/models"
+	"strconv"
 )
 
 func (api *API) likes(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
 		var req models.Request
-		_ = json.NewDecoder(r.Body).Decode(&req)
+		id, err := strconv.Atoi(r.URL.Query().Get("ObjectID"))
+		if id == 0 || err != nil {
+			json.NewDecoder(r.Body).Decode(&req)
+		}
+		req.ObjectID = id
 		if req.UserID != 0 {
 			// Лайки пользователя
 			data, err := api.db.GetLikes(req)

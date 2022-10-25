@@ -5,13 +5,8 @@
   </div>
   <content-component v-for="c in content"
       :key="c.ID"
-      :title="c.title"
-      :type="c.type"
-      :genre="`${c.genre1}, ${c.genre2 ? c.genre2 : ''}, ${c.genre3 ? c.genre3 : ''}`"
-      :likes="likes1"
-      :liked="liked1"
-      @likeBtnClick="liked1 = !liked1; likes1 += liked1*2 -1"
-      :description="c.description"
+      :content="c"
+      @likeBtnClick="likeClicked(c)"
   />
 </div>
 </template>
@@ -29,35 +24,59 @@ export default {
   data() {
     return {
       liked1: Boolean,
-      likes1: 93,
       content: [],
-      genres: [],
-      types: []
+      likes: [],
+      user: null
     }
   },
   created() {
-
+    this.user = JSON.parse(localStorage.getItem('User'))
     this.$http.get(Vue.prototype.$baseUrl+"/api/v1/genres").then(response =>{
-      this.genres = response && response.data ? response.data : []
+      let genres = response && response.data ? response.data : []
+      localStorage.setItem('Genres', JSON.stringify(genres))
     })
     this.$http.get(Vue.prototype.$baseUrl+"/api/v1/types").then(response =>{
-      this.types = response && response.data ? response.data : []
+      let types = response && response.data ? response.data : []
+      localStorage.setItem('Types', JSON.stringify(types))
     })
     this.$http.get(Vue.prototype.$baseUrl+"/api/v1/content").then(response =>{
       this.content = response && response.data ? response.data.map(c=>{
         return {
+          ID: c.ID,
           title: c.Title,
           description: c.Description,
-          type: this.types.find(t => t.ID === c.TypeID).Type,
-          genre1: this.genres.find(g => g.ID === c.GenreID1).Genre,
-          genre2: c.GenreID2 ? this.genres.find(g => g.ID ===c.GenreID2).Genre : 0,
-          genre3: c.GenreID3 ? this.genres.find(g => g.ID ===c.GenreID3).Genre : 0,
-
+          type: JSON.parse(localStorage.getItem('Types')).find(t => t.ID === c.TypeID).Type,
+          genre1: JSON.parse(localStorage.getItem('Genres')).find(g => g.ID === c.GenreID1).Genre,
+          genre2: c.GenreID2 ? JSON.parse(localStorage.getItem('Genres')).find(g => g.ID ===c.GenreID2).Genre : 0,
+          genre3: c.GenreID3 ? JSON.parse(localStorage.getItem('Genres')).find(g => g.ID ===c.GenreID3).Genre : 0,
+          usersLiked: c.UsersLiked || []
         }
       }) : []
     })
-    localStorage.setItem('Genres', JSON.stringify(this.genres))
-    localStorage.setItem('Types', JSON.stringify(this.types))
+  },
+  methods: {
+    likeClicked(val) {
+      if(!val.usersLiked.includes(this.user.ID)){
+        const data = {
+          UserID: this.user.ID,
+          ContentID: val.ID
+        }
+        this.$http.post(Vue.prototype.$baseUrl+"/api/v1/likes", data)
+            .then(()=>{
+              val.usersLiked.push(this.user.ID)
+            })
+        return
+      } else {
+        const data = {
+          UserID: this.user.ID,
+          ContentID: val.ID
+        }
+        this.$http.delete(Vue.prototype.$baseUrl+"/api/v1/likes", {data}).then(()=>{
+          let id =val.usersLiked.indexOf(this.user.ID)
+          val.usersLiked.splice(id,1)
+        })
+      }
+    }
   }
 }
 </script>

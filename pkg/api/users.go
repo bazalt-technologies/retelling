@@ -12,7 +12,11 @@ func (api *API) users(w http.ResponseWriter, r *http.Request) {
 
 	case http.MethodGet:
 		var req models.Request
-		json.NewDecoder(r.Body).Decode(&req)
+		id, err := strconv.Atoi(r.URL.Query().Get("ObjectID"))
+		if id == 0 || err != nil {
+			json.NewDecoder(r.Body).Decode(&req)
+		}
+		req.ObjectID = id
 		data, err := api.db.GetUsers(req)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)

@@ -3,24 +3,24 @@
     <img v-bind:src="require('../assets/logoRetelling-short.png')" class="header-logo" alt="logo"/>
     <div class="header-btns">
       <ButtonComponent
-          :selected="(modeSelected===1 || $route.path==='/content')"
+          :selected="($route.path==='/content')"
           :label="'Лента'"
           :icon="'lenta.svg'"
-          @btnClick="()=>{modeSelected = 1;$router.push('/content')}"
+          @btnClick="()=>{$router.push('/content')}"
           class="header-btn"
       ></ButtonComponent>
       <ButtonComponent
-          :selected="(modeSelected===2 || $route.path==='/user')"
+          :selected="($route.path==='/user')"
           :label="'Профиль'"
           :icon="'profile.svg'"
-          @btnClick="()=>{modeSelected = 2;$router.push('/user')}"
+          @btnClick="()=>{$router.push('/user')}"
           class="header-btn"
       ></ButtonComponent>
       <ButtonComponent
-          :selected="(modeSelected===3 || $route.path==='/settings')"
+          :selected="($route.path==='/settings')"
           :label="'Настройки'"
           :icon="'settings.svg'"
-          @btnClick="modeSelected = 3;$router.push('/settings')"
+          @btnClick="$router.push('/settings')"
           class="header-btn"
       ></ButtonComponent>
     </div>
@@ -33,11 +33,6 @@ export default {
   name: "HeaderComponent",
   components: {
     ButtonComponent,
-  },
-  data() {
-    return {
-      modeSelected: 1
-    }
   }
 }
 </script>
