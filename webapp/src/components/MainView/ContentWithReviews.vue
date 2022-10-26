@@ -30,6 +30,7 @@ export default {
     let users
     this.$http.get(Vue.prototype.$baseUrl+"/api/v1/users").then(resp=>{
       users = resp && resp.data ? resp.data : []
+      localStorage.setItem('AllUsers', JSON.stringify(users))
     })
     let dateOptions = {
       era: 'long',
@@ -48,7 +49,7 @@ export default {
             return{
               text: r.Review,
               date: new Date(r.Date * 1000).toLocaleString("ru", dateOptions),
-              user: users.find(u=>u.ID===r.UserID).Data.Name
+              user: JSON.parse(localStorage.getItem('AllUsers')).find(u=>u.ID===r.UserID).Data.Name
           }
           }) : []
         })

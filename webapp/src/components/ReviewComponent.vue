@@ -5,6 +5,7 @@
         {{review.user}}
       </div>
       <div class="contentTitleExtra">
+        Контент: {{review.title}}<br/>
         Дата: {{review.date}}<br/>
       </div>
     </div>
