@@ -9,7 +9,7 @@
         <input type="text" placeholder="Пароль" title="password" v-model="password" class="stdInput">
       </div>
       <div v-if="wrongPasswd" class="errMsg">Неверный логин или пароль</div>
-      <button-component @btnClick="onLogin"
+      <button-component @btnClick="() => {onLogin; this.wrongPasswd ? 0 : $router.push('/content')}"
                         :label="'Войти'"
                         :selected="false"
                         class="btn"
@@ -48,7 +48,6 @@ export default {
                 let usr = resp.data ? resp.data.find(u=>u.ID===response.data) : {}
                 localStorage.setItem('User', JSON.stringify(usr))
               })
-              this.$router.push(`/content`)
               this.$emit("login", true)
               this.$emit("user_id", response.data)
             } else {
