@@ -86,11 +86,16 @@ func (s *Storage) PatchReview(data models.Review) error {
 }
 
 func (s *Storage) DeleteReview(data models.Review) error {
+	var id int
 	err := s.pool.QueryRow(context.Background(), `
 		DELETE FROM reviews
 		WHERE id = $1
+		RETURNING id;
 	`,
-		data.ID).Scan()
+		data.ID).Scan(&id)
+	if err != nil {
+		return err
+	}
 	err = s.pool.QueryRow(context.Background(), `
 	UPDATE users SET review_count = review_count-1 WHERE id = $1`,
 		data.UserID).Scan()

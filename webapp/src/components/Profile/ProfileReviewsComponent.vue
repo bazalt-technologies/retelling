@@ -4,7 +4,7 @@
       :key="r.ID"
       :review="r"
       :is-user="true"
-      @deleteReview="deleteR(r)"
+      @deleteReview="() => {deleteR(r);}"
     />
     <div>
       <ButtonComponent
@@ -91,6 +91,9 @@ export default {
           this.$router.push('/content')
         })
       })
+    },
+    reloadPage() {
+      window.location.reload();
     }
   }
 }
