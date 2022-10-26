@@ -111,7 +111,7 @@ export default {
   align-items: center;
   align-content: center;
   justify-content: center;
-  background: url("../assets/officebg.png") center/cover;
+  background: url("../../assets/officebg.png") center/cover;
   height: calc(100vh - 4vw - 10px);
   max-height: calc(100vh - 50px);
 }

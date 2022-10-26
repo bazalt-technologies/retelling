@@ -2,11 +2,11 @@
   <div class="contentShell">
     <div class="contentTitle">
       <div class="contentTitleText">
-        {{review.title}}
+        {{review.user}}
       </div>
       <div class="contentTitleExtra">
+        Контент: {{review.title}}<br/>
         Дата: {{review.date}}<br/>
-        Пользователь: {{review.user}}
       </div>
     </div>
     <div class="contentDescription">
@@ -14,13 +14,20 @@
         {{review.text}}
       </div>
     </div>
+    <ButtonComponent v-if="isUser"
+        :icon="'delete.svg'"
+        @btnClick="$emit('deleteReview')"
+        class="header-btn"/>
   </div>
 </template>
 
 <script>
+import ButtonComponent from "@/components/ButtonComponent";
 export default {
   name: "ReviewComponent",
+  components: {ButtonComponent},
   props: {
+    isUser:Boolean,
     review: Object
   }
 }

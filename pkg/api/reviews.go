@@ -12,7 +12,13 @@ func (api *API) reviews(w http.ResponseWriter, r *http.Request) {
 
 	case http.MethodGet:
 		var req models.Request
-		json.NewDecoder(r.Body).Decode(&req)
+		id, err := strconv.Atoi(r.URL.Query().Get("ObjectID"))
+		usrId, err := strconv.Atoi(r.URL.Query().Get("UserID"))
+		if id == 0 || err != nil || usrId == 0 {
+			json.NewDecoder(r.Body).Decode(&req)
+		}
+		req.ObjectID = id
+		req.UserID = usrId
 		data, err := api.db.GetReviews(req)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)

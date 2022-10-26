@@ -7,6 +7,7 @@
       :key="c.ID"
       :content="c"
       @likeBtnClick="likeClicked(c)"
+      @contentClicked="()=>{$router.push({name: 'contentReviews', params:{id:c.ID, c}})}"
   />
 </div>
 </template>
@@ -29,8 +30,17 @@ export default {
       user: null
     }
   },
+  beforeCreate() {
+    this.user = JSON.parse(localStorage.getItem('User'))
+    if (!this.user) {
+      this.$router.push('/login')
+    }
+  },
   created() {
     this.user = JSON.parse(localStorage.getItem('User'))
+    if (!this.user) {
+      this.$router.push('/login')
+    }
     this.$http.get(Vue.prototype.$baseUrl+"/api/v1/genres").then(response =>{
       let genres = response && response.data ? response.data : []
       localStorage.setItem('Genres', JSON.stringify(genres))
@@ -52,6 +62,7 @@ export default {
           usersLiked: c.UsersLiked || []
         }
       }) : []
+      localStorage.setItem('Content', JSON.stringify(this.content))
     })
   },
   methods: {

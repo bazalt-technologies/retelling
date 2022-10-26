@@ -4,8 +4,12 @@
       <div class="contentTitleText">
         Имя пользователя: {{user.Data.Name}}
       </div>
-      <div class="contentTitleExtra">
-        </div>
+      <ButtonComponent
+          :label="'Выйти'"
+          :icon="'logout.svg'"
+          @btnClick="quit"
+          class="quit-btn"
+      />
     </div>
     <div class="contentDescription">
       <div class="contentDescriptionText">
@@ -13,21 +17,44 @@
         {{ `${user.Data.Profession ? 'Профессия : '+user.Data.Profession : ''}` }}
         Количество ревью : {{user.Data.ReviewCount}}
       </div>
+
     </div>
   </div>
 </template>
 
 <script>
+import ButtonComponent from "@/components/ButtonComponent";
 export default {
   name: "ProfileComponent",
+  components: {ButtonComponent},
   data () {
     return {
       user: null,
       data: null
     }
   },
+  beforeMount() {
+    this.user = JSON.parse(localStorage.getItem('User'))
+    if (!this.user) {
+      this.$router.push('/login')
+    }
+  },
   created() {
     this.user = JSON.parse(localStorage.getItem('User'))
+    if (!this.user) {
+      this.$router.push('/login')
+    }
+  },
+  updated() {
+    if (!this.user) {
+      this.$router.push('/login')
+    }
+  },
+  methods: {
+    quit() {
+      localStorage.setItem('User', null)
+      this.$router.push('/login')
+    }
   }
 }
 </script>
@@ -60,16 +87,12 @@ export default {
   margin-left: 10px;
   margin-top: 10px;
 }
-.contentTitleExtra {
-  text-wrap: normal;
-  font-size: 20px;
-  text-align: initial;
-  margin-left: 10px;
-  margin-top: 10px;
-}
 .contentDescriptionText {
   text-align: initial;
   font-size: 16px;
+  margin: 10px;
+}
+.quit-btn {
   margin: 10px;
 }
 </style>
