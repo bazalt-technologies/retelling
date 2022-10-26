@@ -7,7 +7,7 @@
       :key="c.ID"
       :content="c"
       @likeBtnClick="likeClicked(c)"
-      @contentClicked="()=>{$router.push({name: 'contentReviews', params:{id:c.ID, c}})}"
+      @showReviewClick="()=>{$router.push({name: 'contentReviews', params:{id:c.ID, c}})}"
   />
 </div>
 </template>

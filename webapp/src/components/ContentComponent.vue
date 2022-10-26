@@ -9,7 +9,10 @@
       Жанр: {{`${content.genre1}, ${content.genre2 ? content.genre2 : ''}, ${content.genre3 ? content.genre3 : ''}`}}
       <div class="contentBtns">
         <like-btn  :liked="liked" :likes="content.usersLiked.length" @likeBtnClick="$emit('likeBtnClick')"/>
-        <review-btn @reviewBtnClick="$router.push('/profile/newReview')"/>
+        <review-btn
+            :label="'Оставить отзыв'"
+            :emits="'reviewBtnClick'"
+            @reviewBtnClick="$router.push('/profile/newReview')"/>
       </div>
     </div>
   </div>
@@ -17,6 +20,10 @@
     <div class="contentDescriptionText">
       {{content.description}}
     </div>
+    <review-btn
+        :label="'Посмотреть отзывы'"
+        :emits="'showReviewClick'"
+        @showReviewClick="$emit('showReviewClick')"/>
   </div>
 </div>
 </template>

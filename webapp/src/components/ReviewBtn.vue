@@ -1,13 +1,17 @@
 <template>
-  <button class="reviewBtn" @click="$emit('reviewBtnClick')">
+  <button class="reviewBtn" @click="$emit(emits)">
     <img class="reviewImg" src="../assets/liked.svg"/>
-    <div class="reviewTxt" v-if="this.winW > 600" >Оставить отзыв</div>
+    <div class="reviewTxt" v-if="this.winW > 600" >{{label}}</div>
   </button>
 </template>
 
 <script>
 export default {
   name: "ReviewBtn",
+  props: {
+    label: String,
+    emits: String,
+  },
   data() {
     return {
       winW: null
