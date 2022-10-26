@@ -4,7 +4,7 @@
       :key="r.ID"
       :review="r"
       :is-user="true"
-      @deleteReview="() => {deleteR(r);}"
+      @deleteReview="() => {deleteR(r); reloadPage()}"
     />
     <div>
       <ButtonComponent
