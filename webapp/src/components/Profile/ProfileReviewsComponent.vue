@@ -41,7 +41,6 @@ export default {
       this.reviews = []
       return
     }
-    console.log("ping")
     let dateOptions = {
       era: 'long',
       year: 'numeric',
@@ -58,7 +57,6 @@ export default {
       content = response && response.data ? response.data : []
       this.$http.get(Vue.prototype.$baseUrl+"/api/v1/reviews", {UserID: this.user.ID}).then(response => {
         this.reviews = response.data ? response.data.map(r=>{
-          console.log(r)
           return {
             title: content.find(c=>c.ID===r.ContentID).Title,
             user: this.user.Data.Name,

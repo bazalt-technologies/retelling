@@ -44,8 +44,6 @@ export default {
     };
     this.$http.get(Vue.prototype.$baseUrl+"/api/v1/reviews", {params: {ObjectID: this.content.ID}})
         .then(response=>{
-          console.log(response)
-          console.log(users)
           this.reviews = response && response.data? response.data.map(r=>{
             return{
               text: r.Review,
@@ -54,7 +52,6 @@ export default {
           }
           }) : []
         })
-    console.log(this.reviews)
   }
 }
 </script>

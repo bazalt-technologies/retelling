@@ -34,10 +34,7 @@ export default {
   },
   created() {
     this.content = JSON.parse(localStorage.getItem('Content'))
-    console.log(this.content)
     this.user = JSON.parse(localStorage.getItem('User'))
-    console.log(this.user)
-
   },
   methods: {
     saveReview() {
@@ -55,14 +52,11 @@ export default {
         ContentID: this.selectedContent,
         Date: parseInt(Date.now()/1000)
       }
-      console.log(data)
-      this.$http.post(Vue.prototype.$baseUrl+"/api/v1/reviews", data).then(r=>{
-        console.log(r)
-        this.$router.push('/profile')
-      })
+      this.$http.post(Vue.prototype.$baseUrl+"/api/v1/reviews", data).then(()=>{})
       this.$http.get(Vue.prototype.$baseUrl+"/api/v1/users", {params: {ObjectID:Number(this.user.ID)}}).then(r=>{
-        this.user = r && r.data ? r.data : null
-        localStorage.setItem('User', JSON.stringify(r.data))
+        this.user = r && r.data ? r.data[0] : null
+        localStorage.setItem('User', JSON.stringify(this.user))
+        this.$router.push('/profile')
       })
     }
   }
