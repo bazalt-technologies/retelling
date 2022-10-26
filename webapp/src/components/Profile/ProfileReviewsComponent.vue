@@ -4,7 +4,7 @@
       :key="r.ID"
       :review="r"
     />
-    <div v-if="!reviews.length">
+    <div>
       <ButtonComponent
           :selected="($route.path==='/content')"
           :label="'Новое ревью'"
@@ -41,6 +41,7 @@ export default {
       this.reviews = []
       return
     }
+    console.log("ping")
     let dateOptions = {
       era: 'long',
       year: 'numeric',
@@ -55,23 +56,30 @@ export default {
     let content = []
     this.$http.get(Vue.prototype.$baseUrl+"/api/v1/content").then(response => {
       content = response && response.data ? response.data : []
-    })
       this.$http.get(Vue.prototype.$baseUrl+"/api/v1/reviews", {UserID: this.user.ID}).then(response => {
-      this.reviews = response.data ? response.data.map(r=>{
-        return {
-          title: content.find(c=>c.ID===response.data.ContentID).Title,
-          user: this.user.Data.Name,
-          text: r.Review,
-          date: new Date(r.Date * 1000).toLocaleString("ru", dateOptions)
-        }
-      }) : []
+        this.reviews = response.data ? response.data.map(r=>{
+          console.log(r)
+          return {
+            title: content.find(c=>c.ID===r.ContentID).Title,
+            user: this.user.Data.Name,
+            text: r.Review,
+            date: new Date(r.Date * 1000).toLocaleString("ru", dateOptions)
+          }
+        }) : []
 
+      })
     })
+
   },
   updated() {
     let usr = JSON.parse(localStorage.getItem('User'))
     if (!usr) {
       this.$router.push('/login')
+    }
+  },
+  methods: {
+    newReview() {
+      this.$router.push({name:"newReview"})
     }
   }
 }

@@ -1,9 +1,11 @@
-import CompRegistration from "@/components/CompRegistration";
-import LoginComponent from "@/components/LoginComponent";
-import MainView from "@/components/MainView";
+import CompRegistration from "@/components/LoginAndRegister/CompRegistration";
+import LoginComponent from "@/components/LoginAndRegister/LoginComponent";
+import MainView from "@/components/MainView/MainView";
 import OpenComponent from "@/components/OpenComponent";
-import ProfileSettings from "@/components/ProfileSettings";
-import ProfileReviewsComponent from "@/components/ProfileReviewsComponent";
+import ProfileSettings from "@/components/Settings/ProfileSettings";
+import ProfileReviewsComponent from "@/components/Profile/ProfileReviewsComponent";
+import ContentWithReviews from "@/components/MainView/ContentWithReviews";
+import NewReviewComponent from "@/components/Profile/NewReviewComponent";
 
 const routes = [
     {
@@ -29,6 +31,16 @@ const routes = [
     {
         path: "/profile",
         component: ProfileReviewsComponent
+    },
+    {
+        path: "/content/:id/reviews",
+        name: "contentReviews",
+        component: ContentWithReviews
+    },
+    {
+        path: "/profile/newReview",
+        name: "newReview",
+        component: NewReviewComponent
     }
 
 ]

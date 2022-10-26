@@ -1,5 +1,5 @@
 <template>
-<div class="contentShell">
+<div class="contentShell" @click="$emit('contentClicked')">
   <div class="contentTitle">
     <div class="contentTitleText">
       {{content.title}}

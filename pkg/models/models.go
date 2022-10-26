@@ -21,7 +21,7 @@ type Review struct {
 	ContentID int
 	UserID    int
 	Review    string
-	Date      int
+	Date      int64
 }
 
 type Content struct {

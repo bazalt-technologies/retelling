@@ -7,6 +7,7 @@
       :key="c.ID"
       :content="c"
       @likeBtnClick="likeClicked(c)"
+      @contentClicked="()=>{$router.push({name: 'contentReviews', params:{id:c.ID, c}})}"
   />
 </div>
 </template>
@@ -61,6 +62,7 @@ export default {
           usersLiked: c.UsersLiked || []
         }
       }) : []
+      localStorage.setItem('Content', JSON.stringify(this.content))
     })
   },
   methods: {

@@ -2,11 +2,10 @@
   <div class="contentShell">
     <div class="contentTitle">
       <div class="contentTitleText">
-        {{review.title}}
+        {{review.user}}
       </div>
       <div class="contentTitleExtra">
         Дата: {{review.date}}<br/>
-        Пользователь: {{review.user}}
       </div>
     </div>
     <div class="contentDescription">
