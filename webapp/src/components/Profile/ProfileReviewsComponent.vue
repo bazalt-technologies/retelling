@@ -3,6 +3,8 @@
     <ReviewComponent v-for="r in reviews"
       :key="r.ID"
       :review="r"
+      :is-user="true"
+      @deleteReview="deleteR(r)"
     />
     <div>
       <ButtonComponent
@@ -58,6 +60,7 @@ export default {
       this.$http.get(Vue.prototype.$baseUrl+"/api/v1/reviews", {UserID: this.user.ID}).then(response => {
         this.reviews = response.data ? response.data.map(r=>{
           return {
+            id: r.ID,
             title: content.find(c=>c.ID===r.ContentID).Title,
             user: this.user.Data.Name,
             text: r.Review,
@@ -78,6 +81,16 @@ export default {
   methods: {
     newReview() {
       this.$router.push({name:"newReview"})
+    },
+    deleteR(val) {
+      const data = {ID: val.id, UserID: this.user.ID}
+      this.$http.delete(Vue.prototype.$baseUrl+"/api/v1/reviews", {data}).then(()=>{
+        this.$http.get(Vue.prototype.$baseUrl+"/api/v1/users", {params: {ObjectID:Number(this.user.ID)}}).then(r=>{
+          this.user = r && r.data ? r.data[0] : null
+          localStorage.setItem('User', JSON.stringify(this.user))
+          this.$router.push('/content')
+        })
+      })
     }
   }
 }

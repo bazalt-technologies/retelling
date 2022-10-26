@@ -14,13 +14,20 @@
         {{review.text}}
       </div>
     </div>
+    <ButtonComponent v-if="isUser"
+        :icon="'delete.svg'"
+        @btnClick="$emit('deleteReview')"
+        class="header-btn"/>
   </div>
 </template>
 
 <script>
+import ButtonComponent from "@/components/ButtonComponent";
 export default {
   name: "ReviewComponent",
+  components: {ButtonComponent},
   props: {
+    isUser:Boolean,
     review: Object
   }
 }

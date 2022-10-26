@@ -1,0 +1,8 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g opacity="1">
+        <path d="M8 11H24" stroke="#94d1be" stroke-width="2" stroke-miterlimit="10"/>
+        <path d="M11 11V19.272C11 20.773 12.227 22 13.727 22H18.274C19.774 22 21.001 20.773 21.001 19.272V11" stroke="#94d1be" stroke-width="2" stroke-miterlimit="10"/>
+        <path d="M19 8H13" stroke="#94d1be" stroke-width="2" stroke-miterlimit="10"/>
+    </g>
+</svg>
+
