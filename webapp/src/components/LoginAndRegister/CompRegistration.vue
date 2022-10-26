@@ -48,7 +48,7 @@
       />
       </div>
       <div class="subText">
-        <a>Есть аккаунт? Войти</a>
+        <div @click="$router.push('/login')">Есть аккаунт? Войти</div>
       </div>
     </div>
   </div>

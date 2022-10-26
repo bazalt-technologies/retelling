@@ -15,7 +15,7 @@
                         class="btn"
       />
       <div class="subText">
-        <a>Нет аккаунта? Зарегистрироваться</a>
+        <div @click="$router.push('/registration')">Нет аккаунта? Зарегистрироваться</div>
       </div>
     </div>
   </div>
