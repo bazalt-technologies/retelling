@@ -1,5 +1,5 @@
 <template>
-<div class="contentShell" @click="$emit('contentClicked')">
+<div class="contentShell">
   <div class="contentTitle">
     <div class="contentTitleText">
       {{content.title}}
@@ -9,7 +9,7 @@
       Жанр: {{`${content.genre1}, ${content.genre2 ? content.genre2 : ''}, ${content.genre3 ? content.genre3 : ''}`}}
       <div class="contentBtns">
         <like-btn  :liked="liked" :likes="content.usersLiked.length" @likeBtnClick="$emit('likeBtnClick')"/>
-        <review-btn/>
+        <review-btn @reviewBtnClick="$router.push('/profile/newReview')"/>
       </div>
     </div>
   </div>
