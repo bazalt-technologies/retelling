@@ -41,14 +41,14 @@
         Пароль должен быть длины не менее 8 символов
       </div>
       <div>
-      <button-component @btnClick="onRegister"
+      <button-component @btnClick="()=>{onRegister();}"
                         :label="'Зарегистрироваться'"
                         :selected="false"
                         class="btn"
       />
       </div>
       <div class="subText">
-        <a>Есть аккаунт? Войти</a>
+        <div @click="$router.push('/login')">Есть аккаунт? Войти</div>
       </div>
     </div>
   </div>

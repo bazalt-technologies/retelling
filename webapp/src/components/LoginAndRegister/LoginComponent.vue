@@ -9,13 +9,13 @@
         <input type="text" placeholder="Пароль" title="password" v-model="password" class="stdInput">
       </div>
       <div v-if="wrongPasswd" class="errMsg">Неверный логин или пароль</div>
-      <button-component @btnClick="onLogin"
+      <button-component @btnClick="() => {onLogin();}"
                         :label="'Войти'"
                         :selected="false"
                         class="btn"
       />
       <div class="subText">
-        <a>Нет аккаунта? Зарегистрироваться</a>
+        <div @click="$router.push('/registration')">Нет аккаунта? Зарегистрироваться</div>
       </div>
     </div>
   </div>
@@ -48,7 +48,7 @@ export default {
       }
       this.$http.post(Vue.prototype.$baseUrl+"/api/v1/authUser", data)
           .then(response=>{
-            if (response.data !== -1) {
+            if (response.status !== 401) {
               this.wrongPasswd = false;
               this.$http.get(Vue.prototype.$baseUrl+"/api/v1/users", {params: {"ObjectID": Number(response.data)}}).then(resp=>{
                 let usr = resp.data ? resp.data.find(u=>u.ID===response.data) : {}
@@ -57,6 +57,7 @@ export default {
               })
               this.$emit("login", true)
               this.$emit("user_id", response.data)
+              this.$router.push('/content')
             } else {
               this.wrongPasswd = true;
             }
