@@ -30,10 +30,11 @@ export default {
     return{
       liked: false,
       likes: [],
-      user: JSON.parse(localStorage.getItem('User'))
+      user: null
     }
   },
   created() {
+    this.user = this.$store.getters.getUser
     this.liked = this.content.usersLiked.includes(this.user.ID)
   },
   watch: {

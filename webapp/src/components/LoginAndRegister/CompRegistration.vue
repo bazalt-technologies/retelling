@@ -94,7 +94,7 @@ export default {
       }
       this.$http.post(Vue.prototype.$baseUrl+"/api/v1/users", json)
           .then(response=>{
-            localStorage.setItem('User', JSON.stringify(json))
+            this.$store.commit('setUser', json)
             this.$emit("user_id", response.data)
             this.$emit("registered", true)
             this.$router.push('/content')

@@ -34,6 +34,12 @@ export default {
       wrongPasswd: false,
     }
   },
+  mounted() {
+    let usr = this.$store.getters.getUser
+    if( usr){
+      this.$router.push(`/content`)
+    }
+  },
   methods: {
     onLogin() {
       const data = {
@@ -46,9 +52,9 @@ export default {
               this.wrongPasswd = false;
               this.$http.get(Vue.prototype.$baseUrl+"/api/v1/users", {params: {"ObjectID": Number(response.data)}}).then(resp=>{
                 let usr = resp.data ? resp.data.find(u=>u.ID===response.data) : {}
-                localStorage.setItem('User', JSON.stringify(usr))
+                this.$store.commit('setUser', usr)
+                this.$router.push(`/content`)
               })
-              this.$router.push(`/content`)
               this.$emit("login", true)
               this.$emit("user_id", response.data)
             } else {

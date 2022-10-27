@@ -32,13 +32,13 @@ export default {
     }
   },
   beforeMount() {
-    this.user = JSON.parse(localStorage.getItem('User'))
+    this.user = this.$store.getters.getUser
     if (!this.user) {
       this.$router.push('/login')
     }
   },
   created() {
-    this.user = JSON.parse(localStorage.getItem('User'))
+    this.user = this.$store.getters.getUser
     if (!this.user.Data.ReviewCount){
       this.reviews = []
       return
@@ -73,7 +73,7 @@ export default {
 
   },
   updated() {
-    let usr = JSON.parse(localStorage.getItem('User'))
+    let usr = this.$store.getters.getUser
     if (!usr) {
       this.$router.push('/login')
     }
@@ -87,7 +87,7 @@ export default {
       this.$http.delete(Vue.prototype.$baseUrl+"/api/v1/reviews", {data}).then(()=>{
         this.$http.get(Vue.prototype.$baseUrl+"/api/v1/users", {params: {ObjectID:Number(this.user.ID)}}).then(r=>{
           this.user = r && r.data ? r.data[0] : null
-          localStorage.setItem('User', JSON.stringify(this.user))
+          this.$store.commit('setUser', this.user)
           this.$router.push('/content')
         })
       })
