@@ -4,8 +4,12 @@
       <div class="contentTitleText">
         Имя пользователя: {{user.Data.Name}}
       </div>
-      <div class="contentTitleExtra">
-        </div>
+      <ButtonComponent
+          :label="'Выйти'"
+          :icon="'logout.svg'"
+          @btnClick="quit"
+          class="quit-btn"
+      />
     </div>
     <div class="contentDescription">
       <div class="contentDescriptionText">
@@ -13,12 +17,7 @@
         {{ `${user.Data.Profession ? 'Профессия : '+user.Data.Profession : ''}` }}
         Количество ревью : {{user.Data.ReviewCount}}
       </div>
-      <ButtonComponent
-          :label="'Выйти'"
-          :icon="'logout.svg'"
-          @btnClick="quit"
-          class="header-btn"
-      />
+
     </div>
   </div>
 </template>
@@ -88,16 +87,12 @@ export default {
   margin-left: 10px;
   margin-top: 10px;
 }
-.contentTitleExtra {
-  text-wrap: normal;
-  font-size: 20px;
-  text-align: initial;
-  margin-left: 10px;
-  margin-top: 10px;
-}
 .contentDescriptionText {
   text-align: initial;
   font-size: 16px;
+  margin: 10px;
+}
+.quit-btn {
   margin: 10px;
 }
 </style>

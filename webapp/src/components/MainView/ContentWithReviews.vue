@@ -1,5 +1,6 @@
 <template>
 <div>
+  <button-component :label="'Назад'" @btnClick="()=>{$router.push('/content')}"/>
   <content-component
       :key="content.ID"
       :content="content"
@@ -16,9 +17,10 @@
 import ContentComponent from "@/components/ContentComponent";
 import Vue from "vue";
 import ReviewComponent from "@/components/ReviewComponent";
+import ButtonComponent from "@/components/ButtonComponent";
 export default {
   name: "ContentWithReviews",
-  components: {ReviewComponent, ContentComponent},
+  components: {ButtonComponent, ReviewComponent, ContentComponent},
   data() {
     return {
       content: null,
