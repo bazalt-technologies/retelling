@@ -4,7 +4,7 @@
       :key="r.ID"
       :review="r"
       :is-user="true"
-      @deleteReview="() => {deleteR(r); reloadPage()}"
+      @deleteReview="deleteR(r)"
     />
     <div>
       <ButtonComponent
@@ -84,16 +84,14 @@ export default {
     },
     deleteR(val) {
       const data = {ID: val.id, UserID: this.user.ID}
+      let idx = this.reviews.indexOf(this.reviews.find(r=>r.id===val.id)[0])
+      this.reviews.splice(idx,1)
       this.$http.delete(Vue.prototype.$baseUrl+"/api/v1/reviews", {data}).then(()=>{
         this.$http.get(Vue.prototype.$baseUrl+"/api/v1/users", {params: {ObjectID:Number(this.user.ID)}}).then(r=>{
           this.user = r && r.data ? r.data[0] : null
-          this.$store.commit('setUser', this.user)
           this.$router.push('/content')
         })
       })
-    },
-    reloadPage() {
-      window.location.reload();
     }
   }
 }
