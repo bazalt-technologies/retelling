@@ -41,7 +41,7 @@
         Пароль должен быть длины не менее 8 символов
       </div>
       <div>
-      <button-component @btnClick="()=>{onRegister; !this.weakPassword && !this.noData ? 0 : $router.push('/content')}"
+      <button-component @btnClick="()=>{onRegister();}"
                         :label="'Зарегистрироваться'"
                         :selected="false"
                         class="btn"
@@ -97,6 +97,7 @@ export default {
             localStorage.setItem('User', JSON.stringify(json))
             this.$emit("user_id", response.data)
             this.$emit("registered", true)
+            this.$router.push('/content')
           })
     }
   }
