@@ -10,6 +10,7 @@
       <div class="contentBtns">
         <like-btn  :liked="liked" :likes="content.usersLiked.length" @likeBtnClick="$emit('likeBtnClick')"/>
         <review-btn
+            :icon="'rate.svg'"
             :label="'Оставить отзыв'"
             :emits="'reviewBtnClick'"
             @reviewBtnClick="$router.push('/profile/newReview')"/>
@@ -21,6 +22,7 @@
       {{content.description}}
     </div>
     <review-btn
+        v-if="$route.path==='/content'"
         :label="'Посмотреть отзывы'"
         :emits="'showReviewClick'"
         @showReviewClick="$emit('showReviewClick')"/>
@@ -78,6 +80,8 @@ export default {
   display: initial;
 }
 .contentDescription {
+  display: flex;
+  justify-content: space-between;
   width: 60vw;
   background: #efefef;
   border-bottom-right-radius: 20px;

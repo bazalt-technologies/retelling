@@ -1,6 +1,6 @@
 <template>
   <button class="reviewBtn" @click="$emit(emits)">
-    <img class="reviewImg" src="../assets/liked.svg"/>
+    <img class="reviewImg"  v-if="icon !== undefined" :src="require('../assets/'+`${icon}`)"/>
     <div class="reviewTxt" v-if="this.winW > 600" >{{label}}</div>
   </button>
 </template>
@@ -11,6 +11,7 @@ export default {
   props: {
     label: String,
     emits: String,
+    icon: String,
   },
   data() {
     return {
