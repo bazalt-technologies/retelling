@@ -34,13 +34,13 @@ export default {
     }
   },
   beforeMount() {
-    this.user = JSON.parse(localStorage.getItem('User'))
+    this.user = this.$store.getters.getUser
     if (!this.user) {
       this.$router.push('/login')
     }
   },
   created() {
-    this.user = JSON.parse(localStorage.getItem('User'))
+    this.user = this.$store.getters.getUser
     if (!this.user) {
       this.$router.push('/login')
     }
@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     quit() {
-      localStorage.setItem('User', null)
+      this.$store.commit('setUser', null)
       this.$router.push('/login')
     }
   }

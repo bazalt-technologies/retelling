@@ -33,8 +33,8 @@ export default {
     }
   },
   created() {
-    this.content = JSON.parse(localStorage.getItem('Content'))
-    this.user = JSON.parse(localStorage.getItem('User'))
+    this.content = this.$store.getters.getContent
+    this.user = this.$store.getters.getUser
   },
   methods: {
     saveReview() {
@@ -55,7 +55,7 @@ export default {
       this.$http.post(Vue.prototype.$baseUrl+"/api/v1/reviews", data).then(()=>{})
       this.$http.get(Vue.prototype.$baseUrl+"/api/v1/users", {params: {ObjectID:Number(this.user.ID)}}).then(r=>{
         this.user = r && r.data ? r.data[0] : null
-        localStorage.setItem('User', JSON.stringify(this.user))
+        this.$store.commit('setUser', this.user)
         this.$router.push('/profile')
       })
     }
