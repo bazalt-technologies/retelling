@@ -37,7 +37,7 @@ export default {
   mounted() {
     let usr = this.$store.getters.getUser
     if( usr){
-      this.$router.push(`/content`)
+      this.$router.push(`this.user`)
     }
   },
   methods: {
@@ -53,11 +53,8 @@ export default {
               this.$http.get(Vue.prototype.$baseUrl+"/api/v1/users", {params: {"ObjectID": Number(response.data)}}).then(resp=>{
                 let usr = resp.data ? resp.data.find(u=>u.ID===response.data) : {}
                 this.$store.commit('setUser', usr)
-                this.$router.push(`/content`)
+                this.$router.push("/content/recommendations")
               })
-              this.$emit("login", true)
-              this.$emit("user_id", response.data)
-              this.$router.push('/content')
             } else {
               this.wrongPasswd = true;
             }

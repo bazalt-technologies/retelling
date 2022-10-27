@@ -22,7 +22,7 @@
       {{content.description}}
     </div>
     <review-btn
-        v-if="$route.path==='/content'"
+        v-if="$route.path==='/content/recommendations' || $route.path==='/content/search'"
         :label="'Посмотреть отзывы'"
         :emits="'showReviewClick'"
         @showReviewClick="$emit('showReviewClick')"/>
@@ -49,13 +49,13 @@ export default {
   created() {
     this.user = this.$store.getters.getUser
     this.liked = this.content.usersLiked.includes(this.user.ID)
+    this.likes = this.content.usersLiked
   },
   watch: {
     likes:{
       handler(val) {
         this.liked = val.includes(this.user.ID)
       },
-      immediate: true,
       deep: true
     }
   },

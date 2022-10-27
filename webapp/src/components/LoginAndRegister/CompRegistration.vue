@@ -97,7 +97,7 @@ export default {
             this.$store.commit('setUser', json)
             this.$emit("user_id", response.data)
             this.$emit("registered", true)
-            this.$router.push('/content')
+            this.$router.push('/content/recommendations')
           })
     }
   }

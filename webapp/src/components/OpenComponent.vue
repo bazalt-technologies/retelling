@@ -43,7 +43,7 @@ export default {
       this.$http.get(Vue.prototype.$baseUrl+"/api/v1/users", { params: { ObjectID: Number(val) } })
           .then(response=>{
             this.name = response.data.find(u=>u.ID===val).Data.Name
-            this.$router.push(`/content`)
+            this.$router.push(`this.user`)
           })
     }
   }

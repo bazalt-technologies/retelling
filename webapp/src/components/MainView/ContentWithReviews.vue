@@ -1,6 +1,6 @@
 <template>
 <div>
-  <button-component :label="'Назад'" @btnClick="()=>{$router.push('/content')}"/>
+  <button-component :label="'Назад'" @btnClick="()=>{$router.push($route.params.route)}"/>
   <content-component
       :key="content.ID"
       :content="content"
@@ -21,6 +21,9 @@ import ButtonComponent from "@/components/ButtonComponent";
 export default {
   name: "ContentWithReviews",
   components: {ButtonComponent, ReviewComponent, ContentComponent},
+  props: {
+    route: String
+  },
   data() {
     return {
       content: null,

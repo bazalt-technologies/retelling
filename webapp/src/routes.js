@@ -6,6 +6,7 @@ import ProfileSettings from "@/components/Settings/ProfileSettings";
 import ProfileReviewsComponent from "@/components/Profile/ProfileReviewsComponent";
 import ContentWithReviews from "@/components/MainView/ContentWithReviews";
 import NewReviewComponent from "@/components/Profile/NewReviewComponent";
+import SearchComponent from "@/components/MainView/SearchComponent";
 
 const routes = [
     {
@@ -21,8 +22,12 @@ const routes = [
         component: LoginComponent
     },
     {
-        path: "/content",
+        path: "/content/recommendations",
         component: MainView
+    },
+    {
+        path: "/content/search",
+        component: SearchComponent
     },
     {
         path: "/settings",

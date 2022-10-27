@@ -3,10 +3,10 @@
     <img v-bind:src="require('../assets/logoRetelling-short.png')" class="header-logo" alt="logo"/>
     <div class="header-btns">
       <ButtonComponent
-          :selected="($route.path==='/content')"
+          :selected="($route.path==='/content/recommendations')"
           :label="'Лента'"
           :icon="'lenta.svg'"
-          @btnClick="()=>{$router.push('/content')}"
+          @btnClick="()=>{$router.push('/content/recommendations')}"
           class="header-btn"
       ></ButtonComponent>
       <ButtonComponent

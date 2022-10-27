@@ -31,15 +31,12 @@ const storeData = {
         },
         setContent(state, content) {
             state.content = content
-            console.log("content:", state.content)
         },
         setGenres(state, genres) {
             state.genres = genres
-            console.log("genres:", state.genres)
         },
         setTypes(state, types) {
             state.types = types
-            console.log("types:", state.types)
         },
         setAllUsers(state, users) {
             state.allUsers = users

@@ -8,7 +8,7 @@
     />
     <div>
       <ButtonComponent
-          :selected="($route.path==='/content')"
+          :selected="($route.path==='this.user')"
           :label="'Новое ревью'"
           :icon="'add.svg'"
           @btnClick="newReview"
@@ -89,7 +89,7 @@ export default {
       this.$http.delete(Vue.prototype.$baseUrl+"/api/v1/reviews", {data}).then(()=>{
         this.$http.get(Vue.prototype.$baseUrl+"/api/v1/users", {params: {ObjectID:Number(this.user.ID)}}).then(r=>{
           this.user = r && r.data ? r.data[0] : null
-          this.$router.push('/content')
+          this.$store.commit('setUser', this.user)
         })
       })
     }
