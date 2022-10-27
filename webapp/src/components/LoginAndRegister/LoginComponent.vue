@@ -60,6 +60,12 @@ export default {
             } else {
               this.wrongPasswd = true;
             }
+          }).catch(err=> {
+            if (err.response.statusText && err.response.statusText === 'Unauthorized') {
+              alert("Неверный логин или пароль")
+            } else {
+              alert("Ошибка, повторите позже")
+            }
           })
     }
   }
