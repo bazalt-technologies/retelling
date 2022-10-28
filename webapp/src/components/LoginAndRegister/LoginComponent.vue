@@ -2,11 +2,11 @@
   <div class="screen">
     <div class="regBox">
       Вход
-      <div>
-        <input type="text" placeholder="Логин" title="login" v-model="login" class="stdInput">
+      <div class="divStdInput">
+        <input type="text" placeholder="Логин" title="login" v-model="login" class="stdInputAll">
       </div>
-      <div>
-        <input placeholder="Пароль" title="password" v-model="password" class="stdInput" :type="pwdShown ? 'text' : 'password'">
+      <div class="divStdInput" style="margin-right: 36px">
+        <input placeholder="Пароль" title="password" v-model="password" class="stdInputPassword" :type="pwdShown ? 'text' : 'password'">
         <button class="eye" @click="()=>{pwdShown=!pwdShown}"><img :src="require('../../assets/'+`${pwdShown ? 'eye-closed.svg':'eye-opened.svg'}`)" alt=""/></button>
       </div>
       <div v-if="wrongPasswd" class="errMsg">Неверный логин или пароль</div>
@@ -62,9 +62,9 @@ export default {
             }
           }).catch(err=> {
             if (err.response.statusText && err.response.statusText === 'Unauthorized') {
-              alert("Неверный логин или пароль")
+              this.wrongPasswd = true;
             } else {
-              alert("Ошибка, повторите позже")
+              this.wrongPasswd = true;
             }
           })
     }
@@ -97,12 +97,20 @@ export default {
   background: #fefefe;
   border-radius: 25px;
 }
-.stdInput {
+
+.stdInputAll {
   border-color: #363537;
   border-width: 2px;
   border-top: none; border-left: none; border-right: none;
-  min-width: 250px;
-  width: 17vw;
+  min-width: 150px;
+  width: 20vw;
+}
+.stdInputPassword {
+  border-color: #363537;
+  border-width: 2px;
+  border-top: none; border-left: none; border-right: none;
+  min-width: 150px;
+  width: calc(20vw - 36px);
 }
 .btn {
 }
@@ -120,6 +128,10 @@ export default {
 .eye{
   height: 20px;
   background: none;
-  border: none;
+  position: absolute;
+  border-color: #363537;
+  border-width: 2px;
+  border-top: none; border-left: none; border-right: none;
+  padding-bottom: 19.5px;
 }
 </style>

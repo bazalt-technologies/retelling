@@ -42,6 +42,7 @@ export default {
       this.reviews = []
       return
     }
+    console.log(this.user)
     let dateOptions = {
       era: 'long',
       year: 'numeric',
@@ -56,7 +57,11 @@ export default {
     let content = []
     this.$http.get(Vue.prototype.$baseUrl+"/api/v1/content").then(response => {
       content = response && response.data ? response.data : []
-      this.$http.get(Vue.prototype.$baseUrl+"/api/v1/reviews", {UserID: this.user.ID}).then(response => {
+      this.$http.get(Vue.prototype.$baseUrl+"/api/v1/reviews", {params:
+      {
+        UserID: this.user.ID
+      }
+    }).then(response => {
         this.reviews = response.data ? response.data.map(r=>{
           return {
             id: r.ID,
