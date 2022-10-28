@@ -99,7 +99,7 @@ export default {
               console.log(r.data)
               this.user = r && r.data ? r.data[0] : null
               this.$store.commit('setUser', this.user)
-              this.$router.push('/profile')
+              this.$router.push('/content/recommendations')
             })
           })
     }
