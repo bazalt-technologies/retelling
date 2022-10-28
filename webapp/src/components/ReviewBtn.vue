@@ -1,7 +1,7 @@
 <template>
   <button class="reviewBtn" @click="$emit(emits)">
     <img class="reviewImg"  v-if="icon !== undefined" :src="require('../assets/'+`${icon}`)"/>
-    <div class="reviewTxt" v-if="this.winW > 600" >{{label}}</div>
+    <div class="reviewTxt" v-if="this.winW > 600 || !this.textDisappear" >{{label}}</div>
   </button>
 </template>
 
@@ -12,6 +12,7 @@ export default {
     label: String,
     emits: String,
     icon: String,
+    textDisappear: Boolean,
   },
   data() {
     return {
