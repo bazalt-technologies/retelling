@@ -52,11 +52,12 @@ export default {
         ContentID: this.selectedContent,
         Date: parseInt(Date.now()/1000)
       }
-      this.$http.post(Vue.prototype.$baseUrl+"/api/v1/reviews", data).then(()=>{})
-      this.$http.get(Vue.prototype.$baseUrl+"/api/v1/users", {params: {ObjectID:Number(this.user.ID)}}).then(r=>{
-        this.user = r && r.data ? r.data[0] : null
-        this.$store.commit('setUser', this.user)
-        this.$router.push('/profile')
+      this.$http.post(Vue.prototype.$baseUrl+"/api/v1/reviews", data).then(()=>{
+        this.$http.get(Vue.prototype.$baseUrl+"/api/v1/users", {params: {ObjectID:Number(this.user.ID)}}).then(r=>{
+          this.user = r && r.data ? r.data[0] : null
+          this.$store.commit('setUser', this.user)
+          this.$router.push('/profile')
+        })
       })
     }
   }

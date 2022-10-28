@@ -17,7 +17,14 @@
         {{ `${user.Data.Profession ? 'Профессия : '+user.Data.Profession : ''}` }}
         Количество ревью : {{user.Data.ReviewCount}}
       </div>
-
+    </div>
+    <div>
+      <ButtonComponent
+          :label="'изменить'"
+          @btnClick="()=>{$router.push('/settings/profile')}"
+          :icon="'edit.svg'"
+          class="header-btn"
+      />
     </div>
   </div>
 </template>

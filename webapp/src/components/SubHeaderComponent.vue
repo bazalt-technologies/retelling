@@ -3,12 +3,12 @@
     <sub-header-button-component
         :label="'Рекомендации'"
         :selected="recSelected"
-        @btnClick="recSelected = true"
+        @btnClick="()=>{$router.push('/content/recommendations')}"
     />
     <sub-header-button-component
         :label="'Поиск'"
         :selected="!recSelected"
-        @btnClick="recSelected = false"
+        @btnClick="()=>{$router.push('/content/search')}"
     />
   </div>
 </template>

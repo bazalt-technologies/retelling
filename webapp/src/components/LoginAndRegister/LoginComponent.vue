@@ -9,13 +9,13 @@
         <input type="text" placeholder="Пароль" title="password" v-model="password" class="stdInput">
       </div>
       <div v-if="wrongPasswd" class="errMsg">Неверный логин или пароль</div>
-      <button-component @btnClick="onLogin"
+      <button-component @btnClick="() => {onLogin();}"
                         :label="'Войти'"
                         :selected="false"
                         class="btn"
       />
       <div class="subText">
-        <a>Нет аккаунта? Зарегистрироваться</a>
+        <div @click="$router.push('/registration')">Нет аккаунта? Зарегистрироваться</div>
       </div>
     </div>
   </div>
@@ -37,7 +37,7 @@ export default {
   mounted() {
     let usr = this.$store.getters.getUser
     if( usr){
-      this.$router.push(`/content`)
+      this.$router.push(`this.user`)
     }
   },
   methods: {
@@ -48,17 +48,21 @@ export default {
       }
       this.$http.post(Vue.prototype.$baseUrl+"/api/v1/authUser", data)
           .then(response=>{
-            if (response.data !== -1) {
+            if (response.status !== 401) {
               this.wrongPasswd = false;
               this.$http.get(Vue.prototype.$baseUrl+"/api/v1/users", {params: {"ObjectID": Number(response.data)}}).then(resp=>{
                 let usr = resp.data ? resp.data.find(u=>u.ID===response.data) : {}
                 this.$store.commit('setUser', usr)
-                this.$router.push(`/content`)
+                this.$router.push("/content/recommendations")
               })
-              this.$emit("login", true)
-              this.$emit("user_id", response.data)
             } else {
               this.wrongPasswd = true;
+            }
+          }).catch(err=> {
+            if (err.response.statusText && err.response.statusText === 'Unauthorized') {
+              alert("Неверный логин или пароль")
+            } else {
+              alert("Ошибка, повторите позже")
             }
           })
     }

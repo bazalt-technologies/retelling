@@ -2,11 +2,11 @@
   <div id="#open">
   <!--- Content --->
   <div>
-    <div v-if="!isLoggedIn && !loginClicked && !registrationClicked">
+    <div>
       <buttonComponent
           :selected="false"
           :label="'Войти'"
-          @btnClick="()=>{$router.push('/login'); loginClicked = true}"
+          @btnClick="()=>{$router.push('/login')}"
       />
       <buttonComponent
           :selected="false"
@@ -19,7 +19,6 @@
 </template>
 
 <script>
-import Vue from "vue";
 import ButtonComponent from "@/components/ButtonComponent";
 
 
@@ -28,24 +27,6 @@ export default {
   name: "OpenComponent",
   components: {
     ButtonComponent
-  },
-  data() {
-    return {
-      isLoggedIn: false,
-      isRegistered: false,
-      loginClicked: false,
-      registrationClicked: false,
-      name: null,
-    }
-  },
-  methods: {
-    setUser(val){
-      this.$http.get(Vue.prototype.$baseUrl+"/api/v1/users", { params: { ObjectID: Number(val) } })
-          .then(response=>{
-            this.name = response.data.find(u=>u.ID===val).Data.Name
-            this.$router.push(`/content`)
-          })
-    }
   }
 }
 </script>

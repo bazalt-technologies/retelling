@@ -41,14 +41,14 @@
         Пароль должен быть длины не менее 8 символов
       </div>
       <div>
-      <button-component @btnClick="onRegister"
+      <button-component @btnClick="()=>{onRegister();}"
                         :label="'Зарегистрироваться'"
                         :selected="false"
                         class="btn"
       />
       </div>
       <div class="subText">
-        <a>Есть аккаунт? Войти</a>
+        <div @click="$router.push('/login')">Есть аккаунт? Войти</div>
       </div>
     </div>
   </div>
@@ -94,10 +94,13 @@ export default {
       }
       this.$http.post(Vue.prototype.$baseUrl+"/api/v1/users", json)
           .then(response=>{
-            this.$store.commit('setUser', json)
-            this.$emit("user_id", response.data)
-            this.$emit("registered", true)
-            this.$router.push('/content')
+            console.log(response.data)
+            this.$http.get(Vue.prototype.$baseUrl+"/api/v1/users", {params: {ObjectID:Number(response.data)}}).then(r=>{
+              console.log(r.data)
+              this.user = r && r.data ? r.data[0] : null
+              this.$store.commit('setUser', this.user)
+              this.$router.push('/content/recommendations')
+            })
           })
     }
   }

@@ -1,9 +1,10 @@
 <template>
 <div>
-  <button-component :label="'Назад'" @btnClick="()=>{$router.push('/content')}"/>
+  <button-component :label="'Назад'" @btnClick="()=>{$router.push($route.params.route)}"/>
   <content-component
       :key="content.ID"
       :content="content"
+      @likeBtnClick="likeClicked(content)"
   />
   <review-component v-for="r in reviews"
       :key="r.ID"
@@ -21,6 +22,9 @@ import ButtonComponent from "@/components/ButtonComponent";
 export default {
   name: "ContentWithReviews",
   components: {ButtonComponent, ReviewComponent, ContentComponent},
+  props: {
+    route: String
+  },
   data() {
     return {
       content: null,
@@ -55,6 +59,34 @@ export default {
           }
           }) : []
         })
+  },
+  methods: {
+    likeClicked(val) {
+      this.user = this.$store.getters.getUser
+
+      if (!this.user) {
+        this.$router.push('/login')
+      }
+      if(!val.usersLiked.includes(this.user.ID)){
+        const data = {
+          UserID: this.user.ID,
+          ObjectID: val.ID
+        }
+        this.$http.post(Vue.prototype.$baseUrl+"/api/v1/likes", data)
+            .then(()=>{
+              val.usersLiked.push(this.user.ID)
+            })
+      } else {
+        const data = {
+          UserID: this.user.ID,
+          ObjectID: val.ID
+        }
+        this.$http.delete(Vue.prototype.$baseUrl+"/api/v1/likes", {data}).then(()=>{
+          let id =val.usersLiked.indexOf(this.user.ID)
+          val.usersLiked.splice(id,1)
+        })
+      }
+    }
   }
 }
 </script>

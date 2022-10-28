@@ -6,6 +6,8 @@ import ProfileSettings from "@/components/Settings/ProfileSettings";
 import ProfileReviewsComponent from "@/components/Profile/ProfileReviewsComponent";
 import ContentWithReviews from "@/components/MainView/ContentWithReviews";
 import NewReviewComponent from "@/components/Profile/NewReviewComponent";
+import SearchComponent from "@/components/MainView/SearchComponent";
+import SettingsComponent from "@/components/Settings/SettingsComponent";
 
 const routes = [
     {
@@ -21,8 +23,12 @@ const routes = [
         component: LoginComponent
     },
     {
-        path: "/content",
+        path: "/content/recommendations",
         component: MainView
+    },
+    {
+        path: "/content/search",
+        component: SearchComponent
     },
     {
         path: "/settings",
@@ -41,6 +47,10 @@ const routes = [
         path: "/profile/newReview",
         name: "newReview",
         component: NewReviewComponent
+    },
+    {
+        path: "/settings/profile",
+        component: SettingsComponent
     }
 
 ]

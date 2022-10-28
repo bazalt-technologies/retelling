@@ -1,23 +1,27 @@
 <template>
-<div>
+  <div>
   <div>
     <sub-header-component ref="subheader"/>
   </div>
-  <content-component v-for="c in content"
-      :key="c.ID"
-      :content="c"
-      @likeBtnClick="likeClicked(c)"
-      @showReviewClick="()=>{$router.push({name: 'contentReviews', params:{id:c.ID, c, route}})}"
+    <div>
+      <textarea v-model="searchStr"/>
+    </div>
+  <content-component v-for="c in filteredContent"
+                     :key="c.ID"
+                     :content="c"
+                     @likeBtnClick="likeClicked(c)"
+                     @showReviewClick="()=>{$router.push({name: 'contentReviews', params:{id:c.ID, c, route}})}"
   />
-</div>
+  </div>
 </template>
 
 <script>
 import ContentComponent from "@/components/ContentComponent";
 import SubHeaderComponent from "@/components/SubHeaderComponent";
 import Vue from "vue";
+
 export default {
-  name: "MainView",
+  name: "searchComponent",
   components: {
     ContentComponent,
     SubHeaderComponent
@@ -28,7 +32,16 @@ export default {
       content: [],
       likes: [],
       user: null,
+      searchStr: "",
       route: ""
+    }
+  },
+  computed: {
+    filteredContent() {
+      return this.searchStr==="" ? this.content
+          : this.content.filter(c=>(`${c.title.toLowerCase()}`+`${c.type.toLowerCase()}`+
+              `${c.genre1.toLowerCase()}`+`${c.genre2?c.genre2.toLowerCase():''}`+`${c.genre3?c.genre3.toLowerCase():''}`+`${c.description}`)
+              .includes(this.searchStr.toLowerCase()))
     }
   },
   beforeCreate() {
@@ -39,35 +52,14 @@ export default {
     }
   },
   created() {
-    this.user = this.$store.getters.getUser
     this.route = this.$route.path
+    this.user = this.$store.getters.getUser
+
     if (!this.user) {
       this.$router.push('/login')
     }
-    this.$http.get(Vue.prototype.$baseUrl+"/api/v1/genres").then(response =>{
-      let genres = response && response.data ? response.data : []
-
-      this.$store.commit('setGenres', genres)
-    })
-    this.$http.get(Vue.prototype.$baseUrl+"/api/v1/types").then(response =>{
-      let types = response && response.data ? response.data : []
-      this.$store.commit('setTypes', types)
-    })
-    this.$http.get(Vue.prototype.$baseUrl+"/api/v1/content").then(response =>{
-      this.content = response && response.data ? response.data.map(c=>{
-        return {
-          ID: c.ID,
-          title: c.Title,
-          description: c.Description,
-          type: this.$store.getters.getTypes.find(t => t.ID === c.TypeID).Type,
-          genre1: this.$store.getters.getGenres.find(g => g.ID === c.GenreID1).Genre,
-          genre2: c.GenreID2 ? this.$store.getters.getGenres.find(g => g.ID ===c.GenreID2).Genre : 0,
-          genre3: c.GenreID3 ? this.$store.getters.getGenres.find(g => g.ID ===c.GenreID3).Genre : 0,
-          usersLiked: c.UsersLiked || []
-        }
-      }) : []
-      this.$store.commit('setContent', this.content)
-    })
+    this.content = this.$store.getters.getContent || []
+    this.filteredContent = this.$store.getters.getContent || []
   },
   methods: {
     likeClicked(val) {
