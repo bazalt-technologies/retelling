@@ -6,7 +6,8 @@
         <input type="text" placeholder="Логин" title="login" v-model="login" class="stdInput">
       </div>
       <div>
-        <input type="text" placeholder="Пароль" title="password" v-model="password" class="stdInput">
+        <input placeholder="Пароль" title="password" v-model="password" class="stdInput" :type="pwdShown ? 'text' : 'password'">
+        <button class="eye" @click="()=>{pwdShown=!pwdShown}"><img :src="require('../../assets/'+`${pwdShown ? 'eye-closed.svg':'eye-opened.svg'}`)" alt=""/></button>
       </div>
       <div v-if="wrongPasswd" class="errMsg">Неверный логин или пароль</div>
       <button-component @btnClick="() => {onLogin();}"
@@ -32,6 +33,7 @@ export default {
       login: null,
       password: null,
       wrongPasswd: false,
+      pwdShown: false
     }
   },
   mounted() {
@@ -113,5 +115,11 @@ export default {
   margin-top: 5px;
   font-size: 10px;
   color: red;
+}
+
+.eye{
+  height: 20px;
+  background: none;
+  border: none;
 }
 </style>
