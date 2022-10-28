@@ -39,7 +39,9 @@ export default {
   computed: {
     filteredContent() {
       return this.searchStr==="" ? this.content
-          : this.content.filter(c=>c.title.toLowerCase().includes(this.searchStr.toLowerCase()))
+          : this.content.filter(c=>(`${c.title.toLowerCase()}`+`${c.type.toLowerCase()}`+
+              `${c.genre1.toLowerCase()}`+`${c.genre2?c.genre2.toLowerCase():''}`+`${c.genre3?c.genre3.toLowerCase():''}`+`${c.description}`)
+              .includes(this.searchStr.toLowerCase()))
     }
   },
   beforeCreate() {
