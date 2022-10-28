@@ -94,10 +94,13 @@ export default {
       }
       this.$http.post(Vue.prototype.$baseUrl+"/api/v1/users", json)
           .then(response=>{
-            this.$store.commit('setUser', json)
-            this.$emit("user_id", response.data)
-            this.$emit("registered", true)
-            this.$router.push('/content/recommendations')
+            console.log(response.data)
+            this.$http.get(Vue.prototype.$baseUrl+"/api/v1/users", {params: {ObjectID:Number(response.data)}}).then(r=>{
+              console.log(r.data)
+              this.user = r && r.data ? r.data[0] : null
+              this.$store.commit('setUser', this.user)
+              this.$router.push('/profile')
+            })
           })
     }
   }
