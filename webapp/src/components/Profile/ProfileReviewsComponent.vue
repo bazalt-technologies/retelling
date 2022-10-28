@@ -42,7 +42,6 @@ export default {
       this.reviews = []
       return
     }
-    console.log(this.user)
     let dateOptions = {
       era: 'long',
       year: 'numeric',
