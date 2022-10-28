@@ -8,6 +8,7 @@ type DB interface {
 	AuthUser(req models.Request) (int, error)
 	UpdateUser(item models.User) (int, error)
 	DeleteUser(req models.Request) error
+	UpdatePassword(req models.Request) error
 
 	NewReview(data models.Review) (int, error)
 	GetReviews(req models.Request) ([]models.Review, error)

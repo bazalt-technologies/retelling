@@ -81,3 +81,17 @@ func (api *API) authUser(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Write([]byte(strconv.Itoa(id)))
 }
+
+func (api *API) updatePassword(w http.ResponseWriter, r *http.Request) {
+	var req models.Request
+	err := json.NewDecoder(r.Body).Decode(&req)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	err = api.db.UpdatePassword(req)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}

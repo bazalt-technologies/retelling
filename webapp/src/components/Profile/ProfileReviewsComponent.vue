@@ -8,7 +8,6 @@
     />
     <div>
       <ButtonComponent
-          :selected="($route.path==='this.user')"
           :label="'Новое ревью'"
           :icon="'add.svg'"
           @btnClick="newReview"

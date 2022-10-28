@@ -127,20 +127,16 @@ func (s *Storage) UpdateUser(item models.User) (int, error) {
 	UPDATE users
 		SET
     		name = $2,
-    		login = $3,
-    		password = $4,
-    		age = $5,
-    		review_count = $6,
-    		rating = $7,
-    		profession = $8,
-			likes = $9,
+    		age = $3,
+    		review_count = $4,
+    		rating = $5,
+    		profession = $6,
+			likes = $7
 	WHERE id = $1
 	RETURNING id
 	`,
 		item.ID,
 		item.Data.Name,
-		item.Login,
-		item.Password,
 		item.Data.Age,
 		item.Data.ReviewCount,
 		item.Data.Rating,
@@ -165,5 +161,16 @@ func (s *Storage) DeleteUser(req models.Request) error {
 	DELETE FROM users WHERE id = $1
 	`,
 		req.ObjectID).Scan()
+	return err
+}
+
+func (s *Storage) UpdatePassword(req models.Request) error {
+	pwd, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
+	req.Password = string(pwd)
+	_, err = s.pool.Exec(context.Background(), `
+	UPDATE users SET password = $1 WHERE id = $2
+	`,
+		req.Password,
+		req.UserID)
 	return err
 }
