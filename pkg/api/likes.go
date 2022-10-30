@@ -11,11 +11,17 @@ func (api *API) likes(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
 		var req models.Request
-		id, err := strconv.Atoi(r.URL.Query().Get("ObjectID"))
-		if id == 0 || err != nil {
+		// Два варианта работы get дальше, поэтому decode для двух полей
+		ObjectID, err := strconv.Atoi(r.URL.Query().Get("ObjectID"))
+		UserID, err := strconv.Atoi(r.URL.Query().Get("UserID"))
+		if ObjectID == 0 || err != nil {
 			json.NewDecoder(r.Body).Decode(&req)
 		}
-		req.ObjectID = id
+		if UserID == 0 || err != nil {
+			json.NewDecoder(r.Body).Decode(&req)
+		}
+		req.ObjectID = ObjectID
+		req.UserID = UserID
 		if req.UserID != 0 {
 			// Лайки пользователя
 			data, err := api.db.GetLikes(req)
