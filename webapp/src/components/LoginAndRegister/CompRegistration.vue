@@ -70,7 +70,20 @@ export default {
       weakPassword: false,
     }
   },
+  beforeMount() {
+    document.addEventListener("keydown", this.onKeyDown)
+  },
+  beforeDestroy() {
+    document.removeEventListener("keydown", this.onKeyDown)
+  },
   methods: {
+    onKeyDown(e) {
+      if (!["Enter"].includes(e.code)) {
+        return
+      }
+      e.preventDefault()
+      this.onRegister()
+    },
     onRegister() {
       if (!this.login || !this.password || !this.age) {
         this.noData = true;

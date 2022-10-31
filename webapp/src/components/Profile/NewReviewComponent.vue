@@ -36,7 +36,20 @@ export default {
     this.content = this.$store.getters.getContent
     this.user = this.$store.getters.getUser
   },
+  beforeMount() {
+    document.addEventListener("keydown", this.onKeyDown)
+  },
+  beforeDestroy() {
+    document.removeEventListener("keydown", this.onKeyDown)
+  },
   methods: {
+    onKeyDown(e) {
+      if (!["Enter"].includes(e.code)) {
+        return
+      }
+      e.preventDefault()
+      this.saveReview()
+    },
     saveReview() {
       if(!this.selectedContent) {
         alert("Ошибка! Выберите контент!")

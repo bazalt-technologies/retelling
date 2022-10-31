@@ -12,10 +12,12 @@ func (api *API) likes(w http.ResponseWriter, r *http.Request) {
 	case http.MethodGet:
 		var req models.Request
 		id, err := strconv.Atoi(r.URL.Query().Get("ObjectID"))
-		if id == 0 || err != nil {
+		uId, err := strconv.Atoi(r.URL.Query().Get("UserID"))
+		if id == 0 || err != nil || uId == 0 {
 			json.NewDecoder(r.Body).Decode(&req)
 		}
 		req.ObjectID = id
+		req.UserID = uId
 		if req.UserID != 0 {
 			// Лайки пользователя
 			data, err := api.db.GetLikes(req)
