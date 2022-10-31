@@ -39,7 +39,6 @@ export default {
       this.$store.commit('setAllUsers', users)
     })
     let dateOptions = {
-      era: 'long',
       year: 'numeric',
       month: 'long',
       day: 'numeric',

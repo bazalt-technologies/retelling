@@ -14,6 +14,30 @@
           class="header-btn"
       />
     </div>
+    <b-modal ref="new-review-modal" scrollable title="Новое ревью">
+      <div class="reviewShell">
+        <div>
+          <select v-model="selectedContent">
+            <option disabled value="">Выберите контент для ревью</option>
+            <option v-for="(c) in content" :key="c.ID" :value="c.ID">{{ c.title }}</option>
+          </select>
+        </div>
+        <div>
+          <textarea v-model="text"/>
+        </div>
+      </div>
+    <template #modal-footer>
+      <div>
+        <ButtonComponent
+            :label="'Сохранить'"
+            :icon="'publish.svg'"
+            @btnClick="saveReview"
+            class="header-btn"
+        />
+      </div>
+    </template>
+    </b-modal>
+
   </div>
 </template>
 
@@ -27,23 +51,22 @@ export default {
   data() {
     return {
       reviews: [],
-      user: null
-    }
-  },
-  beforeMount() {
-    this.user = this.$store.getters.getUser
-    if (!this.user) {
-      this.$router.push('/login')
+      user: null,
+      content: [],
+      text: "",
+      selectedContent: 0
     }
   },
   created() {
     this.user = this.$store.getters.getUser
+    if (!this.user) {
+      this.$router.push('/login')
+    }
     if (!this.user.Data.ReviewCount){
       this.reviews = []
       return
     }
     let dateOptions = {
-      era: 'long',
       year: 'numeric',
       month: 'long',
       day: 'numeric',
@@ -73,7 +96,13 @@ export default {
 
       })
     })
-
+    this.content = this.$store.getters.getContent
+  },
+  beforeMount() {
+    document.addEventListener("keydown", this.onKeyDown)
+  },
+  beforeDestroy() {
+    document.removeEventListener("keydown", this.onKeyDown)
   },
   updated() {
     let usr = this.$store.getters.getUser
@@ -83,7 +112,7 @@ export default {
   },
   methods: {
     newReview() {
-      this.$router.push({name:"newReview"})
+      this.$refs['new-review-modal'].show()
     },
     deleteR(val) {
       const data = {ID: val.id, UserID: this.user.ID}
@@ -95,6 +124,37 @@ export default {
           this.$store.commit('setUser', this.user)
         })
       })
+    },
+    onKeyDown(e) {
+      if (!["Enter"].includes(e.code)) {
+        return
+      }
+      e.preventDefault()
+      this.saveReview()
+    },
+    saveReview() {
+      if(!this.selectedContent) {
+        alert("Ошибка! Выберите контент!")
+        return
+      }
+      if(!this.text) {
+        alert("Ошибка! Введите текст ревью!")
+        return
+      }
+      const data = {
+        UserID: this.user.ID,
+        Review: this.text,
+        ContentID: this.selectedContent,
+        Date: parseInt(Date.now()/1000)
+      }
+      this.$http.post(Vue.prototype.$baseUrl+"/api/v1/reviews", data).then(()=>{
+        this.$http.get(Vue.prototype.$baseUrl+"/api/v1/users", {params: {ObjectID:Number(this.user.ID)}}).then(r=>{
+          this.user = r && r.data ? r.data[0] : null
+          this.$store.commit('setUser', this.user)
+          this.$router.push('/content/recommendations')
+        })
+      })
+      this.$refs['new-review-modal'].hide()
     }
   }
 }
