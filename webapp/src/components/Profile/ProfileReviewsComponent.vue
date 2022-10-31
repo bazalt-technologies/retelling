@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="profileWithReviewsShell">
     <ReviewComponent v-for="r in reviews"
       :key="r.ID"
       :review="r"
@@ -101,5 +101,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

@@ -1,21 +1,23 @@
 <template>
-  <div class="contentShell">
-    <div class="contentTitle">
-      <div class="contentTitleText">
+  <div class="reviewWithTrash">
+  <div class="reviewShell">
+    <div class="reviewTitle">
+      <div class="reviewTitleText">
         {{review.user}}
       </div>
-      <div class="contentTitleExtra">
-        <div v-if="contentShow">
-        Контент: {{review.title}}<br/>
+      <div class="reviewTitleExtra">
+        <div v-if="isUser">
+        {{review.title}}<br/>
         </div>
-        Дата: {{review.date}}<br/>
+        {{review.date}}<br/>
       </div>
     </div>
-    <div class="contentDescription">
-      <div class="contentDescriptionText">
+    <div class="reviewDescription">
+      <div class="reviewDescriptionText">
         {{review.text}}
       </div>
     </div>
+  </div>
     <ButtonComponent v-if="isUser"
         :icon="'delete.svg'"
         @btnClick="$emit('deleteReview')"
@@ -37,43 +39,54 @@ export default {
 </script>
 
 <style scoped>
-.contentShell {
-  width: 100vw;
+.reviewShell {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   margin-top: 25px;
+  align-items: center;
 }
-.contentTitle {
-  width: 35vw;
-  background: #fefefe;
-  border-bottom-left-radius: 20px;
+.reviewTitle {
+  width: 90vw;
+  background: #94d1be;
   border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
   display: initial;
 }
-.contentDescription {
-  width: 60vw;
-  background: #efefef;
+.reviewDescription {
+  width: 90vw;
+  background: #fefefe;
+  border-top: #94d1be 2px solid;
   border-bottom-right-radius: 20px;
-  border-top-right-radius: 20px;
+  border-bottom-left-radius: 20px;
 }
-.contentTitleText {
+.reviewTitleText {
   text-wrap: normal;
   font-size: 25px;
+  font-weight: bold;
   text-align: initial;
   margin-left: 10px;
   margin-top: 10px;
 }
-.contentTitleExtra {
+.reviewTitleExtra {
   text-wrap: normal;
-  font-size: 20px;
+  font-size: 14px;
+  color: #363537;
   text-align: initial;
   margin-left: 10px;
-  margin-top: 10px;
 }
-.contentDescriptionText {
+.reviewDescriptionText {
   text-align: initial;
   font-size: 16px;
   margin: 10px;
+}
+.reviewWithTrash {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  align-content: center;
+  margin-left: 15px;
 }
 </style>
