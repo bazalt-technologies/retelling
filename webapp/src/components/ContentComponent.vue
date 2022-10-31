@@ -91,7 +91,6 @@ export default {
 .contentDescription {
   display: flex;
   flex-direction: column;
-  align-items:center;
   justify-content: space-between;
   width: 60vw;
   background: #efefef;
@@ -123,5 +122,6 @@ export default {
 }
 .showReviewBtn {
   width: 57vw;
+  align-self: center;
 }
 </style>
