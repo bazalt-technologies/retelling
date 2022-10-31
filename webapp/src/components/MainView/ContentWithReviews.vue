@@ -9,6 +9,7 @@
   <review-component v-for="r in reviews"
       :key="r.ID"
       :review="r"
+      :content-show="false"
       />
   <div v-if="!reviews.length">пока пусто..</div>
 </div>

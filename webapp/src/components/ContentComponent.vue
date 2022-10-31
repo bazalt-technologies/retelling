@@ -87,11 +87,11 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   padding-left: 10px;
+  padding-right: 10px;
 }
 .contentDescription {
   display: flex;
   flex-direction: column;
-  align-items:center;
   justify-content: space-between;
   width: 60vw;
   background: #efefef;
@@ -101,13 +101,16 @@ export default {
 .contentTitleText {
   text-wrap: normal;
   font-size: 25px;
+  font-weight: bold;
   text-align: initial;
   margin-left: 10px;
   margin-top: 10px;
 }
 .contentTitleExtra {
   text-wrap: normal;
-  font-size: 20px;
+  font-size: 16px;
+  color: #363537;
+
   text-align: initial;
   margin-left: 10px;
   margin-top: 10px;
@@ -123,5 +126,6 @@ export default {
 }
 .showReviewBtn {
   width: 57vw;
+  align-self: center;
 }
 </style>
