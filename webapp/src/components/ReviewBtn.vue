@@ -47,6 +47,7 @@ export default {
   padding: 5px;
   border: 2px solid #363537;
   background: none;
+  cursor: pointer;
 }
 .reviewImg {
   margin-right: 5px;
