@@ -42,7 +42,20 @@ export default {
       this.$router.push(`this.user`)
     }
   },
+  beforeMount() {
+    document.addEventListener("keydown", this.onKeyDown)
+  },
+  beforeDestroy() {
+    document.removeEventListener("keydown", this.onKeyDown)
+  },
   methods: {
+    onKeyDown(e) {
+      if (!["Enter"].includes(e.code)) {
+        return
+      }
+      e.preventDefault()
+      this.onLogin()
+    },
     onLogin() {
       const data = {
         login: this.login,
@@ -132,6 +145,6 @@ export default {
   border-color: #363537;
   border-width: 2px;
   border-top: none; border-left: none; border-right: none;
-  padding-bottom: 19.5px;
+  padding-bottom: 15px;
 }
 </style>
