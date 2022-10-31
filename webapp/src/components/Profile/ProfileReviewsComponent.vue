@@ -1,9 +1,10 @@
 <template>
-  <div>
+  <div class="profileWithReviewsShell">
     <ReviewComponent v-for="r in reviews"
       :key="r.ID"
       :review="r"
       :is-user="true"
+      :content-show="true"
       @deleteReview="deleteR(r)"
     />
     <div>
@@ -43,7 +44,6 @@ export default {
       return
     }
     let dateOptions = {
-      era: 'long',
       year: 'numeric',
       month: 'long',
       day: 'numeric',
@@ -101,5 +101,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

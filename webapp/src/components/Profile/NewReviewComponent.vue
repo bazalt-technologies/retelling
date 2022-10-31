@@ -1,20 +1,22 @@
 <template>
-<div class="reviewShell">
+<div class="newReviewShell">
+  <div class="newReviewBox">
   <div>
-  <select v-model="selectedContent">
+  <select v-model="selectedContent" class="newReviewPick">
     <option disabled value="">Выберите контент для ревью</option>
     <option v-for="(c) in content" :key="c.ID" :value="c.ID">{{ c.title }}</option>
   </select>
   </div>
   <div>
-    <textarea v-model="text"/>
+    <textarea class="newReviewField" v-model="text"/>
   </div>
   <ButtonComponent
       :label="'Сохранить'"
       :icon="'publish.svg'"
       @btnClick="saveReview"
-      class="header-btn"
+      class="saveNewReview"
   />
+  </div>
 </div>
 </template>
 
@@ -78,11 +80,40 @@ export default {
 </script>
 
 <style scoped>
-.reviewShell {
+.newReviewShell {
   width: 100vw;
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   margin-top: 25px;
+}
+.newReviewBox {
+  width: 300px;
+  height: fit-content;
+  background: #efefef;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 5px;
+  border-radius: 20px;
+}
+.saveNewReview {
+  align-self: center;
+  margin: 0;
+}
+.newReviewPick {
+  border: none;
+  background: none;
+  border-bottom: #363537 2px solid;
+  width: 75%;
+  margin: 10px;
+}
+.newReviewField {
+  border: none;
+  background: none;
+  border-bottom: #363537 2px solid;
+  width: 75%;
+  height: fit-content;
+  margin: 10px;
 }
 </style>
