@@ -5,7 +5,9 @@
         {{review.user}}
       </div>
       <div class="contentTitleExtra">
+        <div v-if="contentShow">
         Контент: {{review.title}}<br/>
+        </div>
         Дата: {{review.date}}<br/>
       </div>
     </div>
@@ -28,7 +30,8 @@ export default {
   components: {ButtonComponent},
   props: {
     isUser:Boolean,
-    review: Object
+    review: Object,
+    contentShow: Boolean,
   }
 }
 </script>
