@@ -160,7 +160,6 @@ export default {
         value: g.Genre
       }
     })  || []
-    console.log(this.types)
     this.selectedContent = this.content[0]
   },
   methods: {

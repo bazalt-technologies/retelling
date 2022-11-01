@@ -105,7 +105,6 @@ export default {
           usersLiked: c.UsersLiked || []
         }
       }) : []
-      console.log(this.content)
       this.selectedContent = this.content[0]
       this.$store.commit('setContent', this.content)
     })
@@ -139,7 +138,6 @@ export default {
     },
     addReview(val) {
       this.selectedContent = val
-      console.log(this.selectedContent)
       this.$refs["new-review-modal"].show()
     },
     saveReview() {
