@@ -17,6 +17,7 @@ services:
     build: .
     ports:
       - 8081:8081
+    restart: always
     depends_on:
       - database
   adminer:
@@ -24,3 +25,10 @@ services:
     restart: always
     ports:
       - 8080:8080
+  web:
+    ports:
+      - 8082:8082
+    build: webapp/.
+
+    depends_on:
+      - server
