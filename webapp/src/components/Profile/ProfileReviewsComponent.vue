@@ -16,25 +16,35 @@
       />
     </div>
     <b-modal ref="new-review-modal" scrollable title="Новое ревью">
-      <div class="reviewShell">
-        <div>
-          <select v-model="selectedContent">
-            <option disabled value="">Выберите контент для ревью</option>
-            <option v-for="(c) in content" :key="c.ID" :value="c.ID">{{ c.title }}</option>
-          </select>
-        </div>
-        <div>
-          <textarea v-model="text"/>
+      <template #modal-header="{ close }">
+          <b-button size="sm" variant="outline-danger" @click="close()">
+            Закрыть
+          </b-button>
+        <!-- Эмулировать встроенное модальное действие кнопки закрытия заголовка -->
+        </template>
+      <div class="newReviewShell">
+        <div class="newReviewBox">
+          <div>Выберите контент</div>
+          <div>
+            <select v-model="selectedContent" class="newReviewPick">
+              <option disabled selected="selected" value="">Выберите контент для ревью</option>
+              <option v-for="(c) in content" :key="c.ID" :value="c.ID">{{ c.title }}</option>
+            </select>
+          </div>
+          <div>
+            <textarea class="newReviewField" v-model="text"/>
+          </div>
         </div>
       </div>
-    <template #modal-footer>
+      <template #modal-footer>
       <div>
         <ButtonComponent
-            :label="'Сохранить'"
-            :icon="'publish.svg'"
-            @btnClick="saveReview"
-            class="header-btn"
-        />
+          selected
+          :label="'Сохранить'"
+          :icon="'publish.svg'"
+          @btnClick="saveReview"
+          class="saveNewReview"
+      />
       </div>
     </template>
     </b-modal>
@@ -162,4 +172,42 @@ export default {
 </script>
 
 <style scoped>
+
+.newReviewShell {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background: #94d1be;
+  border-radius: 20px;
+}
+.newReviewBox {
+  width: 400px;
+  height: 300px;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 5px;
+  border-radius: 20px;
+  margin: 35px;
+}
+.saveNewReview {
+  align-self: center;
+  margin: 0;
+}
+.newReviewPick {
+  border: none;
+  background: none;
+  border-bottom: #363537 2px solid;
+  width: 75%;
+  margin: 10px;
+}
+.newReviewField {
+  height: 100px;
+  border: none;
+  background: none;
+  border-bottom: #363537 2px solid;
+  width: 75%;
+  margin: 10px;
+}
 </style>
