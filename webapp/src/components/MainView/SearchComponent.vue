@@ -19,8 +19,8 @@
                      @addYourReview="addReview(c)"
   />
     <b-modal ref="filter-modal" scrollable title="Фильтр">
-      <template #modal-header="{ close }">
-        <b-button size="sm" variant="outline-danger" @click="close()">
+      <template #modal-header>
+        <b-button size="sm" variant="outline-danger" @click="closeFilterModal">
           Закрыть
         </b-button>
         <!-- Эмулировать встроенное модальное действие кнопки закрытия заголовка -->
@@ -47,7 +47,7 @@
               selected
               :label="'Применить'"
               class="saveNewReview"
-              @click="close()"
+              @btnClick="()=>{$refs['filter-modal'].hide()}"
           />
         </div>
       </template>
@@ -118,11 +118,19 @@ export default {
   },
   computed: {
     filteredContent() {
-      return this.searchStr==="" ? this.content
-          : this.content.filter(c=>(`${c.title.toLowerCase()}`+`${c.type.toLowerCase()}`+
-              `${c.genre1.toLowerCase()}`+`${c.genre2?c.genre2.toLowerCase():''}`+`${c.genre3?c.genre3.toLowerCase():''}`+`${c.description}`)
-              .includes(this.searchStr.toLowerCase()))
-
+      let fContent = this.content
+      if (this.searchStr!=="") {
+        return fContent.filter(c=>(`${c.title.toLowerCase()}`+`${c.type.toLowerCase()}`+
+            `${c.genre1.toLowerCase()}`+`${c.genre2?c.genre2.toLowerCase():''}`+`${c.genre3?c.genre3.toLowerCase():''}`+`${c.description}`)
+            .includes(this.searchStr.toLowerCase()))
+      }
+      if (this.selectedTypes.length!==0) {
+        return fContent.filter(c=>this.selectedTypes.includes(c.type))
+      }
+      if (this.selectedGenres.length!==0) {
+        return fContent.filter(c=>this.selectedGenres.includes(c.genre1) || this.selectedGenres.includes(c.genre2) || this.selectedGenres.includes(c.genre3))
+      }
+      return this.content
       }
   },
   beforeCreate() {
@@ -210,6 +218,11 @@ export default {
         })
       })
       this.$refs['new-review-modal'].hide()
+    },
+    closeFilterModal() {
+      this.selectedGenres=[]
+      this.selectedTypes=[]
+      this.$refs['filter-modal'].hide()
     }
   }
 }
