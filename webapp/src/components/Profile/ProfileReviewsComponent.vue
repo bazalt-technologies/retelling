@@ -171,7 +171,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 
 .newReviewShell {
   display: flex;
