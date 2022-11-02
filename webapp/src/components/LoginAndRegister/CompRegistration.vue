@@ -70,7 +70,20 @@ export default {
       weakPassword: false,
     }
   },
+  beforeMount() {
+    document.addEventListener("keydown", this.onKeyDown)
+  },
+  beforeDestroy() {
+    document.removeEventListener("keydown", this.onKeyDown)
+  },
   methods: {
+    onKeyDown(e) {
+      if (!["Enter"].includes(e.code)) {
+        return
+      }
+      e.preventDefault()
+      this.onRegister()
+    },
     onRegister() {
       if (!this.login || !this.password || !this.age) {
         this.noData = true;
@@ -94,9 +107,7 @@ export default {
       }
       this.$http.post(Vue.prototype.$baseUrl+"/api/v1/users", json)
           .then(response=>{
-            console.log(response.data)
             this.$http.get(Vue.prototype.$baseUrl+"/api/v1/users", {params: {ObjectID:Number(response.data)}}).then(r=>{
-              console.log(r.data)
               this.user = r && r.data ? r.data[0] : null
               this.$store.commit('setUser', this.user)
               this.$router.push('/content/recommendations')

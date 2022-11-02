@@ -5,12 +5,46 @@
       :key="content.ID"
       :content="content"
       @likeBtnClick="likeClicked(content)"
+      @addYourReview="addReview(content)"
   />
   <review-component v-for="r in reviews"
       :key="r.ID"
       :review="r"
+      :content-show="false"
       />
   <div v-if="!reviews.length">пока пусто..</div>
+  <b-modal ref="new-review-modal" scrollable title="Новое ревью">
+    <template #modal-header="{ close }">
+      <b-button size="sm" variant="outline-danger" @click="close()">
+        Закрыть
+      </b-button>
+      <!-- Эмулировать встроенное модальное действие кнопки закрытия заголовка -->
+    </template>
+    <div class="newReviewShell">
+      <div class="newReviewBox">
+        <div>Выберите контент</div>
+        <div>
+          <select class="newReviewPick">
+            <option value="" selected>{{selectedContent.title}}</option>
+          </select>
+        </div>
+        <div>
+          <textarea class="newReviewField" v-model="text"/>
+        </div>
+      </div>
+    </div>
+    <template #modal-footer>
+      <div>
+        <ButtonComponent
+            selected
+            :label="'Сохранить'"
+            :icon="'publish.svg'"
+            @btnClick="saveReview"
+            class="saveNewReview"
+        />
+      </div>
+    </template>
+  </b-modal>
 </div>
 </template>
 
@@ -27,19 +61,22 @@ export default {
   },
   data() {
     return {
+      user: null,
       content: null,
-      reviews: []
+      reviews: [],
+      text: "",
+      selectedContent: null
     }
   },
   created() {
     this.content = this.$route.params.c
+    this.selectedContent = this.content
     let users
     this.$http.get(Vue.prototype.$baseUrl+"/api/v1/users").then(resp=>{
       users = resp && resp.data ? resp.data : []
       this.$store.commit('setAllUsers', users)
     })
     let dateOptions = {
-      era: 'long',
       year: 'numeric',
       month: 'long',
       day: 'numeric',
@@ -86,6 +123,35 @@ export default {
           val.usersLiked.splice(id,1)
         })
       }
+    },
+    addReview(val) {
+      this.selectedContent = val
+      this.$refs["new-review-modal"].show()
+    },
+    saveReview() {
+      this.user = this.$store.getters.getUser
+      if(!this.selectedContent) {
+        alert("Ошибка! Выберите контент!")
+        return
+      }
+      if(!this.text) {
+        alert("Ошибка! Введите текст ревью!")
+        return
+      }
+      const data = {
+        UserID: this.user.ID,
+        Review: this.text,
+        ContentID: this.selectedContent.ID,
+        Date: parseInt(Date.now()/1000)
+      }
+      this.$http.post(Vue.prototype.$baseUrl+"/api/v1/reviews", data).then(()=>{
+        this.$http.get(Vue.prototype.$baseUrl+"/api/v1/users", {params: {ObjectID:Number(this.user.ID)}}).then(r=>{
+          this.user = r && r.data ? r.data[0] : null
+          this.$store.commit('setUser', this.user)
+          this.$router.push('/content/recommendations')
+        })
+      })
+      this.$refs['new-review-modal'].hide()
     }
   }
 }

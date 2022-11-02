@@ -11,6 +11,7 @@ func (api *API) likes(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
 		var req models.Request
+
 		// Два варианта работы get дальше, поэтому decode для двух полей
 		ObjectID, err := strconv.Atoi(r.URL.Query().Get("ObjectID"))
 		UserID, err := strconv.Atoi(r.URL.Query().Get("UserID"))
@@ -22,6 +23,7 @@ func (api *API) likes(w http.ResponseWriter, r *http.Request) {
 		}
 		req.ObjectID = ObjectID
 		req.UserID = UserID
+
 		if req.UserID != 0 {
 			// Лайки пользователя
 			data, err := api.db.GetLikes(req)
