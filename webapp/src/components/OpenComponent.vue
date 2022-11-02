@@ -27,6 +27,10 @@ export default {
   name: "OpenComponent",
   components: {
     ButtonComponent
+  },
+  created() {
+    let user = this.$store.getters.getUser;
+    if (user) {this.$router.push('/content/recommendations')}
   }
 }
 </script>

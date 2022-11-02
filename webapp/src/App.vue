@@ -23,7 +23,7 @@ export default {
   text-align: center;
   background-color: #363537;
   height: max-content;
-  min-height: calc(100vh - 10px);
+  min-height: calc(100vh);
   padding-bottom: 10px;
 }
 </style>
