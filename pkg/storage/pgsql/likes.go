@@ -58,7 +58,7 @@ func (s *Storage) GetUsersLiked(req models.Request) ([]models.User, error) {
 		profession,
 		likes
 	FROM users
-		WHERE $1=ANY(likes)
+		WHERE $1 = ANY(likes)
 	`, req.ObjectID)
 	if err != nil {
 		return nil, err
