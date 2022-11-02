@@ -1,13 +1,17 @@
 <template>
   <div>
-  <div>
     <sub-header-component ref="subheader"/>
-  </div>
-    <div>
-      <textarea v-model="searchStr"/>
+    <div class="serachShell">
+      <textarea
+          v-model="searchStr"
+          class="serachStr"
+          placeholder="Поиск"
+          @keydown.enter.exact.prevent
+          @keydown.enter.shift.exact.prevent
+      />
       <ButtonComponent
           :icon="'filter.svg'"
-          class="header-btn"
+          class="serachBtn"
           @btnClick="()=>{$refs['filter-modal'].show()}"
       />
     </div>
@@ -228,5 +232,22 @@ export default {
 </script>
 
 <style scoped>
+.serachStr {
+  border: none;
+  overflow: auto;
+  outline: none;
+  resize: none;
+  border-radius: 15px;
+  width: 80vw;
+  height: 50px;
+  padding-top: 12px;
+  text-align: center;
+}
+.serachShell {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 20px;
+}
 
 </style>
