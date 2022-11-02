@@ -2,12 +2,12 @@
   <div class="subHdrCnt">
     <sub-header-button-component
         :label="'Рекомендации'"
-        :selected="recSelected"
+        :selected="$route.path === '/content/recommendations'"
         @btnClick="()=>{$router.push('/content/recommendations')}"
     />
     <sub-header-button-component
         :label="'Поиск'"
-        :selected="!recSelected"
+        :selected="$route.path === '/content/search'"
         @btnClick="()=>{$router.push('/content/search')}"
     />
   </div>
@@ -18,11 +18,6 @@ import SubHeaderButtonComponent from "@/components/SubHeaderButtonComponent";
 export default {
   name: "SubHeaderComponent",
   components: {SubHeaderButtonComponent},
-  data() {
-    return {
-      recSelected: true
-    }
-  }
 }
 </script>
 
