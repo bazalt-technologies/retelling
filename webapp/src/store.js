@@ -1,3 +1,4 @@
+import createPersistedState from 'vuex-persistedstate'
 const storeData = {
     state() {
         return {
@@ -25,6 +26,7 @@ const storeData = {
             return state.allUsers
         }
     },
+    plugins: [createPersistedState()],
     mutations: {
         setUser(state, user) {
             state.user = user

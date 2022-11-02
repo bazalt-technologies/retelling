@@ -17,7 +17,7 @@
           :label="'Оставить отзыв'"
           :emits="'reviewBtnClick'"
           :text-disappear="true"
-          @reviewBtnClick="$router.push('/profile/newReview')"/>
+          @reviewBtnClick="$emit('addYourReview')"/>
     </div>
   </div>
   <div class="contentDescription">

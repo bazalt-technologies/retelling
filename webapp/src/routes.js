@@ -5,7 +5,6 @@ import OpenComponent from "@/components/OpenComponent";
 import ProfileSettings from "@/components/Settings/ProfileSettings";
 import ProfileReviewsComponent from "@/components/Profile/ProfileReviewsComponent";
 import ContentWithReviews from "@/components/MainView/ContentWithReviews";
-import NewReviewComponent from "@/components/Profile/NewReviewComponent";
 import SearchComponent from "@/components/MainView/SearchComponent";
 import SettingsComponent from "@/components/Settings/SettingsComponent";
 
@@ -42,11 +41,6 @@ const routes = [
         path: "/content/:id/reviews",
         name: "contentReviews",
         component: ContentWithReviews
-    },
-    {
-        path: "/profile/newReview",
-        name: "newReview",
-        component: NewReviewComponent
     },
     {
         path: "/settings/profile",
