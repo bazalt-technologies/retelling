@@ -7,7 +7,7 @@
     @click="$emit('btnClick')"
 >
   <img class="btnIcon"  v-if="icon !== undefined" v-bind:src="require('../assets/'+`${icon}`)" alt="">
-  {{label}}
+  <div v-if="this.winW > 500 || !this.textDisappear">{{label}}</div>
 </button>
 </template>
 
@@ -17,9 +17,28 @@ export default {
   props: {
     label: String,
     icon: String,
-    selected: Boolean
+    selected: Boolean,
+    textDisappear: Boolean,
   },
-
+  data() {
+    return {
+      winW: null
+    }
+  },
+  created()  {
+    window.addEventListener("resize", this.resizeHandler);
+  },
+  destroyed()  {
+    window.removeEventListener("resize", this.resizeHandler);
+  },
+  mounted()  {
+    this.winW =  window.innerWidth;
+  },
+  methods: {
+    resizeHandler() {
+      this.winW = window.innerWidth
+    }
+  }
 }
 </script>
 

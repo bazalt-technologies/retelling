@@ -6,6 +6,7 @@
           :selected="($route.path==='/content/recommendations') || ($route.path==='/content/search')"
           :label="'Лента'"
           :icon="'lenta.svg'"
+          :text-disappear="true"
           @btnClick="()=>{$router.push('/content/recommendations')}"
           class="header-btn"
       ></ButtonComponent>
@@ -13,6 +14,7 @@
           :selected="($route.path==='/profile')"
           :label="'Профиль'"
           :icon="'profile.svg'"
+          :text-disappear="true"
           @btnClick="()=>{$router.push('/profile')}"
           class="header-btn"
       ></ButtonComponent>
@@ -20,6 +22,7 @@
           :selected="($route.path==='/settings')"
           :label="'Настройки'"
           :icon="'settings.svg'"
+          :text-disappear="true"
           @btnClick="$router.push('/settings')"
           class="header-btn"
       ></ButtonComponent>
