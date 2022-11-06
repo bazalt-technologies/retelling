@@ -33,6 +33,7 @@
             </select>
           </div>
           <div>
+            <div>Оставьте свой ревью</div>
             <textarea class="newReviewField" v-model="text"/>
           </div>
         </div>
@@ -182,8 +183,7 @@ export default {
   border-radius: 20px;
 }
 .newReviewBox {
-  width: 400px;
-  height: 300px;
+  width: 80%;
   background: white;
   display: flex;
   flex-direction: column;
@@ -191,6 +191,7 @@ export default {
   padding: 5px;
   border-radius: 20px;
   margin: 35px;
+  text-align: center;
 }
 .saveNewReview {
   align-self: center;
