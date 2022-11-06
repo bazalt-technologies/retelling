@@ -2,12 +2,13 @@
   <div class="reviewShell">
     <div class="reviewTitle">
       <div class="reviewTitleText">
-        Имя пользователя: {{user.Data.Name}}
+        {{user.Data.Name}}
       </div>
     </div>
     <div class="reviewDescription">
       <div class="reviewDescriptionText">
         Возраст: {{user.Data.Age}}<br/>
+        Логин: {{user.Login}}<br/>
         {{ `${user.Data.Profession ? 'Профессия : '+user.Data.Profession : ''}` }}
         Количество ревью : {{user.Data.ReviewCount}}
       </div>
