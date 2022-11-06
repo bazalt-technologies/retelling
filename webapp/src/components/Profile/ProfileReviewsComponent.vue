@@ -1,5 +1,6 @@
 <template>
   <div class="profileWithReviewsShell">
+    <profile-user/>
     <ReviewComponent v-for="r in reviews"
       :key="r.ID"
       :review="r"
@@ -56,9 +57,10 @@
 import Vue from "vue";
 import ReviewComponent from "@/components/ReviewComponent";
 import ButtonComponent from "@/components/ButtonComponent";
+import ProfileUser from "@/components/Profile/ProfileUser";
 export default {
   name: "ProfileReviewsComponent",
-  components: {ButtonComponent, ReviewComponent},
+  components: {ProfileUser, ButtonComponent, ReviewComponent},
   data() {
     return {
       reviews: [],
