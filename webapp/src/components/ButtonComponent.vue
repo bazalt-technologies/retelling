@@ -6,7 +6,9 @@
 }"
     @click="$emit('btnClick')"
 >
-  <img class="btnIcon"  v-if="icon !== undefined" v-bind:src="require('../assets/'+`${icon}`)" alt="">
+  <img class="btnIcon"
+       :class="{withText: (this.winW > 500 || !this.textDisappear) && label !== undefined}"
+       v-if="icon !== undefined" v-bind:src="require('../assets/'+`${icon}`)" alt="">
   <div v-if="this.winW > 500 || !this.textDisappear">{{label}}</div>
 </button>
 </template>
@@ -62,6 +64,9 @@ export default {
 .btnIcon {
   width: 32px;
   height: 32px;
+  margin-right: 0;
+}
+.btnIcon.withText {
   margin-right: 5px;
 }
 </style>

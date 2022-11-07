@@ -1,5 +1,6 @@
 <template>
   <div class="profileWithReviewsShell">
+    <profile-user/>
     <ReviewComponent v-for="r in reviews"
       :key="r.ID"
       :review="r"
@@ -32,6 +33,7 @@
             </select>
           </div>
           <div>
+            <div>Оставьте свой ревью</div>
             <textarea class="newReviewField" v-model="text"/>
           </div>
         </div>
@@ -56,9 +58,10 @@
 import Vue from "vue";
 import ReviewComponent from "@/components/ReviewComponent";
 import ButtonComponent from "@/components/ButtonComponent";
+import ProfileUser from "@/components/Profile/ProfileUser";
 export default {
   name: "ProfileReviewsComponent",
-  components: {ButtonComponent, ReviewComponent},
+  components: {ProfileUser, ButtonComponent, ReviewComponent},
   data() {
     return {
       reviews: [],
@@ -170,7 +173,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 .newReviewShell {
   display: flex;
@@ -180,8 +183,7 @@ export default {
   border-radius: 20px;
 }
 .newReviewBox {
-  width: 400px;
-  height: 300px;
+  width: 80%;
   background: white;
   display: flex;
   flex-direction: column;
@@ -189,6 +191,7 @@ export default {
   padding: 5px;
   border-radius: 20px;
   margin: 35px;
+  text-align: center;
 }
 .saveNewReview {
   align-self: center;
@@ -205,6 +208,7 @@ export default {
   height: 100px;
   border: none;
   background: none;
+  resize: none;
   border-bottom: #363537 2px solid;
   width: 75%;
   margin: 10px;
