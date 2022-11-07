@@ -35,6 +35,11 @@ export default {
 .likeBtn.liked {
   border: 2px solid rgba(148, 209, 190, 1);
   background: rgba(148, 209, 190, 0.2);
+  animation-name: like;
+  animation-iteration-count: 2;
+  animation-duration: 500ms;
+  animation-fill-mode: backwards;
+
 }
 .likeBtn.notLiked {
   border: 2px solid #363537;
@@ -49,5 +54,16 @@ export default {
 .likeCntr {
   font-size: 16px;
   align-self: center;
+}
+@keyframes like {
+  from {
+    transform: scale3d(1,1,1);
+  }
+  50% {
+    transform: scale3d(1.1,1.1,1.1);
+  }
+  to {
+    transform: scale3d(1,1,1);
+  }
 }
 </style>
