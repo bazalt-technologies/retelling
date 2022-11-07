@@ -44,7 +44,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .stdBtn {
   display: flex;
   flex-direction: row;
@@ -61,6 +61,12 @@ export default {
 .stdBtn.selected{
   background: #fefefe;
 }
+.stdBtn:hover{
+  animation-name: upper;
+  animation-duration: 300ms;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
 .btnIcon {
   width: 32px;
   height: 32px;
@@ -68,5 +74,13 @@ export default {
 }
 .btnIcon.withText {
   margin-right: 5px;
+}
+@keyframes upper {
+  from{
+    transform: translateY(0px);
+  }
+  to{
+    transform: translateY(-5px);
+  }
 }
 </style>

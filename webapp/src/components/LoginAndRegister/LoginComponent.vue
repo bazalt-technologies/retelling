@@ -6,7 +6,7 @@
         <input type="text" placeholder="Логин" title="login" v-model="login" class="stdInputAll">
       </div>
       <div class="divStdInput" style="margin-right: 36px">
-        <input placeholder="Пароль" title="password" v-model="password" class="stdInputPassword" :type="pwdShown ? 'text' : 'password'">
+        <input id="password" placeholder="Пароль" title="password" v-model="password" class="stdInputPassword" :class="{animated:wrongPasswd}" :type="pwdShown ? 'text' : 'password'">
         <button class="eye" @click="()=>{pwdShown=!pwdShown}"><img :src="require('../../assets/'+`${pwdShown ? 'eye-closed.svg':'eye-opened.svg'}`)" alt=""/></button>
       </div>
       <div v-if="wrongPasswd" class="errMsg">Неверный логин или пароль</div>
@@ -76,6 +76,9 @@ export default {
           }).catch(err=> {
             if (err.response.statusText && err.response.statusText === 'Unauthorized') {
               this.wrongPasswd = true;
+              let el = document.getElementById("password")
+              el.className=".stdInputPassword.animated"
+              console.log(el)
             } else {
               this.wrongPasswd = true;
             }
@@ -147,4 +150,17 @@ export default {
   border-top: none; border-left: none; border-right: none;
   padding-bottom: 15px;
 }
+
+.stdInputPassword.animated {
+  animation-name: shake;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+
+@keyframes shake {
+  0%, 100% {transform: translateX(0); border-color: red}
+  10%, 30%, 50%, 70%, 90% {transform: translateX(-10px);}
+  20%, 40%, 60%, 80% {transform: translateX(10px);}
+}
+
 </style>

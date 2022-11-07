@@ -37,18 +37,32 @@ export default {
 .clicker {
   background: none;
   border: none;
-  width: 100%;
+  width: 90%;
   height: 100%;
   color: #94d1be;
   text-align: left;
+  animation: none;
 }
 .clicker:hover {
-  color: #363537;
+  animation-name: slide;
+  animation-duration: 500ms;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
 }
 .clicker.red {
   color: red;
 }
 .clicker.red:hover {
   color: #fefefe;
+}
+@keyframes slide {
+  from{
+    transform: translateX(0px);
+    background: none;
+  }
+  to{
+    transform: translateX(10px);
+    background-color: #363537;
+  }
 }
 </style>

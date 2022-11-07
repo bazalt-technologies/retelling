@@ -13,6 +13,7 @@
     <div class="contentBtns">
       <like-btn  :liked="liked" :likes="content.usersLiked.length" @likeBtnClick="$emit('likeBtnClick')"/>
       <review-btn
+          class="newReviewBtn"
           :icon="'rate.svg'"
           :label="'Оставить отзыв'"
           :emits="'reviewBtnClick'"

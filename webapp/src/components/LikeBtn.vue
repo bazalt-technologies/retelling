@@ -40,6 +40,12 @@ export default {
   border: 2px solid #363537;
   background: none;
 }
+.likeBtn:hover{
+  animation-name: upper;
+  animation-duration: 300ms;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
 .likeCntr {
   font-size: 16px;
   align-self: center;
