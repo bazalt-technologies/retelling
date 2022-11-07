@@ -2,7 +2,7 @@ import CompRegistration from "@/components/LoginAndRegister/CompRegistration";
 import LoginComponent from "@/components/LoginAndRegister/LoginComponent";
 import MainView from "@/components/MainView/MainView";
 import OpenComponent from "@/components/OpenComponent";
-import ProfileSettings from "@/components/Settings/ProfileSettings";
+import ProfileSettings from "@/components/Settings/SettingsScreen";
 import ProfileReviewsComponent from "@/components/Profile/ProfileReviewsComponent";
 import ContentWithReviews from "@/components/MainView/ContentWithReviews";
 import SearchComponent from "@/components/MainView/SearchComponent";

@@ -1,6 +1,7 @@
 <template>
   <div class="reviewWithTrash">
   <div class="reviewShell">
+    <div class="reviewTitleShell">
     <div class="reviewTitle">
       <div class="reviewTitleText">
         {{review.user}}
@@ -12,16 +13,18 @@
         {{review.date}}<br/>
       </div>
     </div>
+    <ButtonComponent v-if="isUser"
+                     :icon="'delete.svg'"
+                     @btnClick="$emit('deleteReview')"
+                     class="deleteBtn"/>
+    </div>
     <div class="reviewDescription">
       <div class="reviewDescriptionText">
         {{review.text}}
       </div>
     </div>
   </div>
-    <ButtonComponent v-if="isUser"
-        :icon="'delete.svg'"
-        @btnClick="$emit('deleteReview')"
-        class="header-btn"/>
+
   </div>
 </template>
 
@@ -47,10 +50,7 @@ export default {
   align-items: center;
 }
 .reviewTitle {
-  width: 90vw;
-  background: #94d1be;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
+
   display: initial;
 }
 .reviewDescription {
@@ -82,11 +82,18 @@ export default {
 }
 .reviewWithTrash {
   display: flex;
-  flex-direction: row;
-  align-items: center;
   justify-content: center;
-  align-self: center;
-  align-content: center;
-  margin-left: 15px;
+}
+.reviewTitleShell {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 90vw;
+  background: #94d1be;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+.deleteBtn {
+  background: #94d1be;
 }
 </style>

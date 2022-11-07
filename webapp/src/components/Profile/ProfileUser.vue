@@ -2,38 +2,23 @@
   <div class="reviewShell">
     <div class="reviewTitle">
       <div class="reviewTitleText">
-        Имя пользователя: {{user.Data.Name}}
+        {{user.Data.Name}}
       </div>
-      <ButtonComponent
-          :label="'Выйти'"
-          :icon="'logout.svg'"
-          @btnClick="quit"
-          class="quit-btn"
-      />
     </div>
     <div class="reviewDescription">
       <div class="reviewDescriptionText">
         Возраст: {{user.Data.Age}}<br/>
+        Логин: {{user.Login}}<br/>
         {{ `${user.Data.Profession ? 'Профессия : '+user.Data.Profession : ''}` }}
         Количество ревью : {{user.Data.ReviewCount}}
       </div>
-    </div>
-    <div>
-      <ButtonComponent
-          :label="'изменить'"
-          @btnClick="()=>{$router.push('/settings/profile')}"
-          :icon="'edit.svg'"
-          class="header-btn"
-      />
     </div>
   </div>
 </template>
 
 <script>
-import ButtonComponent from "@/components/ButtonComponent";
 export default {
-  name: "ProfileComponent",
-  components: {ButtonComponent},
+  name: "ProfileUser",
   data () {
     return {
       user: null,
@@ -97,9 +82,6 @@ export default {
 .reviewDescriptionText {
   text-align: initial;
   font-size: 16px;
-  margin: 10px;
-}
-.quit-btn {
   margin: 10px;
 }
 </style>
