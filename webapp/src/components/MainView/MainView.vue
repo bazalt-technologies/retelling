@@ -3,6 +3,7 @@
   <div>
     <sub-header-component ref="subheader"/>
   </div>
+  <div class="animated">
   <content-component v-for="c in content"
       :key="c.ID"
       :content="c"
@@ -10,7 +11,7 @@
       @showReviewClick="()=>{$router.push({name: 'contentReviews', params:{id:c.ID, c, route}})}"
       @addYourReview="addReview(c)"
   />
-
+  </div>
   <b-modal ref="new-review-modal" scrollable title="Новое ревью">
     <template #modal-header="{ close }">
       <b-button size="sm" variant="outline-danger" @click="close()">
@@ -67,7 +68,8 @@ export default {
       user: null,
       route: "",
       selectedContent: null,
-      text: ""
+      text: "",
+      render: true
     }
   },
   beforeCreate() {
@@ -108,6 +110,7 @@ export default {
       this.selectedContent = this.content[0]
       this.$store.commit('setContent', this.content)
     })
+    this.render = false
   },
   methods: {
     likeClicked(val) {
@@ -168,6 +171,22 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+.animated{
+  animation-name: slide-content;
+  animation-duration: 500ms;
+  animation-iteration-count: 1;
+}
 
+@keyframes slide-content {
+  from{
+    transform: scaleX(100%);
+  }
+  50% {
+    transform: scaleX(95%);
+  }
+  to {
+    transform: scaleX(100%);
+  }
+}
 </style>

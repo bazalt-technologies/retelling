@@ -7,11 +7,13 @@
       @likeBtnClick="likeClicked(content)"
       @addYourReview="addReview(content)"
   />
+  <div class="animated">
   <review-component v-for="r in reviews"
       :key="r.ID"
       :review="r"
       :content-show="false"
       />
+  </div>
   <div v-if="!reviews.length">пока пусто..</div>
   <b-modal ref="new-review-modal" scrollable title="Новое ревью">
     <template #modal-header="{ close }">

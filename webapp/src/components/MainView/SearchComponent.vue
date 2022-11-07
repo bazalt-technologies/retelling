@@ -15,6 +15,7 @@
           @btnClick="()=>{$refs['filter-modal'].show()}"
       />
     </div>
+    <div class="animated">
   <content-component v-for="c in filteredContent"
                      :key="c.ID"
                      :content="c"
@@ -22,6 +23,7 @@
                      @showReviewClick="()=>{$router.push({name: 'contentReviews', params:{id:c.ID, c, route}})}"
                      @addYourReview="addReview(c)"
   />
+    </div>
     <b-modal ref="filter-modal" scrollable title="Фильтр">
       <template #modal-header>
         <b-button size="sm" variant="outline-danger" @click="closeFilterModal">
