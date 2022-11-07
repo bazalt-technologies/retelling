@@ -4,6 +4,7 @@
     <div class="textAreaShell" v-if="!this.loginChange">
       Новый логин
       <textarea class="setTextArea"/>
+      <confirm-btn :label="'Сохранить'"/>
     </div>
     <settings-btn :label="'Изменить пароль'" @SetBtnClicked="()=>{this.passChange = !this.passChange}"/>
     <div class="textAreaShell" v-if="!this.passChange">
@@ -11,21 +12,25 @@
       <textarea class="setTextArea"/>
       Новый пароль:
       <textarea class="setTextArea"/>
+      <confirm-btn :label="'Сохранить'"/>
     </div>
     <settings-btn :label="'Изменить имя'" @SetBtnClicked="()=>{this.nameChange = !this.nameChange}"/>
     <div class="textAreaShell" v-if="!this.nameChange">
       Новое имя:
       <textarea class="setTextArea"/>
+      <confirm-btn :label="'Сохранить'"/>
     </div>
     <settings-btn :label="'Изменить возраст'" @SetBtnClicked="()=>{this.ageChange = !this.ageChange}"/>
     <div class="textAreaShell" v-if="!this.ageChange">
       Новый возраст:
       <textarea class="setTextArea"/>
+      <confirm-btn :label="'Сохранить'"/>
     </div>
     <settings-btn :label="'Изменить профессию'" @SetBtnClicked="()=>{this.profChange = !this.profChange}"/>
     <div class="textAreaShell" v-if="!this.profChange">
       Новая профессия:
       <textarea class="setTextArea"/>
+      <confirm-btn :label="'Сохранить'"/>
     </div>
     <settings-btn :label="'Выйти'" :red="true" @SetBtnClicked="quit"/>
 
@@ -34,9 +39,10 @@
 
 <script>
 import SettingsBtn from "@/components/Settings/SettingsBtn";
+import ConfirmBtn from "@/components/ConfirmBtn";
 export default {
   name: "ProfileComponent",
-  components: {SettingsBtn},
+  components: {ConfirmBtn, SettingsBtn},
   data () {
     return {
       user: null,
@@ -88,6 +94,7 @@ export default {
   border-radius: 20px;
   resize: none;
   margin-top: 5px;
+  margin-bottom: 10px;
 }
 .textAreaShell {
   display: flex;
