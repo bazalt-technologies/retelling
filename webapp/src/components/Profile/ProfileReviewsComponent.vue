@@ -208,6 +208,7 @@ export default {
   height: 100px;
   border: none;
   background: none;
+  resize: none;
   border-bottom: #363537 2px solid;
   width: 75%;
   margin: 10px;
