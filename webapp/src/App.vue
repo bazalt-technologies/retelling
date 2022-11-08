@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" :class="{mobile: isMobile}">
     <div>
       <HeaderComponent ref="header"/>
     </div>
@@ -11,7 +11,26 @@
 import HeaderComponent from "@/components/HeaderComponent";
 export default {
   name: 'App',
-  components:{HeaderComponent}
+  components:{HeaderComponent},
+  data(){
+    return {
+      width: 0
+    }
+  },
+  computed: {
+    isMobile() {
+      return this.width<500
+    }
+  },
+  created() {
+    this.width = window.innerWidth;
+    window.addEventListener('resize', this.updateWidth);
+  },
+  methods: {
+    updateWidth() {
+      this.width = window.innerWidth;
+    }
+  }
 }
 </script>
 
@@ -25,6 +44,8 @@ export default {
   background-color: #363537;
   height: max-content;
   min-height: calc(100vh);
-  padding-bottom: 10px;
+}
+#app.mobile {
+  padding-bottom: 100px;
 }
 </style>

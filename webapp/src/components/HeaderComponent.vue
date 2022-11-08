@@ -129,7 +129,8 @@ export default {
   padding: 0;
   margin: 0;
   align-content: center;
-  background-color: #94d1be;
   width: 100%;
+  left: 0;
+  background-color: #363537;
 }
 </style>
