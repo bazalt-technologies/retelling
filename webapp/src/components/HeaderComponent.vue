@@ -132,5 +132,6 @@ export default {
   width: 100%;
   left: 0;
   background-color: #363537;
+  box-shadow: 0px -5px 10px black;
 }
 </style>
