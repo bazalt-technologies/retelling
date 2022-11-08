@@ -14,6 +14,7 @@
                         :label="'Войти'"
                         :selected="false"
                         class="btn"
+                        animated
       />
       <div class="subText">
         <div @click="$router.push('/registration')">Нет аккаунта? Зарегистрироваться</div>

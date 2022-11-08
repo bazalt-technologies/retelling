@@ -29,6 +29,7 @@ export default {
   width: 50vw;
   padding: 4px;
   cursor: pointer;
+  box-shadow: 5px 5px 10px black;
 }
 .subBtn.selected {
   background: #efefef;

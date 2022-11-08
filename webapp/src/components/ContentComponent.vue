@@ -73,11 +73,16 @@ export default {
 
 <style scoped>
 .contentShell {
-  width: 100vw;
+  width: 90vw;
   display: flex;
   flex-direction: row;
   justify-content: center;
   margin-top: 25px;
+  align-self: center;
+  box-shadow: 5px 5px 10px black;
+  border-radius: 15px;
+  margin-left: auto;
+  margin-right: auto;
 }
 .contentTitle {
   width: 35vw;

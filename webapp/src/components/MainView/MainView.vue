@@ -40,6 +40,7 @@
             :icon="'publish.svg'"
             @btnClick="saveReview"
             class="saveNewReview"
+            animated
         />
       </div>
     </template>
@@ -180,13 +181,10 @@ export default {
 
 @keyframes slide-content {
   from{
-    transform: scaleX(100%);
-  }
-  50% {
-    transform: scaleX(95%);
+    transform: translateY(100%);
   }
   to {
-    transform: scaleX(100%);
+    transform: translateY(0%);
   }
 }
 </style>

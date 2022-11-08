@@ -43,6 +43,7 @@
             :icon="'publish.svg'"
             @btnClick="saveReview"
             class="saveNewReview"
+            animated
         />
       </div>
     </template>

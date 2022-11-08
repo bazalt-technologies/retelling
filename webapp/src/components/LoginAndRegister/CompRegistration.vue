@@ -45,6 +45,7 @@
                         :label="'Зарегистрироваться'"
                         :selected="false"
                         class="btn"
+                        animated
       />
       </div>
       <div class="subText">

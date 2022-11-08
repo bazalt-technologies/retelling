@@ -9,6 +9,8 @@
           :text-disappear="true"
           @btnClick="()=>{$router.push('/content/recommendations')}"
           class="header-btn"
+          animated
+          shadowed
       ></ButtonComponent>
       <ButtonComponent
           :selected="($route.path==='/profile')"
@@ -17,6 +19,8 @@
           :text-disappear="true"
           @btnClick="()=>{$router.push('/profile')}"
           class="header-btn"
+          animated
+          shadowed
       ></ButtonComponent>
       <ButtonComponent
           :selected="($route.path==='/settings')"
@@ -25,6 +29,8 @@
           :text-disappear="true"
           @btnClick="$router.push('/settings')"
           class="header-btn"
+          animated
+          shadowed
       ></ButtonComponent>
     </div>
     <div v-if="isMobile" class="mobile">
@@ -35,6 +41,8 @@
           :text-disappear="true"
           @btnClick="()=>{$router.push('/content/recommendations')}"
           class="header-btn"
+          animated
+          shadow
       ></ButtonComponent>
       <ButtonComponent
           :selected="($route.path==='/profile')"
@@ -43,6 +51,8 @@
           :text-disappear="true"
           @btnClick="()=>{$router.push('/profile')}"
           class="header-btn"
+          animated
+          shadow
       ></ButtonComponent>
       <ButtonComponent
           :selected="($route.path==='/settings')"
@@ -51,6 +61,8 @@
           :text-disappear="true"
           @btnClick="$router.push('/settings')"
           class="header-btn"
+          animated
+          shadow
       ></ButtonComponent>
     </div>
   </div>

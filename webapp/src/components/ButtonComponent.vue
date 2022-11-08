@@ -2,7 +2,9 @@
 <button
     class="stdBtn"
     :class="{
-  selected: selected
+  selected: selected,
+  animation: animated,
+  shadowed: shadowed
 }"
     @click="$emit('btnClick')"
 >
@@ -21,6 +23,8 @@ export default {
     icon: String,
     selected: Boolean,
     textDisappear: Boolean,
+    animated: Boolean,
+    shadowed: Boolean
   },
   data() {
     return {
@@ -61,7 +65,10 @@ export default {
 .stdBtn.selected{
   background: #fefefe;
 }
-.stdBtn:hover{
+.stdBtn.shadowed{
+  box-shadow: 5px 5px 10px black;
+}
+.stdBtn.animation:hover{
   animation-name: upper;
   animation-duration: 300ms;
   animation-iteration-count: 1;
