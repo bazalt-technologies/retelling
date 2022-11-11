@@ -68,6 +68,7 @@ export default {
       this.onLogin()
     },
     onLogin() {
+      this.wrongPasswd = false;
       const data = {
         login: this.login,
         password: this.password
