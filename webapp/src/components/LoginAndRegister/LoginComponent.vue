@@ -5,8 +5,14 @@
       <div class="divStdInput">
         <input type="text" placeholder="Логин" title="login" v-model="login" class="stdInputAll">
       </div>
-      <div class="divStdInput" style="margin-right: 36px">
-        <input id="password" placeholder="Пароль" title="password" v-model="password" class="stdInputPassword" :class="{animated:wrongPasswd}" :type="pwdShown ? 'text' : 'password'">
+      <div class="divStdInput">
+        <input id="password"
+               placeholder="Пароль"
+               title="password"
+               v-model="password"
+               class="stdInputPassword"
+               :class="{animated:wrongPasswd}"
+               :type="pwdShown ? 'text' : 'password'">
         <button class="eye" @click="()=>{pwdShown=!pwdShown}"><img :src="require('../../assets/'+`${pwdShown ? 'eye-closed.svg':'eye-opened.svg'}`)" alt=""/></button>
       </div>
       <div v-if="wrongPasswd" class="errMsg">Неверный логин или пароль</div>
@@ -14,7 +20,6 @@
                         :label="'Войти'"
                         :selected="false"
                         class="btn"
-                        animated
       />
       <div class="subText">
         <div @click="$router.push('/registration')">Нет аккаунта? Зарегистрироваться</div>
@@ -120,15 +125,9 @@ export default {
   border-width: 2px;
   border-top: none; border-left: none; border-right: none;
   min-width: 150px;
-  width: 20vw;
+  width: 200px;
 }
-.stdInputPassword {
-  border-color: #363537;
-  border-width: 2px;
-  border-top: none; border-left: none; border-right: none;
-  min-width: 150px;
-  width: calc(20vw - 36px);
-}
+
 .btn {
 }
 .subText {
@@ -141,15 +140,24 @@ export default {
   font-size: 10px;
   color: red;
 }
-
-.eye{
-  height: 20px;
-  background: none;
-  position: absolute;
+.divStdInput {
+  display: flex;
+  flex-direction: row;
+}
+.stdInputPassword {
   border-color: #363537;
   border-width: 2px;
   border-top: none; border-left: none; border-right: none;
-  padding-bottom: 15px;
+  min-width: 114px;
+  width: calc(200px - 36px);
+  height: 28px;
+}
+.eye{
+  height: 28px;
+  background: none;
+  border-color: #363537;
+  border-width: 2px;
+  border-top: none; border-left: none; border-right: none;
 }
 
 .stdInputPassword.animated {
