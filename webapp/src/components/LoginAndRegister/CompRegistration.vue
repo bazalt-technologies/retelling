@@ -18,13 +18,19 @@
                class="stdInput"
         />
       </div>
-      <div>
-        <input type="text"
+      <div class="divStdInput">
+        <input
                placeholder="Пароль"
                title="password"
                v-model="password"
-               class="stdInput"
+               class="stdInputPassword"
+               :type="pwdShown ? 'text' : 'password'"
         />
+        <button class="eye"
+                @click="()=>{pwdShown=!pwdShown}"
+        >
+          <img :src="require('../../assets/'+`${pwdShown ? 'eye-closed.svg':'eye-opened.svg'}`)" alt=""/>
+        </button>
       </div>
       <div>
         <input type="number"
@@ -45,7 +51,6 @@
                         :label="'Зарегистрироваться'"
                         :selected="false"
                         class="btn"
-                        animated
       />
       </div>
       <div class="subText">
@@ -69,6 +74,7 @@ export default {
       age: null,
       noData: false,
       weakPassword: false,
+      pwdShown: false,
     }
   },
   beforeMount() {
@@ -147,9 +153,11 @@ export default {
   border-color: #363537;
   border-width: 2px;
   border-top: none; border-left: none; border-right: none;
-  min-width: 250px;
-  width: 17vw;
+  width: 250px;
   margin-top: 10px;
+}
+.stdInputPassword {
+  width: 214px;
 }
 .btn {
   margin-top: 15px;
@@ -164,4 +172,17 @@ export default {
   font-size: 10px;
   color: red;
 }
+.divStdInput {
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+}
+
+.eye{
+  height: 28px;
+  background: none;
+  border: none;
+  border-bottom: #363537 2px solid;
+}
+
 </style>
