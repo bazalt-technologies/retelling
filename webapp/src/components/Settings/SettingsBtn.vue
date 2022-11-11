@@ -25,7 +25,8 @@ export default {
   border-bottom: #94d1be 1px solid;
 }
 .setBtnShell:hover {
-  background: #94d1be;
+  border-top: #94d1be 5px solid;
+  border-bottom: #94d1be 5px solid;
 }
 .setBtnShell.red {
   border-top: red 1px solid;
@@ -35,20 +36,35 @@ export default {
   background: red;
 }
 .clicker {
+  padding-left: 5%;
   background: none;
   border: none;
   width: 100%;
   height: 100%;
   color: #94d1be;
   text-align: left;
+  animation: none;
 }
 .clicker:hover {
-  color: #363537;
+  animation-name: slide;
+  animation-duration: 500ms;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  color: #fefefe;
 }
 .clicker.red {
   color: red;
 }
 .clicker.red:hover {
   color: #fefefe;
+}
+@keyframes slide {
+  from{
+    transform: translateX(0px);
+    background: none;
+  }
+  to{
+    transform: translateX(10px);
+  }
 }
 </style>

@@ -1,6 +1,7 @@
 <template>
   <div class="profileWithReviewsShell">
     <profile-user/>
+    <div class="animated">
     <ReviewComponent v-for="r in reviews"
       :key="r.ID"
       :review="r"
@@ -8,6 +9,7 @@
       :content-show="true"
       @deleteReview="deleteR(r)"
     />
+  </div>
     <div>
       <ButtonComponent
           :label="'Новое ревью'"
@@ -46,6 +48,7 @@
           :icon="'publish.svg'"
           @btnClick="saveReview"
           class="saveNewReview"
+          animated
       />
       </div>
     </template>
@@ -173,7 +176,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 
 .newReviewShell {
   display: flex;

@@ -7,11 +7,13 @@
           :selected="false"
           :label="'Войти'"
           @btnClick="()=>{$router.push('/login')}"
+          animated
       />
       <buttonComponent
           :selected="false"
           :label="'Регистрация'"
           @btnClick="()=>{$router.push('/registration')}"
+          animated
       />
     </div>
   </div>
@@ -36,8 +38,9 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa&display=swap');
 #open {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Comfortaa', cursive;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

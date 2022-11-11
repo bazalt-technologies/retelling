@@ -56,4 +56,10 @@ export default {
   font-size: 16px;
   align-self: center;
 }
+.reviewBtn:hover{
+  animation-name: upper;
+  animation-duration: 300ms;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
 </style>

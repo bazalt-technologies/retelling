@@ -48,6 +48,10 @@ export default {
   justify-content: center;
   margin-top: 25px;
   align-items: center;
+  box-shadow: 5px 5px 10px black;
+  border-radius: 15px;
+  margin-left: auto;
+  margin-right: auto;
 }
 .reviewTitle {
 

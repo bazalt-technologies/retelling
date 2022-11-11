@@ -2,7 +2,9 @@
 <button
     class="stdBtn"
     :class="{
-  selected: selected
+  selected: selected,
+  animation: animated,
+  shadowed: shadowed
 }"
     @click="$emit('btnClick')"
 >
@@ -21,6 +23,8 @@ export default {
     icon: String,
     selected: Boolean,
     textDisappear: Boolean,
+    animated: Boolean,
+    shadowed: Boolean
   },
   data() {
     return {
@@ -44,7 +48,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .stdBtn {
   display: flex;
   flex-direction: row;
@@ -61,6 +65,15 @@ export default {
 .stdBtn.selected{
   background: #fefefe;
 }
+.stdBtn.shadowed{
+  box-shadow: 5px 5px 10px black;
+}
+.stdBtn.animation:hover{
+  animation-name: upper;
+  animation-duration: 300ms;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
 .btnIcon {
   width: 32px;
   height: 32px;
@@ -68,5 +81,13 @@ export default {
 }
 .btnIcon.withText {
   margin-right: 5px;
+}
+@keyframes upper {
+  from{
+    transform: translateY(0px);
+  }
+  to{
+    transform: translateY(-5px);
+  }
 }
 </style>

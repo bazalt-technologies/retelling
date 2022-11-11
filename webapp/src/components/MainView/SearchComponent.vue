@@ -13,8 +13,10 @@
           :icon="'filter.svg'"
           class="serachBtn"
           @btnClick="()=>{$refs['filter-modal'].show()}"
+          animated
       />
     </div>
+    <div class="animated">
   <content-component v-for="c in filteredContent"
                      :key="c.ID"
                      :content="c"
@@ -22,6 +24,7 @@
                      @showReviewClick="()=>{$router.push({name: 'contentReviews', params:{id:c.ID, c, route}})}"
                      @addYourReview="addReview(c)"
   />
+    </div>
     <b-modal ref="filter-modal" scrollable title="Фильтр">
       <template #modal-header>
         <b-button size="sm" variant="outline-danger" @click="closeFilterModal">
@@ -52,6 +55,7 @@
               :label="'Применить'"
               class="saveNewReview"
               @btnClick="()=>{$refs['filter-modal'].hide()}"
+              animated
           />
         </div>
       </template>
@@ -84,6 +88,7 @@
               :icon="'publish.svg'"
               @btnClick="saveReview"
               class="saveNewReview"
+              animated
           />
         </div>
       </template>
@@ -242,12 +247,23 @@ export default {
   height: 50px;
   padding-top: 12px;
   text-align: center;
+  box-shadow: 5px 5px 10px black;
+  margin-left: auto;
+  margin-right: auto;
 }
 .serachShell {
-  display: flex;
+  width: 80vw;
+  display: inline-flex;
   flex-direction: row;
   justify-content: center;
   margin-top: 20px;
+  align-items: center;
 }
-
+.serachBtn{
+  border-radius: 20px;
+  height: 50px;
+  box-shadow: 5px 5px 10px black;
+  margin-left: 5px;
+  margin-right: auto;
+}
 </style>
