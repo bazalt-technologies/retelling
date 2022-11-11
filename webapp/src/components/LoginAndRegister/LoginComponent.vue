@@ -13,7 +13,12 @@
                class="stdInputPassword"
                :class="{animated:wrongPasswd}"
                :type="pwdShown ? 'text' : 'password'">
-        <button class="eye" @click="()=>{pwdShown=!pwdShown}"><img :src="require('../../assets/'+`${pwdShown ? 'eye-closed.svg':'eye-opened.svg'}`)" alt=""/></button>
+        <button class="eye"
+                @click="()=>{pwdShown=!pwdShown}"
+                :class="{animated:wrongPasswd}"
+        >
+          <img :src="require('../../assets/'+`${pwdShown ? 'eye-closed.svg':'eye-opened.svg'}`)" alt=""/>
+        </button>
       </div>
       <div v-if="wrongPasswd" class="errMsg">Неверный логин или пароль</div>
       <button-component @btnClick="() => {onLogin();}"
@@ -155,9 +160,8 @@ export default {
 .eye{
   height: 28px;
   background: none;
-  border-color: #363537;
-  border-width: 2px;
-  border-top: none; border-left: none; border-right: none;
+  border: none;
+  border-bottom: #363537 2px solid;
 }
 
 .stdInputPassword.animated {
@@ -165,7 +169,11 @@ export default {
   animation-duration: 1s;
   animation-fill-mode: both;
 }
-
+.eye.animated {
+  animation-name: shake;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
 @keyframes shake {
   0%, 100% {transform: translateX(0); border-color: red}
   10%, 30%, 50%, 70%, 90% {transform: translateX(-10px);}
