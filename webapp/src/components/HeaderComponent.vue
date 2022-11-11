@@ -115,10 +115,11 @@ export default {
 }
 .header-btn {
   margin-right: 1vw;
-  border: 0px;
+  border: 0;
 }
 .header-logo {
   height: 4vw;
+  min-height: 45px;
 }
 .mobile{
   display: flex;
@@ -132,6 +133,6 @@ export default {
   width: 100%;
   left: 0;
   background-color: #363537;
-  box-shadow: 0px -5px 10px black;
+  box-shadow: 0 -5px 10px black;
 }
 </style>
