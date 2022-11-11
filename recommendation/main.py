@@ -1,3 +1,5 @@
+from flask_restful import abort, Api, Resource
+
 from flask import Flask
 from flask import jsonify
 from flask import request
@@ -6,37 +8,48 @@ import requests
 import json
 import random
 
+import models
+
 app = Flask(__name__)
+api = Api(app)
 
 
-@app.route('/', methods=['GET'])
-def returnAll():
-    userId1 = request.get_json()["UserID"]
-    
-    # Получение лайков пользователя
-    r = requests.get('http://localhost:8081/api/v1/likes', params = {"UserID" : userId1})
-    objects = json.loads(r.content.decode())
+class Recommendation(Resource):
+    def get(self):
 
-    if objects == None:
-        return (jsonify(None))
+        req = models.Request()
+        req.UserID = request.get_json()["UserID"]
 
-    # Пользователи, которые лайкнули контент (случайный, из тех который лайкнули мы), такой же как мы
-    objectId = objects[random.randint(0, len(objects) - 1)]
-    users = objectId["UsersLiked"]
-    users.remove(userId1)
+        # Получение лайков пользователя
+        r = requests.get('http://localhost:8081/api/v1/likes', params={"UserID": req.UserID})
+        objects = json.loads(r.content.decode())
 
-    if len(users) == 0:
-        return (jsonify(None))
-    
-    # Получение пользователя, которые лайкнул такой же контент,
-    # Что и изначальный пользователь
-    userId2 = users[random.randint(0, len(users) - 1)]
-    r = requests.get('http://localhost:8081/api/v1/likes', params = {"UserID" : userId2})
-    objects = json.loads(r.content.decode())
+        if objects is None:
+            abort(500)
 
-    if objects == None:
-        return (jsonify(None))
+        # Пользователи, которые лайкнули контент (случайный, из тех который лайкнули мы), такой же как мы
+        content = objects[random.randint(0, len(objects) - 1)]
+        users = content["UsersLiked"]
+        users.remove(req.UserID)
 
-    objectIds = [objects[i]["ID"] for i in range(len(objects))]
+        if len(users) == 0:
+            abort(500)
 
-    return jsonify(objectIds)
+        # Получение пользователя, которые лайкнул такой же контент,
+        # Что и изначальный пользователь
+        req.UserID = users[random.randint(0, len(users) - 1)]
+        r = requests.get('http://localhost:8081/api/v1/likes', params={"UserID": req.UserID})
+        objects = json.loads(r.content.decode())
+
+        if objects is None:
+            abort(500)
+
+        req.ObjectIDs = [objects[i]["ID"] for i in range(len(objects))]
+
+        return jsonify(req.ObjectIDs)
+
+
+api.add_resource(Recommendation, '/api/v1/recommendation')
+
+if __name__ == "__main__":
+    app.run()

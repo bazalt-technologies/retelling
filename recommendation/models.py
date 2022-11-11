@@ -1,10 +1,10 @@
-
 class User:
     def __init__(self):
-        self.ID
-        self.Login
-        self.Password
-        self.Data
+        self.ID = 0
+        self.Login = ""
+        self.Password = ""
+        self.Data = UserData()
+
 
 class UserData:
     def __init__(self):
@@ -15,6 +15,7 @@ class UserData:
         self.Profession
         self.Likes
 
+
 class Review:
     def __init__(self):
         self.ID
@@ -22,6 +23,7 @@ class Review:
         self.UserID
         self.Review
         self.Date
+
 
 class User:
     def __init__(self):
@@ -34,21 +36,23 @@ class User:
         self.Description
         self.UserLiked
 
+
 class Request:
     def __init__(self):
-        self.Login
-        self.Password
-        self.ObjectID
-        self.ObjectIDs
-        self.UserID
+        self.Login = ""
+        self.Password = ""
+        self.ObjectID = 0
+        self.ObjectIDs = []
+        self.UserID = 0
+
 
 class Type:
     def __init__(self):
         self.ID
         self.Type
 
+
 class Genre:
     def __init__(self):
         self.ID
         self.Genre
-
