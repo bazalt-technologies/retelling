@@ -7,8 +7,8 @@ import (
 	"retelling/pkg/storage/pgsql"
 )
 
-const CONN = "host=127.0.0.1 port=5432 user=test password=test dbname=retelling"
-const ADDR = "localhost:8081"
+const CONN = "host=database port=5432 user=test password=test dbname=retelling"
+const ADDR = "server:8081"
 
 func main() {
 	s, err := pgsql.NewStorage(CONN)
