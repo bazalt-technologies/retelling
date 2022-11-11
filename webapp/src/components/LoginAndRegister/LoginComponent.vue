@@ -119,7 +119,7 @@ export default {
   justify-content: space-between;
   padding: 20px;
   width: 20vw;
-  height: 25vh;
+  height: 30vh;
   min-width: 300px;
   min-height: 150px;
   background: #fefefe;
@@ -149,6 +149,7 @@ export default {
 .divStdInput {
   display: flex;
   flex-direction: row;
+  margin-top: 10px;
 }
 .stdInputPassword {
   border-color: #363537;
