@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <img v-bind:src="require('../assets/logoRetelling-short.png')" class="header-logo" alt="logo"/>
-    <div v-if="!isMobile" class="header-btns">
+    <div v-if="!isMobile&&!currentRoute" class="header-btns">
       <ButtonComponent
           :selected="($route.path==='/content/recommendations') || ($route.path==='/content/search')"
           :label="'Лента'"
@@ -33,7 +33,7 @@
           shadowed
       ></ButtonComponent>
     </div>
-    <div v-if="isMobile" class="mobile">
+    <div v-if="isMobile && !currentRoute" class="mobile">
       <ButtonComponent
           :selected="($route.path==='/content/recommendations') || ($route.path==='/content/search')"
           :label="'Лента'"
@@ -83,6 +83,9 @@ export default {
   computed: {
     isMobile() {
       return this.width<500
+    },
+    currentRoute() {
+      return this.$route.path === '/login' || this.$route.path === '/registration' || this.$route.path === '/'
     }
   },
   created() {

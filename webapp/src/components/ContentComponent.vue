@@ -14,7 +14,7 @@
       <like-btn  :liked="liked" :likes="content.usersLiked.length" @likeBtnClick="$emit('likeBtnClick')"/>
       <review-btn
           class="newReviewBtn"
-          :icon="'rate.svg'"
+          :icon="'edit.svg'"
           :label="'Оставить отзыв'"
           :emits="'reviewBtnClick'"
           :text-disappear="true"
@@ -47,12 +47,20 @@ export default {
   },
   data() {
     return{
+      width:0,
       liked: false,
       likes: [],
       user: null
     }
   },
+  computed: {
+    isMobile() {
+      return this.width<500
+    }
+  },
   created() {
+    this.width = window.innerWidth;
+    window.addEventListener('resize', this.updateWidth);
     this.user = this.$store.getters.getUser
     this.liked = this.content.usersLiked.includes(this.user.ID)
     this.likes = this.content.usersLiked
@@ -67,6 +75,11 @@ export default {
   },
   updated() {
     this.likes = this.content.usersLiked
+  },
+  methods: {
+    updateWidth() {
+      this.width = window.innerWidth;
+    }
   }
 }
 </script>

@@ -6,7 +6,8 @@ const storeData = {
             content: [],
             types: [],
             genres: [],
-            allUsers: []
+            allUsers: [],
+            selectedContent: null
         }
     },
     getters: {
@@ -24,6 +25,9 @@ const storeData = {
         },
         getAllUsers(state) {
             return state.allUsers
+        },
+        getSelectedContent(state) {
+            return state.selectedContent
         }
     },
     plugins: [createPersistedState()],
@@ -42,6 +46,9 @@ const storeData = {
         },
         setAllUsers(state, users) {
             state.allUsers = users
+        },
+        setSelectedContent(state, selectedContent) {
+            state.selectedContent = selectedContent
         }
     }
 }
