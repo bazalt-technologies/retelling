@@ -32,3 +32,8 @@ services:
 
     depends_on:
       - server
+  recommendations:
+    build: recommendation/.
+    command: python ./main.py
+    ports:
+      - 5000:5000

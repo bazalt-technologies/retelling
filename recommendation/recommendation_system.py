@@ -2,7 +2,7 @@ import requests
 import random
 import json
 
-'''
+
 # Заполнение тестовым контентом
 url = 'http://localhost:8081/api/v1/content'
 for _ in range(30):
@@ -23,22 +23,21 @@ for _ in range(30):
     r = requests.post(url, json = data)
 
     print(r.content.decode())
-'''
-'''
+
+
 # Лайки тестовые
 url = 'http://localhost:8081/api/v1/likes'
 for _ in range(30):
     data = {
-        "userid" : random.randint(5, 8),
-        "objectid" : random.randint(3, 33) 
+        "userid" : random.randint(1, 5),
+        "objectid" : random.randint(1, 30) 
     }
 
     r = requests.post(url, json = data)
 
     print(r.content.decode())
+
 '''
-
-
 url = 'http://localhost:8081/api/v1/likes'
 
 data = {
@@ -72,3 +71,4 @@ recommendation = list(set(contentId) - set(usersLiked))
 
 print("Рекомендованный контент")
 print(recommendation)
+'''
