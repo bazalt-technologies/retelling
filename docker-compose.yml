@@ -34,6 +34,6 @@ services:
       - server
   recommendations:
     build: recommendation/.
-    command: python ./main.py
+    command: python ./run.py
     ports:
       - 5000:5000

@@ -1,35 +1,27 @@
-from flask_restful import abort, Api, Resource, reqparse
+from __init__ import api
+from flask_restful import Resource, reqparse
+from flask import request, jsonify, abort
 
-from flask import Flask
-from flask import jsonify
-from flask import request
+from models import Request
 
 import requests
 import json
+
 import random
 
-import models
-
-app = Flask(__name__)
-api = Api(app)
-
 parser = reqparse.RequestParser()
-parser.add_argument('UserID', type=int, help='User id')
+parser.add_argument("Login")
+parser.add_argument("Password")
+parser.add_argument("ObjectID")
+parser.add_argument("ObjectIDs")
+parser.add_argument("UserID")
 
 class Recommendation(Resource):
-    def get(self, UserId):
-      
-        args = parser.parse_args()
+    def get(self):
 
-        print("---------")
-        print(args)
-        print("--------")
-
-        '''
-        req = models.Request()
-        # req.UserID = request.get_json()["UserID"]
-        req.UserID = 1
-        
+        req = Request()
+ 
+        req.UserID = request.args.get("UserID")       
         
         # Получение лайков пользователя
         r = requests.get('http://server:8081/api/v1/likes', params={"UserID": req.UserID})
@@ -41,7 +33,11 @@ class Recommendation(Resource):
         # Пользователи, которые лайкнули контент (случайный, из тех который лайкнули мы), такой же как мы
         content = objects[random.randint(0, len(objects) - 1)]
         users = content["UsersLiked"]
-        users.remove(req.UserID)
+
+        try:
+            users.remove(req.UserID)
+        except:
+            abort(500)
 
         if len(users) == 0:
             abort(500)
@@ -58,9 +54,5 @@ class Recommendation(Resource):
         req.ObjectIDs = [objects[i]["ID"] for i in range(len(objects))]
 
         return jsonify(req.ObjectIDs)
-        '''
 
-api.add_resource(Recommendation, '/api/v1/recommendation')
-
-if __name__ == "__main__":
-    app.run(debug=True)
+api.add_resource(Recommendation, "/api/v1/recommendation")
