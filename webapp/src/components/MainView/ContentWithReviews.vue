@@ -73,6 +73,10 @@ export default {
   },
   created() {
     this.content = this.$route.params.c
+    if (!this.content) {
+      this.content=this.$store.getters.getSelectedContent
+    }
+    this.$store.commit('setSelectedContent', this.content)
     this.selectedContent = this.content
     let users
     this.$http.get(Vue.prototype.$baseUrl+"/api/v1/users").then(resp=>{

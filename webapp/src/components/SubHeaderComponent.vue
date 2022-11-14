@@ -17,7 +17,7 @@
 import SubHeaderButtonComponent from "@/components/SubHeaderButtonComponent";
 export default {
   name: "SubHeaderComponent",
-  components: {SubHeaderButtonComponent},
+  components: {SubHeaderButtonComponent}
 }
 </script>
 

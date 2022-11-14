@@ -90,7 +90,6 @@ export default {
               this.wrongPasswd = true;
               let el = document.getElementById("password")
               el.className=".stdInputPassword.animated"
-              console.log(el)
             } else {
               this.wrongPasswd = true;
             }
