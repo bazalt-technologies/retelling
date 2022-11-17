@@ -66,5 +66,46 @@ class Recommendation(Resource):
 
         return jsonify(objects)
 
+# Затычка аналитики (перенести в отдельный модуль)
+class Analytics(Resource):
+    def get(self):
+            
+        req = Request()
+        args = request.args
+        
+        try:
+            if args.get("ObjectID") != None:
+                req.ObjectID = int(args.get("ObjectID"))
+            elif args.get("UserID") != None:
+                req.UserID = int(args.get("UserID"))
+            else:
+                abort(404)
+        except TypeError:
+            abort(415)
+        except ValueError:
+            abort(415)
+        except:
+            abort(400)
 
+        # Данные по пользователям (затычка)
+        if req.UserID != 0:
+            r = requests.get('http://{}:8081/api/v1/users'.format(SERVER), params={"ObjectID": req.UserID})
+            users = json.loads(r.content.decode())
+            if users is None:
+                abort(500)
+
+            return jsonify(users)
+
+        # Данные по объектам (затычка)
+        '''
+        elif req.ObjectID != 0:
+            r = requests.get('http://{}:8081/api/v1/content'.format(SERVER), params={"ObjectID": req.ObjectID})
+            objects = json.loads(r.content.decode())
+            if objects is None:
+                abort(500)
+
+            return jsonify(objects)
+        '''
+        
 api.add_resource(Recommendation, "/api/v1/recommendation")
+api.add_resource(Analytics, "/api/v1/analytics")
