@@ -37,3 +37,7 @@ services:
     command: python ./run.py
     ports:
       - 5000:5000
+  cache: 
+    image: redis
+    ports:
+      - 6379:6379
