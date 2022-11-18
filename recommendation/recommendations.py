@@ -17,7 +17,7 @@ class Recommendation(Resource):
 
         try:
             req.UserID = int(request.args.get("UserID"))
-        # Отправлено не число    
+        # Отправлено не число
         except ValueError:
             abort(415)
         except:
@@ -27,10 +27,10 @@ class Recommendation(Resource):
         r = requests.get('http://{}:8081/api/v1/likes'.format(SERVER), params={"UserID": req.UserID})
         objects = json.loads(r.content.decode())
 
-        # Пользователя с UserID нету или у него нет likes 
+        # Пользователя с UserID нету или у него нет likes
         if objects is None:
             abort(404)
-
+        user_likes = [objects[j]["ID"] for j in range(len(objects))]
         # Пользователи, которые лайкнули контент (случайный, из тех который лайкнули мы), такой же как мы
         users = []
         stop = 0
@@ -46,15 +46,41 @@ class Recommendation(Resource):
         except ValueError:
             abort(500)
 
-        # Получение пользователя, которые лайкнул такой же контент,
-        # Что и изначальный пользователь
-        req.UserID = users[random.randint(0, len(users) - 1)]
-        r = requests.get('http://{}:8081/api/v1/likes'.format(SERVER), params={"UserID": req.UserID})
-        objects = json.loads(r.content.decode())
+        if len(users) > 1:
+            coef = 0
+            k = 0
+            n = len(users) // 2
+            SimilarCoef = 0.9
+            DictionaryLikes = {}
+            DictionaryCoefs = {}
+            for i in range(len(users)):
+                r = requests.get('http://{}:8081/api/v1/likes'.format(SERVER), params={"UserID": users[i]})
+                objects2 = json.loads(r.content.decode())
+                if objects2 is None:
+                    continue
+                user_likes2 = [objects2[j]["ID"] for j in range(len(objects2))]
+                b = (set(user_likes2) - set(user_likes))
+                coef = len(b) / (len(user_likes) + len(user_likes2) - len(b))
+                DictionaryLikes[users[i]] = b
+                DictionaryCoefs[users[i]] = coef
+            while SimilarCoef != 0.3 and k < n:
+                for i in range(len(users)):
+                    if DictionaryCoefs.get(users[i]) >= SimilarCoef:
+                        req.ObjectIDs += DictionaryLikes.get(users[i])
+                        k += 1
+                        del DictionaryCoefs[users[i]]
+                        del DictionaryLikes[users[i]]
+                SimilarCoef -= 0.2
+            if k < n:
+                for j in range(n - k):
+                    key = random.choice(list(DictionaryLikes.keys()))
+                    req.ObjectIDs += DictionaryLikes.get(users[key])
+                    del DictionaryLikes[key]
+        else:
+            r = requests.get('http://{}:8081/api/v1/likes'.format(SERVER), params={"UserID": users[0]})
+            objects = json.loads(r.content.decode())
+            if objects is None:
+                abort(500)
+            req.ObjectIDs = [objects[i]["ID"] for i in range(len(objects))]
+        return jsonify(list(set(req.ObjectIDs)))
 
-        if objects is None:
-            abort(500)
-
-        # req.ObjectIDs = [objects[i]["ID"] for i in range(len(objects))]
-
-        return jsonify(objects)
