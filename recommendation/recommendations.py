@@ -9,6 +9,7 @@ import requests
 import json
 
 import random
+import math
 
 class Recommendation(Resource):
     def get(self):
@@ -30,9 +31,19 @@ class Recommendation(Resource):
         # Пользователя с UserID нету или у него нет likes
         if objects is None:
             abort(404)
+        # Считаем сколько количество жанров лайкнутых пользователем, для построения соотношений
+        genres=[0, 0, 0, 0, 0, 0, 0] #Считаем сколько количество жанров лайкнутых пользователем, для построения соотношений
+        user_likes=[]
         # запись в список ID объектов ,которые лайкнул пользователь
-        user_likes = [objects[j]["ID"] for j in range(len(objects))]
-        # Пользователи, которые лайкнули контент (случайный, из тех который лайкнули мы), такой же как мы
+        for j in range(len(objects)):
+            user_likes.append(objects[j]["ID"])
+            if objects[j]["GenreID1"]!=0:
+                genres[objects[j]["GenreID1"]-1]+=1
+            if objects[j]["GenreID2"] != 0:
+                genres[objects[j]["GenreID2"] - 1] += 1
+            if objects[j]["GenreID3"] != 0:
+                genres[objects[j]["GenreID3"] - 1] += 1
+
         users = []
         stop = 0
         while len(users) <= 1:
@@ -50,46 +61,95 @@ class Recommendation(Resource):
         if len(users) > 1:
             #коэффициент Танимото
             coef = 0
-            k = 0
             #Нужное количество схожих пользователей
             n = len(users) // 2
+            if n>50:
+                n=50
             # Коэфицент для сравнивания
             SimilarCoef = 0.9
             # словари для записи лайков других пользователей и их коэффицент Танимото
             DictionaryLikes = {}
             DictionaryCoefs = {}
+            # Словарь, в котором хранится ID контента , и его жанры
+            DictionaryGenres={}
+            #Словарь, в котором хранится ID юзера , и кол-во его жанров для дальнейших рекомендаций
+            AmmountGenres={}
             for i in range(len(users)):
                 r = requests.get('http://{}:8081/api/v1/likes'.format(SERVER), params={"UserID": users[i]})
                 objects2 = json.loads(r.content.decode())
                 if objects2 is None:
                     continue
-                #лайки другого пользователя
-                user_likes2 = [objects2[j]["ID"] for j in range(len(objects2))]
+                genres2 = []
+                k=0
+                user_likes2=[]
+                #Записываем лайки другого пользователя и кол-во его жанров
+                for j in range(len(objects2)):
+                    user_likes2.append(objects2[j]["ID"])
+                    if objects2[j]["ID"] not in DictionaryGenres:
+                        if objects2[j]["GenreID1"] != 0:
+                            genres2.append(objects2[j]["GenreID1"])
+                            k+=1
+                        if objects2[j]["GenreID2"] != 0:
+                            genres2.append(objects2[j]["GenreID2"])
+                            k+=1
+                        if objects2[j]["GenreID3"] != 0:
+                            genres2.append(objects2[j]["GenreID3"])
+                            k+=1
+                        AmmountGenres[users[i]]=k
+                        DictionaryGenres[objects2[j]["ID"]] = genres2
+                # лайки другого пользователя
                 #Общие лайки
                 SameLikes = (set(user_likes2) - set(user_likes))
                 coef = len(SameLikes) / (len(user_likes) + len(user_likes2) - len(SameLikes))
                 DictionaryLikes[users[i]] = SameLikes
                 DictionaryCoefs[users[i]] = coef
             #сравнение схожести пользователей
-            while SimilarCoef != 0.3 and k < n:
+            if len(DictionaryLikes)==0:
+                abort(500)
+            c=[]
+            NumbersOfGenres=0
+            k=0
+            while SimilarCoef >= 0.3 and k < n:
                 for i in range(len(users)):
                     if DictionaryCoefs.get(users[i]) >= SimilarCoef:
-                        req.ObjectIDs += DictionaryLikes.get(users[i])
+                        c.append(DictionaryLikes.get(users[i]))
                         k += 1
+                        NumbersOfGenres+=AmmountGenres.get(users[i])
                         del DictionaryCoefs[users[i]]
                         del DictionaryLikes[users[i]]
+                        del AmmountGenres[users[i]]
                 SimilarCoef -= 0.2
             #Если не выбралось нужное количество пользователей
             if k < n:
                 for j in range(n - k):
                     key = random.choice(list(DictionaryLikes.keys()))
-                    req.ObjectIDs += DictionaryLikes.get(users[key])
+                    c.append(DictionaryLikes.get(users[key]))
+                    del DictionaryCoefs[key]
                     del DictionaryLikes[key]
+                    del AmmountGenres[key]
+            num=sum(genres)
+            genres3=[]
+            #Определяем какое кол-во жанров нам нужно рекомендовать пользователю
+            for i in range(len(genres)):
+                genres3.append(math.trunc(NumbersOfGenres*genres[i]//num))
+            for i in range (len(c)):
+                for j in range (len(c[i])):
+                    #Если контент еще не рекомендован
+                    if (c[i])[j] in DictionaryGenres:
+                        array=DictionaryGenres.get(c[i][j])
+                        zxc=False
+                        for r in range (len(array)):
+                            # Если есть нужные нам жанры добавляем в рекомендации
+                            if genres3[array[r]-1]!=0:
+                                genres3[array[r]-1]-=1
+                                zxc=True
+                        if zxc==True:
+                            req.ObjectIDs.append(c[i][j])
         else:
             r = requests.get('http://{}:8081/api/v1/likes'.format(SERVER), params={"UserID": users[0]})
             objects = json.loads(r.content.decode())
             if objects is None:
                 abort(500)
-            req.ObjectIDs = [objects[i]["ID"] for i in range(len(objects))]
-        return jsonify(list(set(req.ObjectIDs)))
+            req.ObjectIDs = list(set([objects[i]["ID"]for i in range(len(objects))])- set(user_likes))
+        return jsonify(req.ObjectIDs)
 
