@@ -31,8 +31,10 @@ class Recommendation(Resource):
         # Пользователя с UserID нету или у него нет likes
         if objects is None:
             abort(404)
+        r = requests.get('http://{}:8081/api/v1/genres'.format(SERVER))
+        NumbersOfGenres= json.loads(r.content.decode())
         # Считаем сколько количество жанров лайкнутых пользователем, для построения соотношений
-        genres=[0, 0, 0, 0, 0, 0, 0] #Считаем сколько количество жанров лайкнутых пользователем, для построения соотношений
+        genres=[0 for i in range(len(NumbersOfGenres))] #Считаем сколько количество жанров лайкнутых пользователем, для построения соотношений
         user_likes=[]
         # запись в список ID объектов ,которые лайкнул пользователь
         for j in range(len(objects)):
