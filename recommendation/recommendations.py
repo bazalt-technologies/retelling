@@ -101,7 +101,7 @@ class Recommendation(Resource):
                         DictionaryGenres[objects2[j]["ID"]] = genres2
                 # лайки другого пользователя
                 #Общие лайки
-                SameLikes = (set(user_likes2) - set(user_likes))
+                SameLikes = list(set(user_likes2) - set(user_likes))
                 coef = len(SameLikes) / (len(user_likes) + len(user_likes2) - len(SameLikes))
                 DictionaryLikes[users[i]] = SameLikes
                 DictionaryCoefs[users[i]] = coef
@@ -134,8 +134,8 @@ class Recommendation(Resource):
             #Определяем какое кол-во жанров нам нужно рекомендовать пользователю
             for i in range(len(genres)):
                 genres3.append(math.trunc(NumbersOfGenres*genres[i]//num))
-            for i in range (len(c)):
-                for j in range (len(c[i])):
+            for i in range(len(c)):
+                for j in range(len(c[i])):
                     #Если контент еще не рекомендован
                     if (c[i])[j] in DictionaryGenres:
                         array=DictionaryGenres.get(c[i][j])
