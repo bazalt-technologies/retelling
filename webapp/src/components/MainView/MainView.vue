@@ -95,7 +95,7 @@ export default {
       let types = response && response.data ? response.data : []
       this.$store.commit('setTypes', types)
     })
-    this.$http.get(Vue.prototype.$baseUrl+"/api/v1/content").then(response =>{
+    this.$http.get(Vue.prototype.$baseUrl+"/api/v1/recommendation").then(response =>{
       this.content = response && response.data ? response.data.map(c=>{
         return {
           ID: c.ID,

@@ -1,5 +1,5 @@
 <template>
-<button class="confirmBtn">{{this.label}}</button>
+<button class="confirmBtn" @click="$emit('click')">{{this.label}}</button>
 </template>
 
 <script>
