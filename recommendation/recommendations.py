@@ -32,9 +32,9 @@ class Recommendation(Resource):
         if objects is None:
             abort(404)
         r = requests.get('http://{}:8081/api/v1/genres'.format(SERVER))
-        NumbersOfGenres= json.loads(r.content.decode())
+        NumbersOFGenres= json.loads(r.content.decode())
         # Считаем сколько количество жанров лайкнутых пользователем, для построения соотношений
-        genres=[0 for i in range(len(NumbersOfGenres))] #Считаем сколько количество жанров лайкнутых пользователем, для построения соотношений
+        genres=[0 for i in range(len(NumbersOFGenres))] #Считаем сколько количество жанров лайкнутых пользователем, для построения соотношений
         user_likes=[]
         # запись в список ID объектов ,которые лайкнул пользователь
         for j in range(len(objects)):
@@ -97,8 +97,8 @@ class Recommendation(Resource):
                         if objects2[j]["GenreID3"] != 0:
                             genres2.append(objects2[j]["GenreID3"])
                             k+=1
-                        AmmountGenres[users[i]]=k
                         DictionaryGenres[objects2[j]["ID"]] = genres2
+                AmmountGenres[users[i]] = k
                 # лайки другого пользователя
                 #Общие лайки
                 SameLikes = list(set(user_likes2) - set(user_likes))
@@ -127,6 +127,7 @@ class Recommendation(Resource):
                 for j in range(n - k):
                     key = random.choice(list(DictionaryLikes.keys()))
                     c.append(DictionaryLikes.get(key))
+                    NumbersOfGenres += AmmountGenres.get(key)
                     del DictionaryCoefs[key]
                     del DictionaryLikes[key]
                     del AmmountGenres[key]
