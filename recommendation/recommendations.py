@@ -113,19 +113,20 @@ class Recommendation(Resource):
             k=0
             while SimilarCoef >= 0.3 and k < n:
                 for i in range(len(users)):
-                    if DictionaryCoefs.get(users[i]) >= SimilarCoef:
-                        c.append(DictionaryLikes.get(users[i]))
-                        k += 1
-                        NumbersOfGenres+=AmmountGenres.get(users[i])
-                        del DictionaryCoefs[users[i]]
-                        del DictionaryLikes[users[i]]
-                        del AmmountGenres[users[i]]
+                    if users[i] in DictionaryCoefs.keys():
+                        if DictionaryCoefs.get(users[i]) >= SimilarCoef:
+                            c.append(DictionaryLikes.get(users[i]))
+                            k += 1
+                            NumbersOfGenres+=AmmountGenres.get(users[i])
+                            del DictionaryCoefs[users[i]]
+                            del DictionaryLikes[users[i]]
+                            del AmmountGenres[users[i]]
                 SimilarCoef -= 0.2
             #Если не выбралось нужное количество пользователей
             if k < n:
                 for j in range(n - k):
                     key = random.choice(list(DictionaryLikes.keys()))
-                    c.append(DictionaryLikes.get(users[key]))
+                    c.append(DictionaryLikes.get(key))
                     del DictionaryCoefs[key]
                     del DictionaryLikes[key]
                     del AmmountGenres[key]
@@ -153,5 +154,5 @@ class Recommendation(Resource):
             if objects is None:
                 abort(500)
             req.ObjectIDs = list(set([objects[i]["ID"]for i in range(len(objects))])- set(user_likes))
-        return jsonify(req.ObjectIDs)
+        return jsonify(list(set(req.ObjectIDs)))
 
