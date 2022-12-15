@@ -30,7 +30,7 @@ class Recommendation(Resource):
 
         # Пользователя с UserID нету или у него нет likes
         if objects is None:
-            abort(404)
+            return []
         r = requests.get('http://{}:8081/api/v1/genres'.format(SERVER))
         NumbersOFGenres= json.loads(r.content.decode())
         # Считаем сколько количество жанров лайкнутых пользователем, для построения соотношений
@@ -76,6 +76,7 @@ class Recommendation(Resource):
             DictionaryGenres={}
             #Словарь, в котором хранится ID юзера , и кол-во его жанров для дальнейших рекомендаций
             AmmountGenres={}
+            DictContent={}
             for i in range(len(users)):
                 r = requests.get('http://{}:8081/api/v1/likes'.format(SERVER), params={"UserID": users[i]})
                 objects2 = json.loads(r.content.decode())
@@ -98,6 +99,8 @@ class Recommendation(Resource):
                             genres2.append(objects2[j]["GenreID3"])
                             k+=1
                         DictionaryGenres[objects2[j]["ID"]] = genres2
+                    if objects2[j]["ID"] not in DictContent:
+                        DictContent[objects2[j]["ID"]]=objects2[j]
                 AmmountGenres[users[i]] = k
                 # лайки другого пользователя
                 #Общие лайки
@@ -149,11 +152,11 @@ class Recommendation(Resource):
                                 zxc=True
                         if zxc==True:
                             req.ObjectIDs.append(c[i][j])
+
+            return jsonify([DictContent.get(req.ObjectIDs[i]) for i in range(len(req.ObjectIDs))])
         else:
             r = requests.get('http://{}:8081/api/v1/likes'.format(SERVER), params={"UserID": users[0]})
             objects = json.loads(r.content.decode())
-            if objects is None:
-                abort(500)
-            req.ObjectIDs = list(set([objects[i]["ID"]for i in range(len(objects))])- set(user_likes))
-        return jsonify(list(set(req.ObjectIDs)))
+
+        return objects
 
