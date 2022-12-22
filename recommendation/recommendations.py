@@ -30,11 +30,11 @@ class Recommendation(Resource):
 
         # Пользователя с UserID нету или у него нет likes
         if objects is None:
-            abort(404)
+            return []
         r = requests.get('http://{}:8081/api/v1/genres'.format(SERVER))
-        NumbersOfGenres= json.loads(r.content.decode())
+        NumbersOFGenres= json.loads(r.content.decode())
         # Считаем сколько количество жанров лайкнутых пользователем, для построения соотношений
-        genres=[0 for i in range(len(NumbersOfGenres))] #Считаем сколько количество жанров лайкнутых пользователем, для построения соотношений
+        genres=[0 for i in range(len(NumbersOFGenres))] #Считаем сколько количество жанров лайкнутых пользователем, для построения соотношений
         user_likes=[]
         # запись в список ID объектов ,которые лайкнул пользователь
         for j in range(len(objects)):
@@ -76,6 +76,7 @@ class Recommendation(Resource):
             DictionaryGenres={}
             #Словарь, в котором хранится ID юзера , и кол-во его жанров для дальнейших рекомендаций
             AmmountGenres={}
+            DictContent={}
             for i in range(len(users)):
                 r = requests.get('http://{}:8081/api/v1/likes'.format(SERVER), params={"UserID": users[i]})
                 objects2 = json.loads(r.content.decode())
@@ -97,8 +98,10 @@ class Recommendation(Resource):
                         if objects2[j]["GenreID3"] != 0:
                             genres2.append(objects2[j]["GenreID3"])
                             k+=1
-                        AmmountGenres[users[i]]=k
                         DictionaryGenres[objects2[j]["ID"]] = genres2
+                    if objects2[j]["ID"] not in DictContent:
+                        DictContent[objects2[j]["ID"]]=objects2[j]
+                AmmountGenres[users[i]] = k
                 # лайки другого пользователя
                 #Общие лайки
                 SameLikes = list(set(user_likes2) - set(user_likes))
@@ -113,19 +116,21 @@ class Recommendation(Resource):
             k=0
             while SimilarCoef >= 0.3 and k < n:
                 for i in range(len(users)):
-                    if DictionaryCoefs.get(users[i]) >= SimilarCoef:
-                        c.append(DictionaryLikes.get(users[i]))
-                        k += 1
-                        NumbersOfGenres+=AmmountGenres.get(users[i])
-                        del DictionaryCoefs[users[i]]
-                        del DictionaryLikes[users[i]]
-                        del AmmountGenres[users[i]]
+                    if users[i] in DictionaryCoefs.keys():
+                        if DictionaryCoefs.get(users[i]) >= SimilarCoef:
+                            c.append(DictionaryLikes.get(users[i]))
+                            k += 1
+                            NumbersOfGenres+=AmmountGenres.get(users[i])
+                            del DictionaryCoefs[users[i]]
+                            del DictionaryLikes[users[i]]
+                            del AmmountGenres[users[i]]
                 SimilarCoef -= 0.2
             #Если не выбралось нужное количество пользователей
             if k < n:
                 for j in range(n - k):
                     key = random.choice(list(DictionaryLikes.keys()))
-                    c.append(DictionaryLikes.get(users[key]))
+                    c.append(DictionaryLikes.get(key))
+                    NumbersOfGenres += AmmountGenres.get(key)
                     del DictionaryCoefs[key]
                     del DictionaryLikes[key]
                     del AmmountGenres[key]
@@ -147,11 +152,11 @@ class Recommendation(Resource):
                                 zxc=True
                         if zxc==True:
                             req.ObjectIDs.append(c[i][j])
+
+            return jsonify([DictContent.get(req.ObjectIDs[i]) for i in range(len(req.ObjectIDs))])
         else:
             r = requests.get('http://{}:8081/api/v1/likes'.format(SERVER), params={"UserID": users[0]})
             objects = json.loads(r.content.decode())
-            if objects is None:
-                abort(500)
-            req.ObjectIDs = list(set([objects[i]["ID"]for i in range(len(objects))])- set(user_likes))
-        return jsonify(req.ObjectIDs)
+
+        return objects
 
