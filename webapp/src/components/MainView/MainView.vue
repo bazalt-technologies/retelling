@@ -65,6 +65,7 @@ export default {
     return {
       liked1: Boolean,
       content: [],
+      allContent: [],
       likes: [],
       user: null,
       route: "",
@@ -109,7 +110,21 @@ export default {
         }
       }) : []
       this.selectedContent = this.content[0]
-      this.$store.commit('setContent', this.content)
+    })
+    this.$http.get(Vue.prototype.$baseUrl+"/api/v1/content").then(response =>{
+      this.allContent = response && response.data ? response.data.map(c=>{
+        return {
+          ID: c.ID,
+          title: c.Title,
+          description: c.Description,
+          type: this.$store.getters.getTypes.find(t => t.ID === c.TypeID).Type,
+          genre1: this.$store.getters.getGenres.find(g => g.ID === c.GenreID1).Genre,
+          genre2: c.GenreID2 ? this.$store.getters.getGenres.find(g => g.ID ===c.GenreID2).Genre : 0,
+          genre3: c.GenreID3 ? this.$store.getters.getGenres.find(g => g.ID ===c.GenreID3).Genre : 0,
+          usersLiked: c.UsersLiked || []
+        }
+      }) : []
+      this.$store.commit('setContent', this.allContent)
     })
     this.render = false
   },
