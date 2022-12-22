@@ -4,7 +4,7 @@ INSERT INTO users(id, name, login, password, age) VALUES
 INSERT INTO types(type) VALUES ('Книги');
 INSERT INTO types(type) VALUES ('Фильмы');
 INSERT INTO types(type) VALUES ('Сериалы');
-INSERT INTO types(type) VALUES ('Музыка');
+INSERT INTO types(type) VALUES ('Видеоигры');
 
 INSERT INTO genres(genre) VALUES ('Боевик');
 INSERT INTO genres(genre) VALUES ('Вестерн');
