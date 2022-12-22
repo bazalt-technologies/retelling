@@ -62,7 +62,7 @@ class Recommendation(Resource):
             users = content["UsersLiked"]
             stop += 1
             if stop > 50:
-                abort(508)
+                return [content1[i] for i in range(random.randint(1, len(content1)))]
 
         try:
             users.remove(req.UserID)
