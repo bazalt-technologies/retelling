@@ -158,13 +158,20 @@ class Recommendation(Resource):
                                 zxc = True
                         if zxc == True:
                             req.ObjectIDs.append(c[i][j])
-
-            return jsonify([DictContent.get(req.ObjectIDs[i]) for i in range(len(req.ObjectIDs))] + [
+            results=[DictContent.get(req.ObjectIDs[i]) for i in range(len(req.ObjectIDs))] + [
                 DictContent0[random.randint(0, len(DictContent0) - 1)] for _ in
-                range(random.randint(0, len(DictContent0)))])
+                range(random.randint(0, len(DictContent0)))]
+            if len(results)==0:
+                return content1
+            else:
+                return results
         else:
             r = requests.get('http://{}:8081/api/v1/likes'.format(SERVER), params={"UserID": users[0]})
             objects1 = json.loads(r.content.decode())
             req.ObjectIDs=list(set([objects1[i]["ID"] for i in range(len(objects1))])-set(user_likes))
-        return [DictContent.get(req.ObjectIDs[i]) for i in range(len(req.ObjectIDs))] + [DictContent0[random.randint(0, len(DictContent0) - 1)] for _ in
+            results=[DictContent.get(req.ObjectIDs[i]) for i in range(len(req.ObjectIDs))] + [DictContent0[random.randint(0, len(DictContent0) - 1)] for _ in
                                                        range(random.randint(0, len(DictContent0)))]
+            if len(results) == 0:
+                return content1
+            else:
+                return results
