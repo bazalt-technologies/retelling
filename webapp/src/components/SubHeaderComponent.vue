@@ -1,12 +1,17 @@
 <template>
   <div class="subHdrCnt">
     <sub-header-button-component
-        :label="'Рекомендации'"
+        :label="'Новинки 🔥'"
+        :selected="$route.path === '/content/new'"
+        @btnClick="()=>{$router.push('/content/new')}"
+    />
+    <sub-header-button-component
+        :label="'Рекомендации 🤍'"
         :selected="$route.path === '/content/recommendations'"
         @btnClick="()=>{$router.push('/content/recommendations')}"
     />
     <sub-header-button-component
-        :label="'Поиск'"
+        :label="'Поиск 🔎'"
         :selected="$route.path === '/content/search'"
         @btnClick="()=>{$router.push('/content/search')}"
     />

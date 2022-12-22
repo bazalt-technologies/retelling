@@ -1,52 +1,52 @@
 <template>
-<div>
   <div>
-    <sub-header-component ref="subheader"/>
-  </div>
-  <div class="animated">
-  <content-component v-for="c in content"
-      :key="c.ID"
-      :content="c"
-      @likeBtnClick="likeClicked(c)"
-      @showReviewClick="()=>{$router.push({name: 'contentReviews', params:{id:c.ID, c, route}})}"
-      @addYourReview="addReview(c)"
-  />
-  </div>
-  <b-modal ref="new-review-modal" scrollable title="Новое ревью">
-    <template #modal-header="{ close }">
-      <b-button size="sm" variant="outline-danger" @click="close()">
-        Закрыть
-      </b-button>
-      <!-- Эмулировать встроенное модальное действие кнопки закрытия заголовка -->
-    </template>
-    <div class="newReviewShell">
-      <div class="newReviewBox">
-        <div>Выберите контент</div>
-        <div>
-          <select class="newReviewPick">
-            <option value="" selected>{{selectedContent.title}}</option>
-          </select>
-        </div>
-        <div>
-          <textarea class="newReviewField" v-model="text"/>
-        </div>
-      </div>
+    <div>
+      <sub-header-component ref="subheader"/>
     </div>
-    <template #modal-footer>
-      <div>
-        <ButtonComponent
-            selected
-            :label="'Сохранить'"
-            :icon="'publish.svg'"
-            @btnClick="saveReview"
-            class="saveNewReview"
-            animated
-        />
+    <div class="animated">
+      <content-component v-for="c in content"
+                         :key="c.ID"
+                         :content="c"
+                         @likeBtnClick="likeClicked(c)"
+                         @showReviewClick="()=>{$router.push({name: 'contentReviews', params:{id:c.ID, c, route}})}"
+                         @addYourReview="addReview(c)"
+      />
+    </div>
+    <b-modal ref="new-review-modal" scrollable title="Новое ревью">
+      <template #modal-header="{ close }">
+        <b-button size="sm" variant="outline-danger" @click="close()">
+          Закрыть
+        </b-button>
+        <!-- Эмулировать встроенное модальное действие кнопки закрытия заголовка -->
+      </template>
+      <div class="newReviewShell">
+        <div class="newReviewBox">
+          <div>Выберите контент</div>
+          <div>
+            <select class="newReviewPick">
+              <option value="" selected>{{selectedContent.title}}</option>
+            </select>
+          </div>
+          <div>
+            <textarea class="newReviewField" v-model="text"/>
+          </div>
+        </div>
       </div>
-    </template>
-  </b-modal>
+      <template #modal-footer>
+        <div>
+          <ButtonComponent
+              selected
+              :label="'Сохранить'"
+              :icon="'publish.svg'"
+              @btnClick="saveReview"
+              class="saveNewReview"
+              animated
+          />
+        </div>
+      </template>
+    </b-modal>
 
-</div>
+  </div>
 </template>
 
 <script>
@@ -55,7 +55,7 @@ import SubHeaderComponent from "@/components/SubHeaderComponent";
 import Vue from "vue";
 import ButtonComponent from "@/components/ButtonComponent";
 export default {
-  name: "MainView",
+  name: "RestContent",
   components: {
     ContentComponent,
     SubHeaderComponent,
@@ -65,7 +65,6 @@ export default {
     return {
       liked1: Boolean,
       content: [],
-      allContent: [],
       likes: [],
       user: null,
       route: "",
@@ -96,7 +95,7 @@ export default {
       let types = response && response.data ? response.data : []
       this.$store.commit('setTypes', types)
     })
-    this.$http.get("http://localhost:5000/api/v1/recommendation", {params: {UserID:Number(this.user.ID)}}).then(response =>{
+    this.$http.get(Vue.prototype.$baseUrl+"/api/v1/content").then(response =>{
       this.content = response && response.data ? response.data.map(c=>{
         return {
           ID: c.ID,
@@ -108,23 +107,8 @@ export default {
           genre3: c.GenreID3 ? this.$store.getters.getGenres.find(g => g.ID ===c.GenreID3).Genre : 0,
           usersLiked: c.UsersLiked || []
         }
-      }) : []
+      }).filter(c=>c.usersLiked.length<=5) : []
       this.selectedContent = this.content[0]
-    })
-    this.$http.get(Vue.prototype.$baseUrl+"/api/v1/content").then(response =>{
-      this.allContent = response && response.data ? response.data.map(c=>{
-        return {
-          ID: c.ID,
-          title: c.Title,
-          description: c.Description,
-          type: this.$store.getters.getTypes.find(t => t.ID === c.TypeID).Type,
-          genre1: this.$store.getters.getGenres.find(g => g.ID === c.GenreID1).Genre,
-          genre2: c.GenreID2 ? this.$store.getters.getGenres.find(g => g.ID ===c.GenreID2).Genre : 0,
-          genre3: c.GenreID3 ? this.$store.getters.getGenres.find(g => g.ID ===c.GenreID3).Genre : 0,
-          usersLiked: c.UsersLiked || []
-        }
-      }) : []
-      this.$store.commit('setContent', this.allContent)
     })
     this.render = false
   },
