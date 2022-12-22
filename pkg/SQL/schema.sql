@@ -39,5 +39,3 @@ CREATE TABLE reviews (
     date INTEGER NOT NULL DEFAULT 0
 );
 
-
-
