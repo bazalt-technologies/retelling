@@ -32,6 +32,6 @@ export default {
   box-shadow: 5px 5px 10px black;
 }
 .subBtn.selected {
-  background: #efefef;
+  background: #d5d5d5;
 }
 </style>
