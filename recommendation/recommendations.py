@@ -29,16 +29,17 @@ class Recommendation(Resource):
         if content1 is None:
             abort(500)
         DictContent0 = []
+        DictContent = {}
         for i in range(len(content1)):
             if content1[i]["UsersLiked"] is None:
                 DictContent0.append(content1[i])
-
+            DictContent[content1[i]["ID"]] = content1[i]
         # Получение лайков пользователя
         r = requests.get('http://{}:8081/api/v1/likes'.format(SERVER), params={"UserID": req.UserID})
         objects = json.loads(r.content.decode())
         # Пользователя с UserID нету или у него нет likes
         if objects is None:
-            return [content1[i] for i in range(random.randint(1, len(DictContent0)))]
+            return [content1[i] for i in range(random.randint(1, len(content1)))]
         r = requests.get('http://{}:8081/api/v1/genres'.format(SERVER))
         NumbersOFGenres = json.loads(r.content.decode())
         # Считаем сколько количество жанров лайкнутых пользователем, для построения соотношений
@@ -84,7 +85,6 @@ class Recommendation(Resource):
             DictionaryGenres = {}
             # Словарь, в котором хранится ID юзера , и кол-во его жанров для дальнейших рекомендаций
             AmmountGenres = {}
-            DictContent = {}
             for i in range(len(users)):
                 r = requests.get('http://{}:8081/api/v1/likes'.format(SERVER), params={"UserID": users[i]})
                 objects2 = json.loads(r.content.decode())
@@ -107,8 +107,6 @@ class Recommendation(Resource):
                             genres2.append(objects2[j]["GenreID3"])
                             k += 1
                         DictionaryGenres[objects2[j]["ID"]] = genres2
-                    if objects2[j]["ID"] not in DictContent:
-                        DictContent[objects2[j]["ID"]] = objects2[j]
                 AmmountGenres[users[i]] = k
                 # лайки другого пользователя
                 # Общие лайки
@@ -166,6 +164,7 @@ class Recommendation(Resource):
                 range(random.randint(0, len(DictContent0)))])
         else:
             r = requests.get('http://{}:8081/api/v1/likes'.format(SERVER), params={"UserID": users[0]})
-            objects = json.loads(r.content.decode())
-        return list(set(objects) - set(user_likes)) + [DictContent0[random.randint(0, len(DictContent0) - 1)] for _ in
+            objects1 = json.loads(r.content.decode())
+            req.ObjectIDs=list(set([objects1[i]["ID"] for i in range(len(objects1))])-set(user_likes))
+        return [DictContent.get(req.ObjectIDs[i]) for i in range(len(req.ObjectIDs))] + [DictContent0[random.randint(0, len(DictContent0) - 1)] for _ in
                                                        range(random.randint(0, len(DictContent0)))]
