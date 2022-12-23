@@ -107,7 +107,7 @@ export default {
           genre3: c.GenreID3 ? this.$store.getters.getGenres.find(g => g.ID ===c.GenreID3).Genre : 0,
           usersLiked: c.UsersLiked || []
         }
-      }).filter(c=>c.usersLiked.length<=5) : []
+      }).filter(c=>c.usersLiked.length<=3) : []
       this.selectedContent = this.content[0]
     })
     this.render = false
