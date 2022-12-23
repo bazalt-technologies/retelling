@@ -208,7 +208,7 @@ print(response)
 print(response.content.decode())
 contentIDs.append(int(response.content.decode()))
 
-response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":1,"GenreID1":10,"GenreID2":8,"GenreID3":4,"Title""Title":"Собачье сердце","Description":"«Удивительно тонкая и саркастическая история о людях и их пороках. История об эксперименте, который доказал, что из животного можно сделать человека, а вот вывести «животное» из человека нельзя.»"})
+response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":1,"GenreID1":10,"GenreID2":8,"GenreID3":4,"Title":"Собачье сердце","Description":"«Удивительно тонкая и саркастическая история о людях и их пороках. История об эксперименте, который доказал, что из животного можно сделать человека, а вот вывести «животное» из человека нельзя.»"})
 print(response)
 print(response.content.decode())
 contentIDs.append(int(response.content.decode()))
