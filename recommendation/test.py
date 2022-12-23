@@ -8,12 +8,16 @@ Names = ["Gleb", "Misha", "Maks", "Anton", "Sasha", "Fedya", "Andrew", "Alex", "
 
 Logins = ["Gleb228", "Misha228", "Maks228", "SuperKiller", "MisterX", "Ovakado", "ToastWithGarlic",
           "Argentuz", "Argentus", "Mishgun", "Agent007", "Pizza", "Peppa", "MoiLOgin1337", "Andrew2003", "Boris86",
-          "VladimirVladmirovich", "Vladik2010", "Kashalot", "Mushroom", "DedSGori", "RedmiNote8", "Margarita"]
+          "VladimirVladmirovich", "Vladik2010", "Kashalot", "Mushroom", "DedSGori", "RedmiNote8", "Margarita", "Papiroska",
+          "LoginLogin", "Girlyandochka", "MolchatDoma", "Klaviaturochka", "LetiBilOsnovanV1886", "SuperGeniy"]
 
 Professions = ["It-developer", "Cleaner", "Waiter", "Prisoner", "Pirate", "Sailor", "Janitor", "Steve Jobs", "Bill Gates"]
 
+
 userIDs = []
-for i in range(10):
+contentIDs = []
+
+for i in range(40):
     Login = Logins[randint(0, len(Logins) - 1)]
     Name = Names[randint(0, len(Names) - 1)]
     Profession = Professions[randint(0, len(Professions) - 1)]
@@ -32,7 +36,9 @@ response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID
                                                                                                                        "\nИ теперь Чеву нужно успеть сделать все свои дела, попробовать раздобыть противоядие и отомстить своим отравителям в прямом смысле слова впопыхах - стараясь создавать вокруг себя как можно более напряженную обстановку и не расслабляться ни на секунду."})
 print(response)
 print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
 ContentID = int(response.content.decode())
+
 Date = int(datetime.datetime.now().timestamp())
 print(Date)
 
@@ -73,99 +79,269 @@ print(response.content.decode())
 response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":3,"GenreID1":4,"GenreID2":5,"GenreID3":4,"Title":"Кухня","Description":"«Во все времена еда была рядом с людьми. Она искушает, вдохновляет, восхищает, отвращает. Но человек не может без еды, а значит тот, кто создает еду, может управлять миром...». Так думал Максим Лавров, когда шел осуществлять свою мечту – устраиваться поваром в один из самых дорогих ресторанов столицы. Мечта сбылась, вот только на деле все вышло не так вкусно. Шеф-повар ресторана Виктор Баринов – настоящая звезда гастрономического бомонда, знающая как угодить взыскательной публике. Оборотная сторона этого идеального образа – злоупотребление алкоголем, страсть к азартным играм и невыносимый характер."})
 print(response)
 print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
 
 response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":3,"GenreID1":1,"GenreID2":1,"GenreID3":1,"Title":"Во все тяжкие","Description":"Умирающий учитель химии начинает варить мет ради благополучия семьи. Выдающийся драматический сериал 2010-х"})
 print(response)
 print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
 
 response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":3,"GenreID1":5,"GenreID2":5,"GenreID3":5,"Title":"Офис","Description":"Скучающие от безделья клерки пытаются ужиться с безумным боссом. Виртуозный ситком про рабочие будни"})
 print(response)
 print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
 
 response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":3,"GenreID1":4,"GenreID2":1,"GenreID3":3,"Title":"17 мгновений весны","Description":"Несколько недель из жизни советского разведчика. Телесериал Татьяны Лиозновой с гениальным актерским составом"})
 print(response)
 print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
 
 response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":3,"GenreID1":4,"GenreID2":4,"GenreID3":4,"Title":"Сопрано","Description":"Гангстер идет на терапию чтобы разобраться в себе. Сериал HBO, с которого началась золотая эра телевидения"})
 print(response)
 print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
 
 response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":3,"GenreID1":1,"GenreID2":4,"GenreID3":7,"Title":"Игра Престолов","Description":"Рыцари, мертвецы и драконы — в эпической битве за судьбы мира. Сериал, который навсегда изменил телевидение"})
 print(response)
 print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
 
 response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":3,"GenreID1":5,"GenreID2":5,"GenreID3":5,"Title":"Рик и Морти","Description":"Гениальный ученый втягивает внука в безумные авантюры. Выдающийся анимационный сериал Дэна Хармона"})
 print(response)
 print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
 
 response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":3,"GenreID1":4,"GenreID2":5,"GenreID3":5,"Title":"Доктор Хаус","Description":"Диагност Грегори Хаус, работающий в больнице Принстон‑Плейнсборо, отличается несносным характером и пристрастием к опиатам. Зато он вместе с помощниками берётся лечить самые сложные заболевания, расследуя их причины словно настоящий сыщик."})
 print(response)
 print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
 
 response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":3,"GenreID1":3,"GenreID2":4,"GenreID3":1,"Title":"Очень странные дела","Description":"В небольшом американском городе Хокинсе в середине 1980‑х пропадает мальчик Уилл Байерс. Мама верит, что ребёнок связывается с ней из параллельной реальности, и при поддержке местного шерифа пытается его отыскать. Тем временем друзья Уилла встречают юную Одиннадцатую. Сбежавшая из лаборатории девочка обладает сверхъестественными способностями."})
 print(response)
 print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
 
 response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":3,"GenreID1":5,"GenreID2":5,"GenreID3":5,"Title":"В Филадельфии всегда солнечно","Description":"Четверо приятелей открывают ирландский бар в одном из неблагополучных районов Филадельфии. Причём герои относятся друг к другу не лучшим образом. Они не стесняются подставлять и обманывать товарищей, что часто приводит к самым забавным ситуациям."})
 print(response)
 print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
 
 response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":3,"GenreID1":1,"GenreID2":4,"GenreID3":1,"Title":"Мандалорец","Description":"Опытный охотник за головами с планеты Мандалор должен выполнить очередное задание. Он отправляется на поиски неназванной цели, за которой гоняются могущественные силы. Но неожиданное открытие полностью изменяет жизнь героя, и перед ним возникают новые трудности.\n\n"})
 print(response)
 print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
 
 response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":3,"GenreID1":1,"GenreID2":4,"GenreID3":4,"Title":"Острые козырьки","Description":"В английском городе Бирмингеме в начале 1920‑х одна за другой зарождаются мелкие банды. Среди них и «Острые козырьки» под предводительством братьев Шелби, участники которой вшивали лезвия в кепки."})
 print(response)
 print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
 
 response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":3,"GenreID1":4,"GenreID2":7,"GenreID3":4,"Title":"Чёрное зеркало","Description":"Сериал‑антология рассказывает сатирические истории о влиянии технологий на нашу жизнь. Герои вырабатывают электроэнергию на тренажёрах, чтобы поучаствовать в телешоу, заказывают копии умерших близких, а то и просто спасаются от обезумевших машин."})
 print(response)
 print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
 
 response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":3,"GenreID1":5,"GenreID2":5,"GenreID3":5,"Title":"Друзья","Description":"Сериал посвящён жизни шестерых близких друзей. Они проводят вместе почти всё свободное время, то общаясь в любимой кофейне, то занимаясь будничными делами дома. Герои помогают друг другу справляться с трудностями, ругаются, мирятся и, конечно, влюбляются."})
 print(response)
 print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
 
 response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":3,"GenreID1":1,"GenreID2":3,"GenreID3":4,"Title":"Настоящий детектив","Description":"Три сезона мрачной антологии посвящены различным преступлениям. В первом напарники, спустя много лет после закрытия дела, возвращаются к поискам убийцы женщины. Во втором межведомственная группа расследует смерть чиновника. В последнем детективы ищут девочку после смерти её брата."})
 print(response)
 print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
 
 response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":3,"GenreID1":3,"GenreID2":1,"GenreID3":4,"Title":"Шерлок","Description":"Ветеран войны Джон Ватсон выходит в отставку и знакомится с гениальным частным сыщиком Шерлоком Холмсом. У последнего очень дурной характер. Напарники распутывают сложные дела и начинают борьбу с самим королём преступного мира."})
 print(response)
 print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
 
 response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":3,"GenreID1":4,"GenreID2":7,"GenreID3":7,"Title":"Чернобыль","Description":"В 1986 году на Чернобыльской АЭС происходит авария. На место катастрофы отправляются Валерий Легасов и Борис Щербина"})
 print(response)
 print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
 
 response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":3,"GenreID1":5,"GenreID2":5,"GenreID3":5,"Title":"Футурама","Description":"Курьер-лузер переносится в XXXI век и учится жить в мире космолетов и роботов. Сатира от авторов «Симпсонов»"})
 print(response)
 print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
 
 response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":3,"GenreID1":5,"GenreID2":5,"GenreID3":5,"Title":"Кремниевая долина","Description":"Группа гиков живет в инкубаторе и двигает мир интернета вперед. Комедийный сериал о внутренней кухне стартапов"})
 print(response)
 print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
 
 response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":3,"GenreID1":4,"GenreID2":4,"GenreID3":4,"Title":"Мастер и Маргарита","Description":"Нечистая сила в Москве середины 1930-х. Режиссер «Собачьего сердца» бережно экранизирует роман Булгакова"})
 print(response)
 print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
 
 response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":3,"GenreID1":5,"GenreID2":5,"GenreID3":5,"Title":"Детство Шелдона","Description":"Юный вундеркинд поступает в среднюю школу. Спин-офф «Теории большого взрыва» о ранних годах Шелдона Купера"})
 print(response)
 print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
 
 response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":3,"GenreID1":1,"GenreID2":3,"GenreID3":4,"Title":"Сверхъестественное","Description":"Братья Винчестеры стараются не выпустить демонов. Фантастический сериал, вдохновленный «Сумеречной зоной»"})
 print(response)
 print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
 
 response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":3,"GenreID1":3,"GenreID2":1,"GenreID3":4,"Title":"Обмани меня","Description":"Эксперт по лжи помогает полиции раскалывать преступников. Тим Рот в детективном сериале в духе «Доктора Хауса»"})
 print(response)
 print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
 
 response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":3,"GenreID1":4,"GenreID2":5,"GenreID3":1,"Title":"Доктор Кто","Description":"Пришелец, меняющий внешность, спасает Вселенную от космических злодеев. Научная фантастика с британским юмором"})
 print(response)
 print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
 
 response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":3,"GenreID1":4,"GenreID2":5,"GenreID3":3,"Title":"Форс-мажоры","Description":"Юрист-самоучка случайно попадает в амбициозную фирму. Стильное и острое производственное драмеди с Меган Маркл"})
 print(response)
 print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
+
+# Books
+
+response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":1,"GenreID1":9,"GenreID2":8,"GenreID3":10,"Title":"Маленький принц","Description":"«Небольшая история, в которой заключен огромный жизненный смысл. История, которая заставляет по-другому посмотреть на привычные вещи.»"})
+print(response)
+print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
+
+response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":1,"GenreID1":10,"GenreID2":8,"GenreID3":4,"Title""Title":"Собачье сердце","Description":"«Удивительно тонкая и саркастическая история о людях и их пороках. История об эксперименте, который доказал, что из животного можно сделать человека, а вот вывести «животное» из человека нельзя.»"})
+print(response)
+print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
+
+response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":1,"GenreID1":11,"GenreID2":4,"GenreID3":4,"Title":"Над пропастью во ржи","Description":"«История подростка, который своими глазами показывает свое восприятие мира, точку мировоззрения, отречение от привычных принципов и устоев морали общества, которые не вписываются в его индивидуальные рамки.»"})
+print(response)
+print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
+
+response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":1,"GenreID1":3,"GenreID2":4, "GenreID3":12,"Title":"Приключения Шерлока Холмса","Description":"«Легендарные расследования великого сыщика Шерлока, которые раскрывают подлость человеческой души. Истории, которые рассказывает друг и помощник»"})
+print(response)
+print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
+
+response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":1,"GenreID1":8,"GenreID2":4,"GenreID3":11,"Title":"Портрет Дориана Грея","Description":"«История о самолюбии, эгоизме и прочной душе. История, которая наглядно показывает, что может случиться с душой человека, мучаемой пороками.»"})
+print(response)
+print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
+
+response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":1,"GenreID1":11,"GenreID2":4,"GenreID3":12,"Title":"Триумфальная арка","Description":"«После Первой Мировой войны множество эмигрантов оказались во Франции. В их числе и талантливый немецкий хирург Равик. Это история его жизни и любви на фоне пережитой войны.»"})
+print(response)
+print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
+
+response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":1,"GenreID1":8,"GenreID2":4,"GenreID3":12,"Title":"Зеленая миля","Description":"«Пол Эджкомб бывший сотрудник тюрьмы, который служил в блоке для осужденных на смертную казнь. Он рассказывает историю жизни смертников, которым суждено было пройти Зеленую милю.»"})
+print(response)
+print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
+
+response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":1,"GenreID1":11,"GenreID2":4,"GenreID3":13,"Title":"Робинзон Крузо","Description":"«Дневник моряка потерпевшего крушение корабля и прожившего в одиночестве на острове 28 лет. Ему пришлось пережить слишком много испытаний.»"})
+print(response)
+print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
+
+response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":1,"GenreID1":11,"GenreID2":4,"GenreID3":7,"Title":"Мы","Description":"«Роман антиутопия, в которой описывается идеальное общество, где нет личного мнения, а все происходит по расписанию. Но даже в таком обществе найдется место вольнодумцам.»"})
+print(response)
+print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
+
+response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":1,"GenreID1":11,"GenreID2":4,"GenreID3":12,"Title":"Повелитель мух","Description":"«Что будет с детьми, если они окажутся совсем одни? У детей тонкая натура, которая подвержена порокам довольно сильно. И милые добрые дети превращаются в настоящих чудовищ.»"})
+print(response)
+print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
+
+response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":1,"GenreID1":11,"GenreID2":4,"GenreID3":9,"Title":"451 градус по Фаренгейту","Description":"«Книги наше будущее, а что будет, если их заменит ТВ и одно мнение? Ответ на этот вопрос дает писатель, который опередил свое время.»"})
+print(response)
+print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
+
+response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":1,"GenreID1":11,"GenreID2":4,"GenreID3":9,"Title":"Преступление и наказание","Description":"«Книга из школьной программы, которую трудно понять в нежном подростковом возрасте. Писатель показал двойственность человеческой души, когда черное переплетается с белым. История о Раскольникове, который переживает внутреннюю борьбу.»"})
+print(response)
+print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
+
+response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":1,"GenreID1":11,"GenreID2":4,"GenreID3":8,"Title":"Сто лет одиночества","Description":"«Здесь излишни слова. В этом романе жизнь каждого героя пронизана одиночеством, впрочем, как и городка, где живут эти люди.»"})
+print(response)
+print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
+
+response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":1,"GenreID1":11,"GenreID2":4,"GenreID3":7,"Title":"Степной волк","Description":"«Книга о внутреннем кризисе, который может случиться с каждым. Внутреннее опустошение может погубить человека, если однажды на пути не встретиться человек, который даст в руки всего одну книгу…»"})
+print(response)
+print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
+
+response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":1,"GenreID1":11,"GenreID2":5,"GenreID3":13,"Title":"12 стульев","Description":"«Кто не знает Остапа Бендера и Кису Воробьянинова и их вечные неудачи, которые связаны с поиском злополучных брильянтов.»"})
+print(response)
+print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
+
+response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":1,"GenreID1":11,"GenreID2":4,"GenreID3":6,"Title":"Великий Гэтсби","Description":"«Великолепный роман, который наполнен чувствами. На страницах книги ждет начало 20 века, когда люди были полны иллюзий и надежд. Эта история о жизненных ценностях и настоящей любви.»"})
+print(response)
+print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
+
+response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":1,"GenreID1":11,"GenreID2":7,"GenreID3":12,"Title":"Бойцовский клуб","Description":"«Это история о людях, которые решили изменить этот грязный мир. История о человеке, который смог противостоять системе.»"})
+print(response)
+print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
+
+response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":1,"GenreID1":11,"GenreID2":9,"GenreID3":4,"Title":"Отцы и дети","Description":"«Это роман о противоборстве двух поколений, о их различиях и непринятии идей. Идеи романа легко ложатся на современные реалии.»"})
+print(response)
+print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
+
+response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":1,"GenreID1":11,"GenreID2":7,"GenreID3":4,"Title":"Отец Горио","Description":"«Удивительная история о безграничной и жертвенной любви отца к детям. О любви, которая никогда не была взаимной. О любви, которая погубила отца Горио.»"})
+print(response)
+print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
+
+response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":1,"GenreID1":11,"GenreID2":12,"GenreID3":4,"Title":"Коллекционер","Description":"«Он простой служитель ратуши, одинокий и потерянный. У него есть страсть – коллекционирование бабочек. Но однажды он захотел к себе в коллекцию девушку, которая покорила его душу.»"})
+print(response)
+print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
+
+response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":1,"GenreID1":11,"GenreID2":13,"GenreID3":4,"Title":"Моби Дик","Description":"«Ахав капитан китобойного судна поставил целью своей жизни — месть киту по имени Моби Дик. Вит погуби слишком много жизней, чтобы оставить его в живых. Но стоит капитану начать охоту, как на его корабле начинают происходить загадочные, а порой и страшные события.»"})
+print(response)
+print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
+
+response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":1,"GenreID1":11,"GenreID2":6,"GenreID3":4,"Title":"Госпожа Бовари","Description":"«Эта история признана величайшим произведением мировой литературы. Эмма Бовари мечтает о красивой светской жизни, но ее супруг, провинциальный врач, не может удовлетворить её запросов. Она находит любовников, но смогут ли они исполнить мечту мадам Бовари?»"})
+print(response)
+print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
+
+response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":1,"GenreID1":3,"GenreID2":13,"GenreID3":4,"Title":"Облачный атлас","Description":"«История прошлого, настоящего и будущего. Истории людей из разных времен. Но эти истории составляют единую картину всего нашего мира.»"})
+print(response)
+print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
+
+response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":1,"GenreID1":5,"GenreID2":13,"GenreID3":8,"Title":"Приключения Алисы в стране чудес","Description":"«Странная и загадочная история о девочке, которая в погоне за белым кроликом оказывается в другом и чудесатом мире.»"})
+print(response)
+print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
+
+response = requests.post("http://127.0.0.1:8081/api/v1/content", json = {"TypeID":1,"GenreID1":5,"GenreID2":11,"GenreID3":8,"Title":"Понедельник начинается в субботу","Description":"«Фантастическая и увлекательная сказка, в которой магия переплетается с реальностью.»"})
+print(response)
+print(response.content.decode())
+contentIDs.append(int(response.content.decode()))
+
+
+usercontent = {}
+
+for _ in range(500):
+  userId = randint(0, len(userIDs) - 1)
+  contentId = randint(0, len(contentIDs) - 1)
+  if userId in usercontent and contentId in usercontent[userId]:
+    print("Conflict userID: {} contentID: {}".format(userId, contentId))
+  else:
+    if userId in usercontent:
+      usercontent[userId].append(contentId)
+    else:
+      usercontent[userId] = []
+      usercontent[userId].append(contentId)
+    response = requests.post("http://127.0.0.1:8081/api/v1/likes", json = {"UserID" : userIDs[userId], "ObjectID" : contentIDs[contentId]})
+    print(response)
+    print(response.content.decode())
