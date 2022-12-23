@@ -13,3 +13,10 @@ INSERT INTO genres(genre) VALUES ('Драма');
 INSERT INTO genres(genre) VALUES ('Комедия');
 INSERT INTO genres(genre) VALUES ('Мелодрама');
 INSERT INTO genres(genre) VALUES ('Трагедия');
+
+INSERT INTO genres(genre) VALUES ('Фэнтези');
+INSERT INTO genres(genre) VALUES ('Философия');
+INSERT INTO genres(genre) VALUES ('Повесть');
+INSERT INTO genres(genre) VALUES ('Роман');
+INSERT INTO genres(genre) VALUES ('Триллер');
+INSERT INTO genres(genre) VALUES ('Приключения');
